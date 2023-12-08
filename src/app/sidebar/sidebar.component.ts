@@ -13,12 +13,10 @@ import Swal from 'sweetalert2';
 })
 export class SidebarComponent {
   isSidebarOpen = false;
-
   constructor(private router: Router) {}
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-
   val: boolean = true;
   user!: User;
   role!: string | string[];

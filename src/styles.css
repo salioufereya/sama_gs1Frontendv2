@@ -15,9 +15,10 @@
     color: #002C6c;
 }
 
-.bgOrange1{
+.bgOrange1 {
     background-color: #F26334;
 }
+
 .orange1 {
     color: #F26334;
 }
@@ -28,5 +29,8 @@
 
 .borderInput {
     border: #F26334;
-    
+}
+
+.bgAccueil {
+    background-color: #F0F5FA;
 }

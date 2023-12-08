@@ -1,8 +1,14 @@
-<ng-container *ngIf="roter.url !=='/' && roter.url!=='/login'">
+<ng-container *ngIf="
+  roter.url !== '/' &&
+  roter.url !== '/login' &&
+  roter.url !== '/home' &&
+  roter.url !== '/choice_profil' &&
+  roter.url !== '/enter_email' &&
+  roter.url !== '/enter_password'">
   <app-sidebar></app-sidebar>
 </ng-container>
 
-
-<ng-container *ngIf="roter.url =='/login'">
+<ng-container
+  *ngIf="roter.url === '/login' || roter.url === '/home' || roter.url === '/choice_profil' || roter.url === '/enter_email' || roter.url === '/enter_password' || roter.url === '/'">
   <router-outlet></router-outlet>
 </ng-container>

@@ -23,8 +23,8 @@
         <div>
           <label for="email" class="primarycolorText">Email</label>
           <div class="relative">
-            <input type="email" formControlName="email"
-              class="w-full rounded-lg border-2 border-orange-300 p-4 pe-12 text-sm shadow-sm"
+            <input type="email" formControlName="email" [style.border-color]="isFieldInvalid('email') ? 'red' : ''"
+              class="w-full rounded-lg border-2 border-orange-300 p-4 pe-12 text-md shadow-sm"
               placeholder="Entrer votre email" />
             <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -34,12 +34,13 @@
               </svg>
             </span>
           </div>
+          <span *ngIf="isFieldInvalid('email')" style="color: red;">L'e-mail n'est pas valide.</span>
         </div>
         <div>
           <label for="password" class="primarycolorText">Password</label>
           <div class="relative">
-            <input type="password" formControlName="password"
-              class="w-full rounded-lg  border-2 border-orange-300 p-4 pe-12 text-sm shadow-sm"
+            <input type="password" formControlName="password"  [style.border-color]="isFieldInvalid('password') ? 'red' : ''"
+              class="w-full rounded-lg  border-2 border-orange-300 p-4 pe-12 text-sm shadow-md"
               placeholder="Entrer votre mot de pass" />
             <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -51,11 +52,13 @@
               </svg>
             </span>
           </div>
+          <span *ngIf="isFieldInvalid('password')" style="color: red;">Le password n'est pas valide.</span>
+
         </div>
         <div class="bleu3">
-         <a href="#" routerLink="/enter_email">
-          Mot de passe oublié ?
-         </a>  
+          <a href="#" routerLink="/enter_email">
+            Mot de passe oublié ?
+          </a>
         </div>
         <div class="flex items-center justify-center">
 
@@ -64,13 +67,11 @@
             CONNEXION
           </button>
         </div>
-
         <p class="text-center text-sm mx-5 text-gray-500">
           Pas encore de compte ?
           <a class="underline" href="">S'inscrire</a>
         </p>
       </form>
-
       <div class="mt-[15%] text-white">
         © 2023_SAMA GS1 - Powered by <label for="" class="orange1">GS1 Sénégal</label>
       </div>
