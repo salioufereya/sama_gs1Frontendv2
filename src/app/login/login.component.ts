@@ -51,7 +51,7 @@ export class LoginComponent {
       });
   }
   isActive: boolean = true;
-  get telephone() {
+  get email() {
     return this.loginForm.get('email');
   }
   get password() {

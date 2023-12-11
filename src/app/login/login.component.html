@@ -23,8 +23,9 @@
         <div>
           <label for="email" class="primarycolorText">Email</label>
           <div class="relative">
-            <input type="email" formControlName="email" [style.border-color]="isFieldInvalid('email') ? 'red' : ''"
-              class="w-full rounded-lg border-2 border-orange-300 p-4 pe-12 text-md shadow-sm"
+            <input type="email" formControlName="email"
+              [style.border-color]="email!.invalid && (email!.dirty || email!.touched) ? 'red' : ''"
+              class="w-full rounded-lg border-2 border-orange-300  p-4 pe-12 text-md shadow-sm"
               placeholder="Entrer votre email" />
             <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -34,12 +35,18 @@
               </svg>
             </span>
           </div>
-          <span *ngIf="isFieldInvalid('email')" style="color: red;">L'e-mail n'est pas valide.</span>
+          <div *ngIf="email!.invalid && (email!.dirty || email!.touched)" class="alert text-red-700 font-bold">
+            <div *ngIf="email!.errors?.['required']">L'email est obligatoire.</div>
+            <div *ngIf="email!.errors?.['email']">
+              L'émail n'est pas valide
+            </div>
+          </div>
         </div>
         <div>
           <label for="password" class="primarycolorText">Password</label>
           <div class="relative">
-            <input type="password" formControlName="password"  [style.border-color]="isFieldInvalid('password') ? 'red' : ''"
+            <input type="password" formControlName="password"
+              [style.border-color]="isFieldInvalid('password') ? 'red' : ''"
               class="w-full rounded-lg  border-2 border-orange-300 p-4 pe-12 text-sm shadow-md"
               placeholder="Entrer votre mot de pass" />
             <span class="absolute inset-y-0 end-0 grid place-content-center px-4">

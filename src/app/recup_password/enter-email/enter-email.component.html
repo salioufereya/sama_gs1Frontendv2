@@ -4,10 +4,10 @@
             <img src="assets/images/Sama.png" alt="">
             <img src="assets/images/logogs1.png" alt="">
         </div>
-        <div  class="h-3/4 ">
+        <div class="h-3/4 ">
             <img src="assets/images/graduation-amico.jpg" alt="">
         </div>
-    </div>  
+    </div>
     <div class="flex md:w-1/2 items-center justify-center  flex-col h-[90vh] primarycolor">
         <div class="h-[40%] w-full mt-8">
             <div class="h-[20%]  flex items-center justify-center flex-col">
@@ -33,18 +33,26 @@
                 Réinitialiser votre mot de passe
             </div>
             <div class="h-2/3 w-3/5">
-                <form class="full  rounded-2xl p-4  bg-white shadow-lg sm:p-6 lg:p-8">
+                <form class="full  rounded-2xl p-4  bg-white shadow-lg sm:p-6 lg:p-8" [formGroup]="resetForm"
+                    (ngSubmit)="onSubmit()">
                     <div>
-                        <label for="password" class="primarycolorText">Saisir votre adresse mail</label>
+                        <label for=" password" class="primarycolorText">Saisir votre adresse mail</label>
                         <div class="">
-                            <input type="password"
+                            <input type="email" formControlName="email"
+                                [style.border-color]="email!.invalid && (email!.dirty || email!.touched) ? 'red' : ''"
                                 class="w-full rounded-lg my-5  border-2 border-gray-300 p-4 pe-12 text-sm shadow-sm"
                                 placeholder="Entrer votre adresse mail" />
                         </div>
                     </div>
+                    <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+                        class="alert text-xl font-bold flex items-center justify-center text-red-600">
+                        <div *ngIf="email!.errors?.['required']">L'email est obligatoire.</div>
+                        <div *ngIf="email!.errors?.['email']">
+                            L'email est invalide
+                        </div>
+                    </div>
                     <div class="flex items-center justify-center">
-
-                        <button type="submit"
+                        <button [disabled]="resetForm.invalid"
                             class="block w-2/4  bg-green-600 rounded-lg  px-5 py-3 text-sm font-medium text-white">
                             ENVOYER
                         </button>

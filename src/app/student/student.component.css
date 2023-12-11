@@ -1,0 +1,19 @@
+.formatImage {
+    height: 150px;
+    width: 150px;
+   /* // border-radius: 50%; */
+    object-fit: cover;
+    background-color: #dfdfdf;
+  }
+  
+  .radius {
+    border-radius: 50%;
+  }
+  
+  .img {
+    display: none;
+  }
+  
+  .opacity {
+    opacity: 0;
+  }

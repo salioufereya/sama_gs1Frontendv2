@@ -35,3 +35,8 @@ export interface LoginData {
   user: User;
   token: string;
 }
+
+export interface Reset {
+  message: String;
+  code: number;
+}
