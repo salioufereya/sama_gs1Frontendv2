@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '../models/Data';
 import Swal from 'sweetalert2';
+import { User } from '../models/Root';
 
 @Component({
   selector: 'app-sidebar',

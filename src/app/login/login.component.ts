@@ -36,10 +36,10 @@ export class LoginComponent {
       .login<Root<LoginData>>(this.loginForm.value)
       .subscribe((x: Root<LoginData>) => {
         if (x.code === 200) {
-          if (x.data.user.role == 'Responsable pédagogique') {
+          if (x.data!.user.role == 'Responsable pédagogique') {
             this.router.navigate(['/verify']);
           }
-          localStorage.setItem('user', JSON.stringify(x.data.user));
+          localStorage.setItem('user', JSON.stringify(x.data!.user));
         } else {
           console.log(x);
           Swal.fire({
@@ -61,6 +61,4 @@ export class LoginComponent {
     const control = this.loginForm.get(field);
     return control?.invalid && control?.touched;
   }
-
-  
 }

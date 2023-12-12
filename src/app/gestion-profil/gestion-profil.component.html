@@ -1,20 +1,20 @@
 <div class="flex flex-items h-[90vh] flex-col">
     <div class="h-20 w-full flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText   bg-slate-100 items-center justify-center">
-            <button> AJOUT ÉTUDIANT</button>
+            <button> GESTION DE MON PROFIL</button>
         </div>
         <div class="w-2/3 flex sm:text-2xl  text-sm text-white justify-center items-center">
             <button>GESTION DES INFORMATIONS DE L'UTILISATEUR</button>
         </div>
     </div>
-    <form action="" [formGroup]="formStudent" (ngSubmit)="addStudent()">
+    <form action="" [formGroup]="formValue" (ngSubmit)="modify()">
         <div class="w-full flex  flex-col  md:flex-row bg-slate-100">
             <div class="w-full  md:w-1/3 flex items-center justify-center bgOrange1">
                 <div class="primarycolor w-[50%]  md rounded-md h-[65%]">
                     <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                             <div class="text-center">
-                                <div class="mt-2" x-show="!photoPreview">
+                                <div class="mt-2">
                                     <img [src]="photo" alt=""
                                         class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
                                 </div>
@@ -42,7 +42,6 @@
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
                         <span>Identification du profil</span>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-2">
                         <div class="div1">
                             <div class="flex">
@@ -51,7 +50,7 @@
                                     ID Systém</label>
 
                                 <div class="relative w-full">
-                                    <input type="text" formControlName="id_system"
+                                    <input type="text" formControlName="id_system" readonly
                                         class="block p-2.5 w-full  text-md text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
                                         placeholder="">
                                 </div>
@@ -60,28 +59,31 @@
                         <div class="div2">
                             <div class="flex">
                                 <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
+                                    class="flex-shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
                                     type="button">
                                     <span>Civilité :</span>
                                 </span>
-                                <select formControlName="civilite"
+                                <select formControlName="civilite" 
                                     class="bg-gray-50 border-l-0 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
-                                    <option selected>Choisir</option>
-                                    <option value="US">Monsieur</option>
-                                    <option value="CA">Madame</option>
+                                    <option value="monsieur">Monsieur</option>
+                                    <option value="madame">Madame</option>
                                 </select>
                             </div>
                         </div>
                         <div class="div3">
                             <div class="flex">
                                 <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Prénom(s)</span></span>
-
+                                    class="flex-shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Prénom(s)</span></span>
                                 <div class="relative w-full">
                                     <input formControlName="prenom"
                                         class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                         placeholder="">
                                 </div>
+                            </div>
+                            <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
+                                class="flex text-red-600">
+                                <div *ngIf="prenom!.errors?.['required']">Le prénom est obligatoire</div>
+                                <div *ngIf="prenom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
                             </div>
                         </div>
                         <div class="div4">
@@ -97,11 +99,15 @@
                                         placeholder="">
                                 </div>
                             </div>
+                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)" class="flex text-red-600">
+                                <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
+                                <div *ngIf="nom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
+                            </div>
                         </div>
                         <div class="div5">
                             <div class="flex">
                                 <span
-                                    class="inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Ecole</span></span>
+                                    class=" inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Ecole</span></span>
                                 <div
                                     class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 </div>
@@ -111,32 +117,23 @@
                                         placeholder="">
                                 </div>
                             </div>
+                            <div *ngIf="ecole!.invalid && (ecole!.dirty || ecole!.touched)" class="flex text-red-600">
+                                <div *ngIf="ecole!.errors?.['required']">L'école est obligatoire</div>
+                                <div *ngIf="prenom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
+                            </div>
                         </div>
                         <div class="div6">
                             <div class="flex">
                                 <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Département</span></span>
-
+                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Fonction</span></span>
                                 <div class="relative w-full">
-                                    <input formControlName="departement"
+                                    <input formControlName="role" readonly
                                         class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                         placeholder="">
                                 </div>
                             </div>
-                        </div>
-                        <div class="div7">
-                            <div class="flex">
-                                <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
-                                    type="button">
-                                    <span>Filiére :</span>
-                                </span>
-                                <select formControlName="filiere"
-                                    class="bg-gray-50 border-l-0 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
-                                    <option selected>Choisir</option>
-                                    <option value="US">Monsieur</option>
-                                    <option value="CA">Madame</option>
-                                </select>
+                            <div *ngIf="role!.invalid && (role!.dirty || role!.touched)" class="flex text-red-600">
+                                <div *ngIf="role!.errors?.['required']">Le role est obligatoire</div>
                             </div>
                         </div>
                         <div class="div8">
@@ -144,41 +141,81 @@
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
                                     type="button">
-                                    <span>Niveau d'études :</span>
+                                    <span>Email :</span>
                                 </span>
-                                <select formControlName="niveau_etude"
-                                    class="bg-gray-50 border-l-0 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
-                                    <option selected>Choisir</option>
-                                    <option value="US">Monsieur</option>
-                                    <option value="CA">Madame</option>
-                                </select>
+                                <div class="relative w-full">
+                                    <input formControlName="email" type="email"
+                                        class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                        placeholder="email@gmail.com">
+                                </div>
+                            </div>
+                            <div *ngIf="email!.invalid && (email!.dirty || email!.touched)" class="flex text-red-600">
+                                <div *ngIf="email!.errors?.['email']">veillez saisir un email valide</div>
+                                <div *ngIf="email!.errors?.['required']">L'émail est obligatoire</div>
                             </div>
                         </div>
                         <div class="div7">
                             <div class="flex">
                                 <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Numero
-                                        GTIN</span></span>
-
+                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
+                                    type="button">
+                                    <span>Téléphone Perso :</span>
+                                </span>
                                 <div class="relative w-full">
-                                    <input formControlName="num_gtin"
+                                    <input formControlName="telephone" type="text"
+                                        class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                        placeholder="770000000">
+                                </div>
+                            </div>
+                            <div *ngIf="telephone!.invalid && (telephone!.dirty || telephone!.touched)"
+                                class="flex text-red-600">
+                                <div *ngIf="telephone!.errors?.['required']">Le téléphone est obligatoire</div>
+                                <div *ngIf="telephone!.errors?.['phoneNumberSn']">
+                                    Numéro invalide
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="div7">
+                            <div class="flex">
+                                <span
+                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>
+                                        Adresse</span></span>
+                                <div class="relative w-full">
+                                    <input formControlName="adresse"
                                         class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                         placeholder="6046000076543">
                                 </div>
                             </div>
+                            <div *ngIf="adresse!.invalid && (adresse!.dirty || adresse!.touched)"
+                                class="flex text-red-600">
+                                <div *ngIf="adresse!.errors?.['required']">L'adreese est obligatoire</div>
+
+                            </div>
                         </div>
                         <div class="div8">
                             <div class="flex">
                                 <span
-                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Photo
-                                        du diplome avec code</span></span>
+                                    class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>
+                                    </span>
+                                    Téléphone Bureau
+                                </span>
                                 <div id="dropdown"
                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 </div>
                                 <div class="relative w-full">
-                                    <input type="file" (change)="handleFileInput1($event)"
+                                    <input type="text" formControlName="telephone_bureau"
                                         class="block p-2.5 h-10 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                                        placeholder="">
+                                        placeholder="330000000">
+                                </div>
+                            </div>
+                            <div *ngIf="telephone_bureau!.invalid && (telephone_bureau!.dirty || telephone_bureau!.touched)"
+                                class="flex text-red-600">
+                                <div *ngIf="telephone_bureau!.errors?.['required']">Le téléphone de bureau est
+                                    obligatoire</div>
+                                <div *ngIf="telephone_bureau!.errors?.['phoneNumberFixeSn']">
+                                    Numéro invalide
                                 </div>
                             </div>
                         </div>
@@ -186,7 +223,8 @@
 
                     <div class="flex items-center justify-around mt-5">
                         <button class="primarycolor  text-white  rounded-md h-12 w-32">Annuler</button>
-                        <button class="bgOrange1  text-white rounded-md h-12 w-32">Ajouter</button>
+                        <button class="bgOrange1  text-white rounded-md h-12 w-32" [disabled]="formValue.invalid">Mettre
+                            à jour</button>
                     </div>
                 </div>
             </div>

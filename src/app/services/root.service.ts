@@ -24,11 +24,8 @@ export class RootService {
   add<T>(next: string, data: any): Observable<T> {
     return this.http.post<T>(this.url + `/${next}`, data);
   }
-  update<T, U>(next: string, data: U, id: number): Observable<T> {
-    return this.http.post<T>(
-      this.url + `/${next}` + '/editer/' + `${id}`,
-      data
-    );
+  update<T, U>(next: string, data: U): Observable<T> {
+    return this.http.post<T>(this.url + `/${next}`, data);
   }
 
   byId<T>(id: number, next: string) {
