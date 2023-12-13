@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="w-full  md:w-2/3 flex flex-col">
-                <div class="p-8">
+                <div class="p-5">
                     <div
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
                         <span>Identification du profil</span>
@@ -63,14 +63,14 @@
                                     type="button">
                                     <span>Civilité :</span>
                                 </span>
-                                <select formControlName="civilite" 
+                                <select formControlName="civilite"
                                     class="bg-gray-50 border-l-0 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
                                     <option value="monsieur">Monsieur</option>
                                     <option value="madame">Madame</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="div3">
+                        <div class="div3 flex flex-col">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Prénom(s)</span></span>
@@ -220,10 +220,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-around mt-5">
                         <button class="primarycolor  text-white  rounded-md h-12 w-32">Annuler</button>
-                        <button class="bgOrange1  text-white rounded-md h-12 w-32" [disabled]="formValue.invalid">Mettre
+                        <button class="bgOrange1  text-white rounded-md h-12 w-32"
+                            [disabled]="formValue.invalid || !formTouched">Mettre
                             à jour</button>
                     </div>
                 </div>

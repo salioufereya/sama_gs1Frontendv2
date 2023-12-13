@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { User } from '../models/Root';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,7 @@ import { User } from '../models/Root';
 })
 export class SidebarComponent {
   isSidebarOpen = false;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -25,11 +26,16 @@ export class SidebarComponent {
       let ue = localStorage.getItem('user');
       this.user = JSON.parse(ue!);
       this.role = this.user.role;
-      console.log(this.role);
-      console.log(this.user);
-    }
+     }
   }
-
+  // ngOnionInit() {
+  //   this.userService.getUser.subscribe((users) => {
+  //     this.user= users;
+  //     console.log(this.user);
+  //     this.user= this.user;
+  //   });
+  // }
+  
   loggout() {
     Swal.fire({
       title: 'Voulez vous vraiment se déconnecter?',

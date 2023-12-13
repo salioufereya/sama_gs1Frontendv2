@@ -50,8 +50,7 @@
             <div class="orange1 py-2 flex justify-center">
                 MON ESPACE ADMIN
             </div>
-            <img src="https://tecdn.b-cdn.net/img/new/avatars/5.webp" class="mx-auto mb-4 w-32 rounded-lg"
-                alt="Avatar" />
+            <img [src]="user.photo" class="mx-auto mb-4 w-32 rounded-lg" alt="Avatar" />
             <li>
                 <a routerLink="/dashboard"
                     class="flex items-center p-2 text-white  rounded-lg dark:text-white   dark:hover:bg-gray-700 group">
@@ -63,7 +62,6 @@
                     <span class="ml-3" *ngIf="user"> {{user.prenom}} {{user.nom}}</span>
                 </a>
             </li>
-
             <li>
                 <a href="#"
                     class="flex items-center p-2 text-white  rounded-lg dark:text-white   dark:hover:bg-gray-700 group">

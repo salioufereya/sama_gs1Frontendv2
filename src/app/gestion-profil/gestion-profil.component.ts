@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { validatephoneNumberFixeSn } from '../shared/numeroBureau';
 import { ProfilService } from '../services/profil.service';
 import { Root, User } from '../models/Root';
+import Swal from 'sweetalert2';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-gestion-profil',
@@ -19,8 +21,13 @@ import { Root, User } from '../models/Root';
   styleUrl: './gestion-profil.component.css',
 })
 export class GestionProfilComponent implements OnInit {
-[x: string]: any;
-  constructor(private fb: FormBuilder, private profileService: ProfilService) {}
+  [x: string]: any;
+  constructor(
+    private fb: FormBuilder,
+    private profileService: ProfilService,
+    private userService: UserService
+  ) {}
+  formTouched: boolean = false;
   user!: User;
   ngOnInit() {
     if (localStorage.getItem('user')) {
@@ -28,7 +35,6 @@ export class GestionProfilComponent implements OnInit {
       this.user = JSON.parse(ue!);
       console.log(this.user);
       this.id_system?.setValue(this.user.id);
-      this.civilite?.setValue(this.user.civilite);
       this.formValue.patchValue(this.user);
       this.photo = this.user.photo;
     }
@@ -36,10 +42,13 @@ export class GestionProfilComponent implements OnInit {
       'Valeur du champ civilite après patchValue :',
       this.formValue.get('civilite')?.value
     );
+    this.formValue.valueChanges.subscribe((val) => {
+      console.log(val);
+      this.formTouched = true;
+    });
   }
   photo!: any;
   photo_diplome!: any;
-
   formValue: FormGroup = this.fb.group({
     id_system: ['', [Validators.required]],
     civilite: ['', [Validators.required, Validators.minLength(2)]],
@@ -53,18 +62,15 @@ export class GestionProfilComponent implements OnInit {
     telephone: ['', [Validators.required, validatePhoneNumberSn()]],
     telephone_bureau: ['', [Validators.required, validatephoneNumberFixeSn()]],
   });
-
   get id_system() {
     return this.formValue.get('id_system');
   }
   get prenom() {
     return this.formValue.get('prenom');
   }
-
   get nom() {
     return this.formValue.get('nom');
   }
-
   get email() {
     return this.formValue.get('email');
   }
@@ -96,13 +102,19 @@ export class GestionProfilComponent implements OnInit {
       this.formValue.get('photo')?.setValue(this.photo);
     });
   }
-
   modify() {
     console.log(this.formValue.value);
     this.profileService
-      .update('users/modifier', this.formValue.value)
-      .subscribe((student) => {
-        console.log(student);
+      .update<Root<User>, User>('users/modifier', this.formValue.value)
+      .subscribe((student: Root<User>) => {
+        console.log(student.data);
+        this.formValue.patchValue(student.data!);
+        this.userService.setUser(student.data!);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: `${student.message}`,
+        });
       });
   }
 }

@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { LoginData, Root } from '../models/Root';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,7 +41,7 @@ export class LoginComponent {
           if (x.data!.user.role == 'Responsable pédagogique') {
             this.router.navigate(['/verify']);
           }
-          localStorage.setItem('user', JSON.stringify(x.data!.user));
+          this.userService.setUser(x.data!.user);
         } else {
           console.log(x);
           Swal.fire({
