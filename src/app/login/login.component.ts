@@ -8,7 +8,7 @@ import {
 import { LoginService } from '../services/login.service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { LoginData, Root } from '../models/Root';
+import { LoginData, Root, RootLogin } from '../models/Root';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 
@@ -35,12 +35,16 @@ export class LoginComponent {
   login() {
     console.log(this.loginForm.value);
     return this.loginService
-      .login<Root<LoginData>>(this.loginForm.value)
-      .subscribe((x: Root<LoginData>) => {
+      .login<RootLogin<LoginData>>(this.loginForm.value)
+      .subscribe((x: RootLogin<LoginData>) => {
         if (x.code === 200) {
-          if (x.data!.user.role == 'Responsable pédagogique') {
+          if (
+            x.data!.user.role == 'Responsable pédagogique' ||
+            x.data!.user.role == 'Admin'
+          ) {
             this.router.navigate(['/verify']);
           }
+          //  localStorage.setItem('user', JSON.stringify(x.data!.user));
           this.userService.setUser(x.data!.user);
         } else {
           console.log(x);

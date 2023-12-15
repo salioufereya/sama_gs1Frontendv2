@@ -1,7 +1,12 @@
 export interface Root<T> {
   code: number;
   message: string;
-  data?: T;
+  data: T[];
+}
+export interface RootLogin<T> {
+  code: number;
+  message: string;
+  data: T;
 }
 
 export interface Login {
@@ -18,10 +23,25 @@ export interface User {
   email: string;
   role: string;
   ecole: string;
+  ecole_id?: number;
   telephone_bureau: string;
   adresse: string;
   civilite: string;
+  photo?: string;
+}
+
+export interface Student {
+  id: number;
+  nom: string;
+  prenom: string;
   photo: string;
+  photo_diplome?: string;
+  ecole_id?: number;
+  telephone_bureau: string;
+  departement: string;
+  filiere_id: number;
+  niveau_id: number;
+  civilite: string;
 }
 
 export interface Class {
@@ -44,7 +64,16 @@ export interface LoginData {
   token: string;
 }
 
+export interface Filiere {
+  id: number;
+  libelle: string;
+}
+
+export interface Niveau {
+  id: number;
+  libelle: string;
+}
 export interface Reset {
-  message: String;
+  message: string;
   code: number;
 }

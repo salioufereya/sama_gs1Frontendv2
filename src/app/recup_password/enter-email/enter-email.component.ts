@@ -19,8 +19,8 @@ import Swal from 'sweetalert2';
 })
 export class EnterEmailComponent {
   resetForm: FormGroup;
-  errors!: String;
-  successMsg!: String;
+  errors!: string;
+  successMsg!: string;
   constructor(private fb: FormBuilder, private authService: RootService) {
     this.resetForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

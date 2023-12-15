@@ -37,12 +37,12 @@
                 </div>
             </div>
             <div class="w-full  md:w-2/3 flex flex-col">
-                <div class="p-5">
+                <div class="p-8">
                     <div
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
                         <span>Identification du profil</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-5">
                         <div class="div1">
                             <div class="flex">
                                 <label
@@ -70,7 +70,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="div3 flex flex-col">
+                        <div class="div3 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Prénom(s)</span></span>
@@ -81,12 +81,12 @@
                                 </div>
                             </div>
                             <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
-                                class="flex text-red-600">
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="prenom!.errors?.['required']">Le prénom est obligatoire</div>
                                 <div *ngIf="prenom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
                             </div>
                         </div>
-                        <div class="div4">
+                        <div class="div4 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Nom</span></span>
@@ -99,12 +99,13 @@
                                         placeholder="">
                                 </div>
                             </div>
-                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)" class="flex text-red-600">
+                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
                                 <div *ngIf="nom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
                             </div>
                         </div>
-                        <div class="div5">
+                        <div class="div5 relative">
                             <div class="flex">
                                 <span
                                     class=" inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Ecole</span></span>
@@ -117,12 +118,13 @@
                                         placeholder="">
                                 </div>
                             </div>
-                            <div *ngIf="ecole!.invalid && (ecole!.dirty || ecole!.touched)" class="flex text-red-600">
+                            <div *ngIf="ecole!.invalid && (ecole!.dirty || ecole!.touched)"
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="ecole!.errors?.['required']">L'école est obligatoire</div>
                                 <div *ngIf="prenom!.errors?.['minlength']">Veillez saisir minimum 2 caractéres</div>
                             </div>
                         </div>
-                        <div class="div6">
+                        <div class="div6 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>Fonction</span></span>
@@ -132,11 +134,12 @@
                                         placeholder="">
                                 </div>
                             </div>
-                            <div *ngIf="role!.invalid && (role!.dirty || role!.touched)" class="flex text-red-600">
+                            <div *ngIf="role!.invalid && (role!.dirty || role!.touched)"
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="role!.errors?.['required']">Le role est obligatoire</div>
                             </div>
                         </div>
-                        <div class="div8">
+                        <div class="div8 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
@@ -149,12 +152,13 @@
                                         placeholder="email@gmail.com">
                                 </div>
                             </div>
-                            <div *ngIf="email!.invalid && (email!.dirty || email!.touched)" class="flex text-red-600">
+                            <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="email!.errors?.['email']">veillez saisir un email valide</div>
                                 <div *ngIf="email!.errors?.['required']">L'émail est obligatoire</div>
                             </div>
                         </div>
-                        <div class="div7">
+                        <div class="div7 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700"
@@ -168,7 +172,7 @@
                                 </div>
                             </div>
                             <div *ngIf="telephone!.invalid && (telephone!.dirty || telephone!.touched)"
-                                class="flex text-red-600">
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="telephone!.errors?.['required']">Le téléphone est obligatoire</div>
                                 <div *ngIf="telephone!.errors?.['phoneNumberSn']">
                                     Numéro invalide
@@ -177,7 +181,7 @@
                         </div>
 
 
-                        <div class="div7">
+                        <div class="div7 relative">
                             <div class="flex">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>
@@ -189,13 +193,13 @@
                                 </div>
                             </div>
                             <div *ngIf="adresse!.invalid && (adresse!.dirty || adresse!.touched)"
-                                class="flex text-red-600">
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="adresse!.errors?.['required']">L'adreese est obligatoire</div>
 
                             </div>
                         </div>
-                        <div class="div8">
-                            <div class="flex">
+                        <div class="div8 relative">
+                            <div class="flex ">
                                 <span
                                     class="flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"><span>
                                     </span>
@@ -211,7 +215,7 @@
                                 </div>
                             </div>
                             <div *ngIf="telephone_bureau!.invalid && (telephone_bureau!.dirty || telephone_bureau!.touched)"
-                                class="flex text-red-600">
+                                class="flex absolute top-10 left-0 text-red-600 error-message">
                                 <div *ngIf="telephone_bureau!.errors?.['required']">Le téléphone de bureau est
                                     obligatoire</div>
                                 <div *ngIf="telephone_bureau!.errors?.['phoneNumberFixeSn']">
@@ -220,6 +224,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="flex items-center justify-around mt-5">
                         <button class="primarycolor  text-white  rounded-md h-12 w-32">Annuler</button>
                         <button class="bgOrange1  text-white rounded-md h-12 w-32"

@@ -17,3 +17,8 @@
   .opacity {
     opacity: 0;
   }
+
+  .error-message {
+    font-size: 15px;
+    color: red;
+}

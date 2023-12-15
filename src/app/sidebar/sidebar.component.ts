@@ -22,20 +22,16 @@ export class SidebarComponent {
   user!: User;
   role!: string | string[];
   ngOnInit() {
+    this.userService.getUser.subscribe((users) => {
+      this.user = users!;
+    });
     if (localStorage.getItem('user')) {
       let ue = localStorage.getItem('user');
       this.user = JSON.parse(ue!);
       this.role = this.user.role;
-     }
+    }
   }
-  // ngOnionInit() {
-  //   this.userService.getUser.subscribe((users) => {
-  //     this.user= users;
-  //     console.log(this.user);
-  //     this.user= this.user;
-  //   });
-  // }
-  
+
   loggout() {
     Swal.fire({
       title: 'Voulez vous vraiment se déconnecter?',

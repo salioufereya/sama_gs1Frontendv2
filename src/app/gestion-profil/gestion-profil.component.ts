@@ -9,7 +9,7 @@ import { validatePhoneNumberSn } from '../shared/numberSn';
 import { CommonModule } from '@angular/common';
 import { validatephoneNumberFixeSn } from '../shared/numeroBureau';
 import { ProfilService } from '../services/profil.service';
-import { Root, User } from '../models/Root';
+import { Root, RootLogin, User } from '../models/Root';
 import Swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
 
@@ -103,11 +103,9 @@ export class GestionProfilComponent implements OnInit {
     });
   }
   modify() {
-    console.log(this.formValue.value);
     this.profileService
-      .update<Root<User>, User>('users/modifier', this.formValue.value)
-      .subscribe((student: Root<User>) => {
-        console.log(student.data);
+      .update<RootLogin<User>, User>('users/modifier', this.formValue.value)
+      .subscribe((student: RootLogin<User>) => {
         this.formValue.patchValue(student.data!);
         this.userService.setUser(student.data!);
         Swal.fire({
