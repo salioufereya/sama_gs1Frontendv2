@@ -7,16 +7,17 @@ import {
 } from '@angular/forms';
 import { validatePhoneNumberSn } from '../shared/numberSn';
 import { CommonModule } from '@angular/common';
-import { validatephoneNumberFixeSn } from '../shared/numeroBureau';
+//import { validatephoneNumberFixeSn } from '../shared/numeroBureau';
 import { ProfilService } from '../services/profil.service';
-import { Root, RootLogin, User } from '../models/Root';
+import { Civility, RootLogin, User } from '../models/Root';
 import Swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
 
 @Component({
   selector: 'app-gestion-profil',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, AngularMaterialModule],
   templateUrl: './gestion-profil.component.html',
   styleUrl: './gestion-profil.component.css',
 })
@@ -33,15 +34,11 @@ export class GestionProfilComponent implements OnInit {
     if (localStorage.getItem('user')) {
       let ue = localStorage.getItem('user');
       this.user = JSON.parse(ue!);
-      console.log(this.user);
       this.id_system?.setValue(this.user.id);
       this.formValue.patchValue(this.user);
       this.photo = this.user.photo;
+      this.formValue.get('civilite')?.patchValue(this.user.civilite)
     }
-    console.log(
-      'Valeur du champ civilite après patchValue :',
-      this.formValue.get('civilite')?.value
-    );
     this.formValue.valueChanges.subscribe((val) => {
       console.log(val);
       this.formTouched = true;
@@ -54,14 +51,15 @@ export class GestionProfilComponent implements OnInit {
     civilite: ['', [Validators.required, Validators.minLength(2)]],
     nom: ['', [Validators.required, Validators.minLength(2)]],
     prenom: ['', [Validators.required, Validators.minLength(2)]],
-    ecole: ['', [Validators.required, Validators.minLength(2)]],
-    role: ['', [Validators.required, Validators.minLength(2)]],
     photo: ['', [Validators.required]],
     adresse: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     telephone: ['', [Validators.required, validatePhoneNumberSn()]],
-    telephone_bureau: ['', [Validators.required, validatephoneNumberFixeSn()]],
   });
+  civility: Civility[] = [
+    { id: 1, libelle: 'Monsieur' },
+    { id: 2, libelle: 'Madame' },
+  ];
   get id_system() {
     return this.formValue.get('id_system');
   }
@@ -100,9 +98,11 @@ export class GestionProfilComponent implements OnInit {
     fileReader.addEventListener('load', (e) => {
       this.photo = e.target?.result;
       this.formValue.get('photo')?.setValue(this.photo);
+      this.exisToff = true;
     });
   }
   modify() {
+    console.log(this.formValue.value);
     this.profileService
       .update<RootLogin<User>, User>('users/modifier', this.formValue.value)
       .subscribe((student: RootLogin<User>) => {
@@ -114,5 +114,11 @@ export class GestionProfilComponent implements OnInit {
           text: `${student.message}`,
         });
       });
+  }
+
+  exisToff: boolean = true;
+  deletePhoto() {
+    this.photo = '';
+    this.exisToff = false;
   }
 }

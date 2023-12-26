@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -9,28 +12,60 @@ import {
 import { RouterModule } from '@angular/router';
 import { StudentService } from '../services/student.service';
 import { NiveauService } from '../niveau.service';
-import { Filiere, Niveau, Root, Student } from '../models/Root';
+import { Civility, Filiere, Niveau, Root, Student } from '../models/Root';
 import { CommonModule } from '@angular/common';
 import { FiliereService } from '../filiere.service';
-import { UserService } from '../services/user.service';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  catchError,
+  debounceTime,
+  map,
+  of,
+  switchMap,
+  throwError,
+} from 'rxjs';
 import Swal from 'sweetalert2';
+import { SuggestionService } from '../suggestion.service';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-student',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    AngularMaterialModule,
+    NgxPaginationModule,
+  ],
   templateUrl: './student.component.html',
   styleUrl: './student.component.css',
 })
-export class StudentComponent implements OnInit {
+export class StudentComponent implements OnInit, OnDestroy {
+  toggleDropdown() {
+    throw new Error('Method not implemented.');
+  }
+  // myControl = new FormControl();
+  suggestions$!: Observable<string[]>;
+  isDropdownOpen: any;
   constructor(
     private fb: FormBuilder,
     private studentService: StudentService,
     private niveauService: NiveauService,
     private filiereService: FiliereService,
-    private userService: UserService
-  ) {}
+    private suggestionService: SuggestionService
+  ) {
+    this.suggestions$ = this.departement!.valueChanges.pipe(
+      debounceTime(200),
+      switchMap((query) => this.suggestionService.getSuggestions(query))
+    );
+  }
+  ngOnDestroy(): void {
+    this.souscription.unsubscribe();
+  }
   ngOnInit(): void {
     if (localStorage.getItem('user')) {
       let user = localStorage.getItem('user');
@@ -40,6 +75,19 @@ export class StudentComponent implements OnInit {
     this.getNiveau();
     this.formStudent.get('ecole_id')!.setValue(this.id);
   }
+  civility: Civility[] = [
+    { id: 1, libelle: 'Monsieur' },
+    { id: 2, libelle: 'Madame' },
+  ];
+
+  add(event: Event) {
+    let add = event.target as HTMLInputElement;
+    return this.suggestionService
+      .getSuggestions(add.value)
+      .subscribe((suggestions) => {
+        console.log(suggestions);
+      });
+  }
   photo!: any;
   photo_diplome!: any;
   filieres: Filiere[] = [];
@@ -47,6 +95,7 @@ export class StudentComponent implements OnInit {
   niveaux$!: Observable<Niveau[]>;
   niveaux: Niveau[] = [];
   id!: number;
+  private souscription: Subscription = new Subscription();
   getNiveau() {
     this.niveaux$ = this.niveauService
       .byId<Root<Niveau>>(this.id, 'niveaux/ecole')
@@ -66,9 +115,11 @@ export class StudentComponent implements OnInit {
     departement: ['', [Validators.required, Validators.minLength(2)]],
     filiere_id: ['', [Validators.required]],
     niveau_id: ['', [Validators.required]],
-    num_gtin: ['', [Validators.required]],
+    numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
     photo: ['', [Validators.required]],
-    photo_diplome: ['', []],
+    matricule: ['', [Validators.required]],
+    date_obtention: ['', [Validators.required]],
+    photo_diplome: ['', [Validators.required]],
   });
 
   get civilite() {
@@ -95,8 +146,14 @@ export class StudentComponent implements OnInit {
     return this.formStudent.get('niveau_id');
   }
 
-  get num_gtin() {
-    return this.formStudent.get('num_gtin');
+  get numero_gtin() {
+    return this.formStudent.get('numero_gtin');
+  }
+  get matricule() {
+    return this.formStudent.get('matricule');
+  }
+  get date_obtention() {
+    return this.formStudent.get('date_obtention');
   }
 
   getFiliere() {
@@ -129,26 +186,30 @@ export class StudentComponent implements OnInit {
     fileReader.addEventListener('load', (e) => {
       this.photo_diplome = e.target?.result as string;
       this.formStudent.get('photo_diplome')?.setValue(this.photo_diplome);
+      this.exisToff = true;
     });
   }
   addStudent() {
     console.log(this.formStudent.value);
-    this.studentService
-      .add<Root<Student>>('etudiants', this.formStudent.value)
-      .subscribe(
-        (student: Root<Student>) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: `${student.message}`,
-          });
-          this.formStudent.reset();
-          console.log(student);
-        },
-        (error: any) => {
-          this.handleError(error);
-        }
-      );
+    this.souscription.add(
+      this.studentService
+        .add<Root<Student>>('etudiants', this.formStudent.value)
+        .subscribe(
+          (student: Root<Student>) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: `${student.message}`,
+            });
+            this.formStudent.reset();
+            this.photo = '';
+            console.log(student);
+          },
+          (error: any) => {
+            this.handleError(error);
+          }
+        )
+    );
   }
 
   handleError(error: any) {
@@ -161,6 +222,24 @@ export class StudentComponent implements OnInit {
     console.log(errorMessage);
     return throwError(() => {
       errorMessage;
+    });
+  }
+
+  exisToff: boolean = true;
+  deletePhoto() {
+    this.photo = '';
+    this.exisToff = false;
+  }
+
+  updateForm(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.formStudent.patchValue({
+      departement: inputValue,
+    });
+  }
+  updateFormWithSelectedOption(event: MatAutocompleteSelectedEvent) {
+    this.formStudent.patchValue({
+      departement: event.option.value,
     });
   }
 }

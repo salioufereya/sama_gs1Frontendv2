@@ -22,12 +22,25 @@ export interface User {
   telephone: string;
   email: string;
   role: string;
-  ecole: string;
+  ecole: Ecole;
   ecole_id?: number;
   telephone_bureau: string;
   adresse: string;
   civilite: string;
   photo?: string;
+}
+
+export interface Ecole {
+  id: number;
+  libelle: string;
+  date_creation: Date;
+  type_ecole: string;
+  adresse: string;
+  logo: string;
+  numero_bureau: string;
+  numero_personnel: string;
+  email: string;
+  numero_autorisation: string;
 }
 
 export interface Student {
@@ -36,12 +49,15 @@ export interface Student {
   prenom: string;
   photo: string;
   photo_diplome?: string;
-  ecole_id?: number;
+  ecole?: string;
   telephone_bureau: string;
   departement: string;
-  filiere_id: number;
-  niveau_id: number;
+  filiere: string;
+  niveau: string;
   civilite: string;
+  matricule?: string;
+  numero_gtin: string;
+  date_obtention: string;
 }
 
 export interface Class {
@@ -76,4 +92,9 @@ export interface Niveau {
 export interface Reset {
   message: string;
   code: number;
+}
+
+export interface Civility {
+  id: number;
+  libelle: string;
 }

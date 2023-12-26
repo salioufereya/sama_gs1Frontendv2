@@ -39,6 +39,8 @@ export class SidebarComponent {
       showCancelButton: true,
       confirmButtonText: 'Oui!! !',
       cancelButtonText: 'Non, annuler!',
+      confirmButtonColor: '#002C6c',
+      cancelButtonColor: '#d33',
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {

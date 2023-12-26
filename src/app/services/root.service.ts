@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,19 @@ export class RootService {
 
   byId<T>(id: number, next: string) {
     return this.http.get<T>(this.url + `/${next}/${id})`);
+  }
+  // delete<T>(next: string, id: any) {
+  //   return this.http.delete<T>(this.url + `/${next})`, id);
+  // }
+  // delete<T>(id: Ids, next: string): Observable<T> {
+  //   return this.http.delete<T>(this.url + `/${next}` + '/delete', { body: id });
+  // }
+
+  delete<T>(id: number, next: string): Observable<T> {
+    return this.http.delete<T>(
+      this.url+`/${next}`+`/${id}`,
+      this.httpOptions
+    );
   }
 
   sendResetPasswordLink<T>(data: any) {

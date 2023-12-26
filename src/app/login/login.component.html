@@ -20,7 +20,7 @@
       </div>
       <form action="" class="mb-0 mt-5 space-y-3 w-2/3 rounded-2xl p-4   bg-white shadow-lg sm:p-6 lg:p-8"
         [formGroup]="loginForm" (ngSubmit)="login()">
-        <div>
+        <div class="mb-4 relative">
           <label for="email" class="primarycolorText">Email</label>
           <div class="relative">
             <input type="email" formControlName="email"
@@ -35,21 +35,22 @@
               </svg>
             </span>
           </div>
-          <div *ngIf="email!.invalid && (email!.dirty || email!.touched)" class="alert text-red-700 font-bold">
-            <div *ngIf="email!.errors?.['required']">L'email est obligatoire.</div>
+          <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+            class="alert text-red-700 font-bold absolute top-20">
+            <div *ngIf="email!.errors?.['required']">L'émail est obligatoire.</div>
             <div *ngIf="email!.errors?.['email']">
               L'émail n'est pas valide
             </div>
           </div>
         </div>
-        <div>
+        <div class="relative mb-4">
           <label for="password" class="primarycolorText">Password</label>
           <div class="relative">
             <input type="password" formControlName="password"
               [style.border-color]="isFieldInvalid('password') ? 'red' : ''"
               class="w-full rounded-lg  border-2 border-orange-300 p-4 pe-12 text-sm shadow-md"
               placeholder="Entrer votre mot de pass" />
-            <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+            <!-- <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,10 +58,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
-            </span>
+            </span> -->
           </div>
-          <span *ngIf="isFieldInvalid('password')" style="color: red;">Le password n'est pas valide.</span>
-
+          <div class="absolute top-24">
+            <span *ngIf="isFieldInvalid('password')" class="text-red-700 font-bold">Veillez saisir minimum 4 caractéres.</span>
+           
+          </div>
         </div>
         <div class="bleu3">
           <a href="#" routerLink="/enter_email">
@@ -68,7 +71,6 @@
           </a>
         </div>
         <div class="flex items-center justify-center">
-
           <button type="submit" [disabled]="loginForm.invalid"
             class="block w-2/4  primarycolor rounded-lg  px-5 py-3 text-sm font-medium text-white">
             CONNEXION

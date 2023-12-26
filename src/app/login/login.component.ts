@@ -38,13 +38,16 @@ export class LoginComponent {
       .login<RootLogin<LoginData>>(this.loginForm.value)
       .subscribe((x: RootLogin<LoginData>) => {
         if (x.code === 200) {
-          if (
-            x.data!.user.role == 'Responsable pédagogique' ||
-            x.data!.user.role == 'Admin'
-          ) {
-            this.router.navigate(['/verify']);
-          }
-          //  localStorage.setItem('user', JSON.stringify(x.data!.user));
+          // if (
+          //   x.data!.user.role == 'Responsable pédagogique' ||
+          //   x.data!.user.role == 'Admin'
+          // ) {
+          //   this.router.navigate(['/verify']);
+          // }
+          this.router.navigate(['/verify']);
+          console.log(x.data);
+          
+          localStorage.setItem('user', JSON.stringify(x.data!.user));
           this.userService.setUser(x.data!.user);
         } else {
           console.log(x);

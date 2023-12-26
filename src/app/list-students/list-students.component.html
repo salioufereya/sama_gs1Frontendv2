@@ -20,12 +20,12 @@
                         type="button">
                         <span>Filtré par :</span>
                     </span>
-                    <select
+                    <select [(ngModel)]="selected"
                         class="bg-gray-50 border-l-0 border border-gray-300 text-gray-900 text-sm rounded-r-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
-                        <option selected>Filiére</option>
-                        <option value="US">Génie logiciel</option>
-                        <option value="CA">Réseaux et télécoms</option>
-
+                        <option>Filtrer</option>
+                        <option value="{{item.libelle}}" *ngFor="let item of niveaux$ | async">
+                            {{item.libelle}}
+                        </option>
                     </select>
                 </div>
 
@@ -51,8 +51,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-right border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-800"
-                        *ngFor="let etudiant of etudiants">
+                    <tr class="text-right border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-800" *ngFor="let etudiant of etudiants | studentFiltre:selected   | paginate
+                        : {
+                            itemsPerPage: tableSize,
+                            currentPage: page,
+                            totalItems: count
+                          };
+                    let i = index ">
                         <td class="px-3 py-2 text-left">
                             <span>{{etudiant.id}}</span>
                         </td>
@@ -66,29 +71,35 @@
                             <span>{{etudiant.departement}}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span>{{etudiant.filiere_id}}</span>
+                            <span>{{etudiant.filiere}}</span>
                         </td>
                         <td class="px-3 py-2 text-right">
-                            <span>{{etudiant.niveau_id}}</span>
+                            <span>{{etudiant.niveau}}</span>
                         </td>
                         <td class="px-3 py-2 ">
-                            <button class="px-3"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
-                                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                            <button class="px-3"   (click)="delete(etudiant.id)"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
+                                    viewBox="0 0 448 512">
                                     <path fill="#f70808"
                                         d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
                                 </svg></button>
-                            <button>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+
+                            <button (click)="edit(etudiant)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512">
                                     <path fill="#ed8e07"
                                         d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                 </svg>
                             </button>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="pagination-container">
+                <pagination-controls previousLabel=" Précédant" nextLabel="Suivant"
+                    (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+            </div>
         </div>
         <div class="flex items-center  justify-center mt-5 gap-3">
             <button
@@ -152,5 +163,221 @@
     <div class="w-full h-[30%]">
         <img src="assets/images/eyes.png" alt="" style="width: 100%;">
     </div>
+    <!--Modal-->
+
+    <div *ngIf="modalTrue"
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full backdrop-brightness-50 ">
+        <div class="bg-white rounded-sm">
+            <div class="flex items-center justify-between p-4 md:p-5">
+                <div class="flex items-center justify-center">
+                    <h3 class="text-xl  ml-5 font-medium primarycolorText ">
+                        Modification des informations de l'utilisateur
+                    </h3>
+                </div>
+                <button type="button" (click)="close()"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="medium-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="md:w-[550px] w-[350px]">
+                <form [formGroup]="formStudent" (ngSubmit)="modify()">
+                    <div class="text-center flex my-3 flex-row justify-center items-center">
+                        <div>
+                            <label for="">Photo De l'étudiant</label>
+                            <div class="mt-2">
+                                <img [src]="photo" alt=""
+                                    class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
+                            </div>
+                            <div class="flex flex-col md:flex-row ">
+                                <label for="fileInput"
+                                    class="flex cursor-pointer justify-center items-center px-3 py-2 primarycolor text-white rounded-md font-semibold text-xs   tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
+                                    Charger une nouvelle photo
+                                    <input id="fileInput" type="file" class="hidden" (change)="handleFileInput($event)">
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="">Photo Du diplome</label>
+                            <div class="mt-2">
+                                <img [src]="photo_diplome" alt=""
+                                    class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
+                            </div>
+                            <div class="flex flex-col md:flex-row ">
+                                <label for="fileInput"
+                                    class="flex cursor-pointer justify-center items-center px-3 py-2 primarycolor text-white rounded-md font-semibold text-xs   tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
+                                    Charger une nouvelle photo
+                                    <input id="fileInput" type="file" class="hidden"
+                                        (change)="handleFileInput1($event)">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex  flex-col md:flex-row justify-between px-2">
+                        <div class="relative">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Nom :</mat-label>
+                                <input formControlName="nom" matInput placeholder="nom">
+                            </mat-form-field>
+                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
+                                <div *ngIf="nom!.errors?.['minlength']">
+                                    veillez saisir minimum 2 caracteres
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <mat-form-field class="example-full-width" style="width: 100%;">
+                                <mat-label>Prénom :</mat-label>
+                                <input formControlName="prenom" matInput placeholder="prenom">
+                            </mat-form-field>
+                            <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="prenom!.errors?.['required']">Le prenom est obligatoire</div>
+                                <div *ngIf="prenom!.errors?.['minlength']">
+                                    veillez saisir minimum 2 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex  flex-col md:flex-row justify-between px-2">
+                        <div class="flex">
+                            <mat-form-field class="example-full-width" style="width: 100%;">
+                                <mat-label>Département :</mat-label>
+                                <input matInput formControlName="departement" [matAutocomplete]="auto"
+                                    (change)="updateForm($event)" placeholder="">
+                                <mat-autocomplete #auto="matAutocomplete"
+                                    (optionSelected)="updateFormWithSelectedOption($event)">
+                                    <mat-option *ngFor="let suggestion of suggestions$ | async" [value]="suggestion">
+                                        {{ suggestion }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <div *ngIf="departement!.invalid && (departement!.dirty || departement!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="departement!.errors?.['required']">Le departement est obligatoire</div>
+                                <div *ngIf="departement!.errors?.['minlength']">
+                                    veillez saisir minimum 2 caracteres
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <mat-form-field class="example-full-width" style="width: 100%;">
+                                <mat-label>Ecole :</mat-label>
+                                <input formControlName="ecole" matInput placeholder="Ex. pat@example.com">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between px-2">
+                        <div class="relative">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Civilité</mat-label>
+                                <mat-select formControlName="civilite" required>
+                                    <mat-option *ngFor="let civil of civility"
+                                        [value]="civil.libelle">{{civil.libelle}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="civilite!.invalid && (civilite!.dirty || civilite!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="civilite!.errors?.['required']">La civilité est obligatoire</div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Filiére</mat-label>
+                                <mat-select formControlName="filiere" required>
+                                    <mat-option>--</mat-option>
+                                    <mat-option *ngFor="let filiere of filieres$ | async"
+                                        [value]="filiere.libelle">{{filiere.libelle}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="filiere!.invalid && (filiere!.dirty || filiere!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="filiere!.errors?.['required']">La filiere est obligatoire</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="flex  flex-col md:flex-row justify-between px-2">
+                        <div class="relative">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Niveau</mat-label>
+                                <mat-select formControlName="niveau">
+                                    <mat-option>--</mat-option>
+                                    <mat-option *ngFor="let niveau of niveaux$ | async"
+                                        [value]="niveau.libelle">{{niveau.libelle}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="niveau!.invalid && (niveau!.dirty || niveau!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="niveau!.errors?.['required']">Le niveau est obligatoire</div>
+                            </div>
+                        </div>
+                        <div class="div11 relative">
+                            <div>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Numéro GTIN :</mat-label>
+                                    <input matInput formControlName="numero_gtin" placeholder="6046000076543">
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="numero_gtin!.errors?.['required']">Le numero gtin est obligatoire</div>
+                                <div *ngIf="numero_gtin!.errors?.['minlength']">
+                                    veillez saisir minimum 8 caracteres
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between px-2">
+                        <div class="div10 relative">
+                            <div>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Date d'obtention :</mat-label>
+                                    <input matInput type="date" formControlName="date_obtention"
+                                        placeholder="Date d'obtention">
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="date_obtention!.invalid && (date_obtention!.dirty || date_obtention!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="date_obtention!.errors?.['required']">La date d'obtention est obligatoire
+                                </div>
+                            </div>
+                        </div>
+                        <div class="div9 relative">
+                            <div>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Matricule :</mat-label>
+                                    <input matInput formControlName="matricule" placeholder="Matricule">
+                                    <mat-error *ngIf="matricule!.hasError('required')">
+                                        La matricule est obligatoire
+                                    </mat-error>
+                                    <mat-error *ngIf="matricule!.hasError('minlength')">
+                                        La matricule doit contenir au moins X caractères
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-center justify-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button class="text-white  primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            [disabled]="formStudent.invalid || !formTouched ">
+                            Mettre à jour</button>
+                        <button data-modal-hide="medium-modal" type="button"
+                            class="ms-3  rounded-lg border text-sm font-medium text-white  bgOrange1 px-5 py-2.5 ">Annuler</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!--Fin Modal-->
+
 
 </div>

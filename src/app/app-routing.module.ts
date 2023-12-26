@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { NavComponent } from './nav/nav.component';
+//import { NavComponent } from './nav/nav.component';
 import { EnterEmailComponent } from './recup_password/enter-email/enter-email.component';
 import { EnterNewPasswordComponent } from './recup_password/enter-new-password/enter-new-password.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -12,11 +12,12 @@ import { StudentComponent } from './student/student.component';
 import { ListStudentsComponent } from './list-students/list-students.component';
 import { ListDiplomesComponent } from './list-diplomes/list-diplomes.component';
 import { GestionProfilComponent } from './gestion-profil/gestion-profil.component';
+import { GestionEcoleComponent } from './gestion-ecole/gestion-ecole.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'nav', component: NavComponent },
+ // { path: 'nav', component: NavComponent },
   { path: 'enter_email', component: EnterEmailComponent },
   { path: 'enter_password', component: EnterNewPasswordComponent },
   { path: 'sidebar', component: SidebarComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'listStudents', component: ListStudentsComponent },
   { path: 'listDiplomes', component: ListDiplomesComponent },
   { path: 'gestion_profil', component: GestionProfilComponent },
+  { path: 'gestion_ecole', component: GestionEcoleComponent },
 ];
 
 @NgModule({
