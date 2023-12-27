@@ -47,7 +47,6 @@ export class SidebarComponent {
         localStorage.removeItem('user');
         localStorage.removeItem('tkn');
         this.router.navigate(['/login']);
-        Swal.fire('déconnecté!', 'Déconnecté', 'success');
       }
     });
   }

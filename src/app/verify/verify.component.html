@@ -1,7 +1,7 @@
 <div class="grid h-[85vh] grid-cols-1 grid-rows-3 gap-2">
     <div class="flex  div1 items-center  justify-center"
         style="background-image: url('assets/images/rectangle.png'); background-size: 100% auto; background-repeat: no-repeat;">
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center justify-start">
             <p class="primarycolorText text-md  md:text-5xl">
                 Vérifiez & Validez
             </p>
@@ -12,28 +12,30 @@
 
     </div>
     <div class="div2 flex justify-center flex-col">
-        <div class="flex items-center justify-center">
-            <p class="primarycolorText  text-sm md:text-2xl">Veuillez scanner ou saisir le numéro de codes à barres (GTIN) associé
-                au diplôme :
+        <div class="flex items-center justify-start">
+            <p class="primarycolorText  text-sm md:text-2xl">Veuillez scanner ou saisir le numéro de vérification
+                associé au diplôme :
             </p>
         </div>
         <div>
             <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
+
                 </div>
                 <form action="" (ngSubmit)="getSudent()" [formGroup]="formStudent">
-                    <input type="search" id="search" formControlName="numero_gtin"
-                        class="block text-center w-full  my-5 p-4 ps-10 text-sm text-gray-900 border border-orange-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    <input type="search" id="search" formControlName="numero_gtin" [readOnly]="!canVerif"
+                        class="block  w-full  my-5 p-4 ps-10 text-sm text-gray-900 border border-orange-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Ex : 604600007654" required>
                     <button type="submit" [disabled]="formStudent.invalid"
-                        class="text-white  absolute h-10 end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Vérifier
-                        le numéro du diplôme </button>
+                        class="text-white  flex justify-start items-start absolute h-10 end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="w-4 h-4  mr-2 text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                        {{ isVerification ? 'Vérifier le numéro du diplôme' : 'Vérifier avec un autre numéro' }}
+                    </button>
                 </form>
                 <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
                     class="flex absolute top-20   text-2xl font-bold left-7 text-red-600 error-message">
@@ -44,13 +46,14 @@
 
             </div>
         </div>
-        <div class="flex items-center justify-center">
-            <p class="primarycolorText">Le GTIN doit être composé <span class="orange1">de 13 chiffres</span> selon les
+        <div class="flex items-center justify-start">
+            <p class="primarycolorText"> Le numéro de verification doit être composé <span class="orange1">de 13
+                    chiffres</span> selon les
                 normes internationales d’identification de GS1. </p>
         </div>
 
-        <div class="flex items-center  md:px-3">
-            <input id="" type="checkbox"
+        <div class="flex items-center">
+            <input id="" type="checkbox" (change)="check($event)"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             <label class="ms-2  text-sm md:text-md font-medium primarycolorText dark:text-gray-300">
                 En cochant cette case, Sama GS1 collecte vos données , pour des usages de type professionnels, afin de
@@ -60,7 +63,7 @@
 
     </div>
     <div class="div3" *ngIf="!clicked">
-        <div class="bgOrange1  text-sm  md:text-2xl flex items-center text-white  h-[25px]  md:h-[50px]" >
+        <div class="bgOrange1  text-sm  md:text-2xl flex items-center text-white  h-[25px]  md:h-[50px]">
             <p for="" class="mx-4">
                 Explorer l’univers des standards d’identification de GS1, qui facilitent le quotidien des acteurs du
                 commerce mondial

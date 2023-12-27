@@ -1,12 +1,17 @@
 <div class="w-full  items-center justify-evenly flex   flex-col   md:flex-row" *ngIf="student; else unknownStudent">
-    <div class="w-full md:w-[30%]     mr-5 h-[350px] flex items-center justify-center bg-orange-500">
-        <img [src]="student.photo" class="mx-auto mb-4 w-64 h-64 rounded-lg" alt="Avatar" />
+    <div class="w-full md:w-[30%]   relative  mr-5 h-[350px] flex items-center justify-center bg-orange-500">
+        <div class="w-[25%] h-[25%] absolute top-2 right-6">
+            <img [src]="student.photo_diplome" class="mx-auto mb-4  object-cover rounded-full" alt="Avatar" />
+        </div> 
+        <div>
+            <img [src]="student.photo" class="mx-auto mb-4 w-72 h-72 object-cover rounded-lg" alt="Avatar" />
+        </div> 
     </div>
     <div class="w-full  md:w-[65%]">
         <div
             class="bg-green-400 relative  md:w-[680px]    my-2 w-full h-[54px] rounded-md flex items-center justify-center text-white font-bold">
             <label for="" class="mx-3">
-                Ce diplôme est valide et vérifié au sein de GS1 sénégal
+                Ce diplôme a été délivré {{student.ecole}}
             </label>
             <button type="button" (click)="close()"
                 class="text-gray-400 mr-1 bg-black hover:bg-gray-200 hover:text-red-700 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-orange-600 "
@@ -21,8 +26,9 @@
         <label for="" class="text-bold text-black">Cet étudiant est reconnu au sein du GROUPE {{student.ecole}}</label>
         <div class="relative">
             <div class="w-full  md:w-[680px]    h-[250px] border border-red-500 rounded-md my-2">
-                <ul class="flex flex-col gap-3 ml-3 mt-4">
-                    <li> <span class="font-bold">GTIN : </span>{{student.numero_gtin}}</li>
+                <ul class="flex flex-col gap-3 ml-3 mt-2">
+                    <li> <span class="font-bold">N° vérification : </span>{{student.numero_gtin}}</li>
+                    <li> <span class="font-bold">Matricule : </span> {{student.matricule }} </li>
                     <li> <span class="font-bold">Nom complet : </span> {{student.prenom }} {{student.nom}} </li>
                     <li> <span class="font-bold">Ecole : </span> {{student.ecole}}</li>
                     <li> <span class="font-bold">Filière : </span>{{student.filiere}}</li>

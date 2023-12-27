@@ -27,6 +27,8 @@ export class VerifyComponent implements OnInit {
     this.formStudent.get('id_ecole')?.setValue(this.id_ecole);
   }
   monMessage = 'Salut Enfant!';
+  isVerification:boolean = true;
+  textInput:String = "Vérifier le numéro du dipôlme";
   private studentService = inject(StudentService);
   constructor(private fb: FormBuilder) {}
   id_ecole!: number;
@@ -55,15 +57,22 @@ export class VerifyComponent implements OnInit {
         if (student.code == 200) {
           console.log(student);
           this.student = student.data;
+          this.isVerification = true;
         } else {
           console.log(student);
           this.student = null;
+          this.isVerification = false;
+          this.numero_gtin?.reset();
         }
       });
   }
 
+  canVerif: boolean = false;
+  check(event: Event) {
+    let evnt = event.target as HTMLInputElement;
+    this.canVerif = evnt.checked;
+  }
 
-  
   enlever(clicked: boolean) {
     this.clicked = clicked;
   }

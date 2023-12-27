@@ -60,7 +60,6 @@ export class ListStudentsComponent implements OnInit {
     this.getFiliere();
     this.all();
     this.formStudent.valueChanges.subscribe((val) => {
-      console.log(val);
       this.formTouched = true;
     });
   }
@@ -99,6 +98,7 @@ export class ListStudentsComponent implements OnInit {
   page: number = 1;
   count: number = 0;
   tableSize: number = 2;
+  detail: boolean = false;
   onTableDataChange(event: any) {
     this.page = event;
     this.all();
@@ -231,9 +231,9 @@ export class ListStudentsComponent implements OnInit {
 
   handleFileInput1(event: any) {
     this.photo_diplome = event.target.files[0];
-    let fileReader = new FileReader();
-    fileReader.readAsDataURL(this.photo);
-    fileReader.addEventListener('load', (e) => {
+    let fileReader1 = new FileReader();
+    fileReader1.readAsDataURL(this.photo_diplome);
+    fileReader1.addEventListener('load', (e) => {
       this.photo_diplome = e.target?.result;
       this.formStudent.get('photo_diplome')?.setValue(this.photo_diplome);
     });
@@ -247,7 +247,7 @@ export class ListStudentsComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#002C6c',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui, je veux!',
+      confirmButtonText: 'Supprimer',
       cancelButtonText: 'Annuler',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -268,5 +268,14 @@ export class ListStudentsComponent implements OnInit {
           });
       }
     });
+  }
+  detailEtudiant!: Student;
+  SeenDetail(etudiant: Student) {
+    this.detailEtudiant = etudiant;
+    this.detail = true;
+    console.log(etudiant);
+  }
+  resetdetail() {
+    this.detail = false;
   }
 }
