@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StudentService } from '../services/student.service';
 import {
   Civility,
@@ -18,7 +18,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { FiltreCoursPipe } from '../shared/pipes/student-filtre.pipe';
-import { Observable, catchError, debounceTime, map, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  catchError,
+  debounceTime,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { NiveauService } from '../niveau.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { initFlowbite } from 'flowbite';
@@ -27,6 +35,9 @@ import { SuggestionService } from '../suggestion.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FiliereService } from '../filiere.service';
 import Swal from 'sweetalert2';
+import { LoadingService } from '../services/loading.service';
+import { FilterEtudiantPipe } from '../shared/pipes/filter-etudiant.pipe';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-list-students',
@@ -40,15 +51,19 @@ import Swal from 'sweetalert2';
     NgxPaginationModule,
     AngularMaterialModule,
     ReactiveFormsModule,
+    FilterEtudiantPipe,
   ],
 })
-export class ListStudentsComponent implements OnInit {
+export class ListStudentsComponent implements OnInit, OnDestroy {
   id!: number;
   suggestions$!: Observable<string[]>;
   filieres$!: Observable<Filiere[]>;
   photo!: any;
   photo_diplome!: any;
   formTouched: boolean = false;
+  selectedFilterField: string = 'libelle';
+  searchTerm: string = '';
+  private subscription: Subscription = new Subscription();
   ngOnInit() {
     initFlowbite();
     if (localStorage.getItem('user')) {
@@ -69,7 +84,8 @@ export class ListStudentsComponent implements OnInit {
     private niveauService: NiveauService,
     private fb: FormBuilder,
     private suggestionService: SuggestionService,
-    private filiereService: FiliereService
+    private filiereService: FiliereService,
+    public loader: LoadingService
   ) {
     this.formStudent = this.fb.group({
       id: ['', [Validators.required]],
@@ -91,13 +107,16 @@ export class ListStudentsComponent implements OnInit {
       switchMap((query) => this.suggestionService.getSuggestions(query))
     );
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   id_ecole!: number;
   etudiants: Student[] = [];
   selected: string = 'Filtrer';
 
   page: number = 1;
   count: number = 0;
-  tableSize: number = 2;
+  tableSize: number = 8;
   detail: boolean = false;
   onTableDataChange(event: any) {
     this.page = event;
@@ -105,12 +124,14 @@ export class ListStudentsComponent implements OnInit {
   }
   modalTrue: boolean = false;
   all() {
-    this.studentService
-      .byId<Root<Student>>(this.id_ecole, 'etudiants/ecole')
-      .subscribe((student) => {
-        this.etudiants = student.data;
-        console.log(this.etudiants);
-      });
+    this.subscription.add(
+      this.studentService
+        .byId<Root<Student>>(this.id_ecole, 'etudiants/ecole')
+        .subscribe((student) => {
+          this.etudiants = student.data;
+          console.log(this.etudiants);
+        })
+    );
   }
   niveaux$!: Observable<Niveau[]>;
   getNiveau() {
@@ -186,25 +207,32 @@ export class ListStudentsComponent implements OnInit {
   }
   modify() {
     console.log(this.formStudent.value);
-    this.studentService
-      .update<Root<Student>, Student>(
-        'etudiants/update',
-        this.formStudent.value
-      )
-      .subscribe((student: Root<Student>) => {
-        console.log(student);
-        if (student.code == 200) {
-          this.formStudent.reset();
-          this.close();
+    this.subscription.add(
+      this.studentService
+        .update<RootLogin<Student>, Student>(
+          'etudiants/update',
+          this.formStudent.value
+        )
+        .subscribe((student: RootLogin<Student>) => {
+          console.log(student);
+          if (student.code == 200) {
+            this.formStudent.reset();
+            const index = this.etudiants.findIndex(
+              (item) => item.id === student.data!.id
+            );
+            if (index !== -1) {
+              this.etudiants[index] = student.data!;
+            }
+          }
           Swal.fire({
             icon: 'success',
             title: 'Success',
             text: `${student.message}`,
+            confirmButtonColor: '#002C6c',
           });
-        }
-      });
-
-    console.log(this.formStudent.value);
+          this.close();
+        })
+    );
   }
 
   getFiliere() {
@@ -241,8 +269,8 @@ export class ListStudentsComponent implements OnInit {
 
   delete(id: number) {
     Swal.fire({
-      title: 'Etes vous surs ?',
-      text: 'Voulez vours vraiment supprimé cet étudiant!',
+      title: 'êtes-vous sûrs?',
+      text: 'Voulez vous vraiment supprimé cet étudiant!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#002C6c',
@@ -251,21 +279,24 @@ export class ListStudentsComponent implements OnInit {
       cancelButtonText: 'Annuler',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.studentService
-          .delete<RootLogin<Login>>(id, 'etudiants/supprimer')
-          .subscribe((resulat) => {
-            console.log(resulat);
-            if (resulat.code == 200) {
-              this.etudiants = this.etudiants.filter(
-                (etudiant) => etudiant.id !== id
-              );
-              Swal.fire({
-                title: 'Supprimé!',
-                text: `${resulat.message}`,
-                icon: 'success',
-              });
-            }
-          });
+        this.subscription.add(
+          this.studentService
+            .delete<RootLogin<Login>>(id, 'etudiants/supprimer')
+            .subscribe((resulat) => {
+              console.log(resulat);
+              if (resulat.code == 200) {
+                this.etudiants = this.etudiants.filter(
+                  (etudiant) => etudiant.id !== id
+                );
+                Swal.fire({
+                  title: 'Supprimé!',
+                  text: `${resulat.message}`,
+                  icon: 'success',
+                  confirmButtonColor: '#002C6c',
+                });
+              }
+            })
+        );
       }
     });
   }
@@ -277,5 +308,11 @@ export class ListStudentsComponent implements OnInit {
   }
   resetdetail() {
     this.detail = false;
+  }
+
+  loading$ = this.loader.loading$;
+
+  onFilterFieldChange(event: MatSelectChange): void {
+    this.selectedFilterField = event.value;
   }
 }

@@ -3,7 +3,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -12,7 +11,14 @@ import {
 import { RouterModule } from '@angular/router';
 import { StudentService } from '../services/student.service';
 import { NiveauService } from '../niveau.service';
-import { Civility, Filiere, Niveau, Root, Student } from '../models/Root';
+import {
+  ChekExistGtin,
+  Civility,
+  Filiere,
+  Niveau,
+  Root,
+  Student,
+} from '../models/Root';
 import { CommonModule } from '@angular/common';
 import { FiliereService } from '../filiere.service';
 import {
@@ -29,6 +35,7 @@ import Swal from 'sweetalert2';
 import { SuggestionService } from '../suggestion.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { dateRangeValidator } from '../shared/dateValidator';
 
 @Component({
   selector: 'app-student',
@@ -48,8 +55,12 @@ export class StudentComponent implements OnInit, OnDestroy {
   toggleDropdown() {
     throw new Error('Method not implemented.');
   }
-  // myControl = new FormControl();
   suggestions$!: Observable<string[]>;
+
+  suggestionFilieres$!: Observable<string[]>;
+
+  suggestionNiveau$!: Observable<string[]>;
+
   isDropdownOpen: any;
   constructor(
     private fb: FormBuilder,
@@ -61,6 +72,14 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.suggestions$ = this.departement!.valueChanges.pipe(
       debounceTime(200),
       switchMap((query) => this.suggestionService.getSuggestions(query))
+    );
+    this.suggestionFilieres$ = this.filiere!.valueChanges.pipe(
+      debounceTime(200),
+      switchMap((query) => this.suggestionService.getFilieres(query))
+    );
+    this.suggestionNiveau$ = this.niveau!.valueChanges.pipe(
+      debounceTime(200),
+      switchMap((query) => this.suggestionService.getNiveau(query))
     );
   }
   ngOnDestroy(): void {
@@ -79,14 +98,17 @@ export class StudentComponent implements OnInit, OnDestroy {
     { id: 1, libelle: 'Monsieur' },
     { id: 2, libelle: 'Madame' },
   ];
-
+  anneeMinimale = 2000;
+  dateMaximale = new Date();
   add(event: Event) {
     let add = event.target as HTMLInputElement;
-    return this.suggestionService
-      .getSuggestions(add.value)
-      .subscribe((suggestions) => {
-        console.log(suggestions);
-      });
+    this.souscription.add(
+      this.suggestionService
+        .getSuggestions(add.value)
+        .subscribe((suggestions) => {
+          console.log(suggestions);
+        })
+    );
   }
   photo!: any;
   photo_diplome!: any;
@@ -107,18 +129,25 @@ export class StudentComponent implements OnInit, OnDestroy {
         })
       );
   }
+
   formStudent: FormGroup = this.fb.group({
     civilite: ['', [Validators.required, Validators.minLength(2)]],
     nom: ['', [Validators.required, Validators.minLength(2)]],
     prenom: ['', [Validators.required, Validators.minLength(2)]],
     ecole_id: ['', [Validators.required]],
     departement: ['', [Validators.required, Validators.minLength(2)]],
-    filiere_id: ['', [Validators.required]],
-    niveau_id: ['', [Validators.required]],
+    filiere: ['', [Validators.required, Validators.minLength(2)]],
+    niveau: ['', [Validators.required, Validators.minLength(2)]],
     numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
     photo: ['', [Validators.required]],
     matricule: ['', [Validators.required]],
-    date_obtention: ['', [Validators.required]],
+    date_obtention: [
+      '',
+      [
+        Validators.required,
+        dateRangeValidator(this.anneeMinimale, this.dateMaximale),
+      ],
+    ],
     photo_diplome: ['', [Validators.required]],
   });
 
@@ -138,12 +167,12 @@ export class StudentComponent implements OnInit, OnDestroy {
     return this.formStudent.get('departement');
   }
 
-  get filiere_id() {
-    return this.formStudent.get('filiere_id');
+  get filiere() {
+    return this.formStudent.get('filiere');
   }
 
-  get niveau_id() {
-    return this.formStudent.get('niveau_id');
+  get niveau() {
+    return this.formStudent.get('niveau');
   }
 
   get numero_gtin() {
@@ -200,9 +229,11 @@ export class StudentComponent implements OnInit, OnDestroy {
               icon: 'success',
               title: 'Success',
               text: `${student.message}`,
+              confirmButtonColor: '#002C6c',
             });
             this.formStudent.reset();
             this.photo = '';
+            this.photo_diplome = '';
             console.log(student);
           },
           (error: any) => {
@@ -210,6 +241,59 @@ export class StudentComponent implements OnInit, OnDestroy {
           }
         )
     );
+  }
+
+  // private etudiantExistValidator(): AsyncValidatorFn {
+  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
+  //     const value = control.value;
+
+  //     if (!value) {
+  //       return of(null);
+  //     }
+
+  //     return this.studentService
+  //       .isExist<ChekExistGtin>({
+  //         id_ecole: this.formStudent.get('ecole_id')?.value,
+  //         numero_gtin: value,
+  //       })
+  //       .pipe(
+  //         map((val: ChekExistGtin) => {
+  //           console.log('Backend response:', val);
+
+  //           if (val.code === 200) {
+  //             return { etudiantExist: true };
+  //           } else {
+  //             return null;
+  //           }
+  //         }),
+  //         catchError((error) => {
+  //           console.error('Backend error:', error);
+  //           return of(null);
+  //         })
+  //       );
+  //   };
+  // }
+
+  EtudiantIsExist(event: Event) {
+    let evnt = event.target as HTMLInputElement;
+    if (evnt.value.length >= 8) {
+      this.souscription.add(
+        this.studentService
+          .isExist<ChekExistGtin>({
+            id_ecole: this.formStudent.get('ecole_id')?.value,
+            numero_gtin: evnt.value,
+          })
+          .subscribe((val: ChekExistGtin) => {
+            if (val.code == 200) {
+              this.etudiantExist = true;
+            } else {
+              this.etudiantExist = false;
+            }
+          })
+      );
+    } else {
+      this.etudiantExist = false;
+    }
   }
 
   handleError(error: any) {
@@ -224,7 +308,7 @@ export class StudentComponent implements OnInit, OnDestroy {
       errorMessage;
     });
   }
-
+  etudiantExist: boolean = false;
   exisToff: boolean = true;
   deletePhoto() {
     this.photo = '';
@@ -240,6 +324,30 @@ export class StudentComponent implements OnInit, OnDestroy {
   updateFormWithSelectedOption(event: MatAutocompleteSelectedEvent) {
     this.formStudent.patchValue({
       departement: event.option.value,
+    });
+  }
+
+  updateForm1(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.formStudent.patchValue({
+      filiere: inputValue,
+    });
+  }
+  updateFormWithSelectedOption1(event: MatAutocompleteSelectedEvent) {
+    this.formStudent.patchValue({
+      filiere: event.option.value,
+    });
+  }
+
+  updateForm2(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.formStudent.patchValue({
+      niveau: inputValue,
+    });
+  }
+  updateFormWithSelectedOption2(event: MatAutocompleteSelectedEvent) {
+    this.formStudent.patchValue({
+      niveau: event.option.value,
     });
   }
 }

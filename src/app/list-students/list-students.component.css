@@ -1,8 +1,16 @@
 .custom-modal-width {
-    width: 90%; 
-    max-width: 800px; 
+    width: 90%;
+    max-width: 800px;
 }
 
-ul li{
+ul li {
     color: #002C6c;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
 }

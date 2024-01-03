@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,10 +8,12 @@ import {
 import { LoginService } from '../services/login.service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { LoginData, Root, RootLogin } from '../models/Root';
+import { LoginData, RootLogin } from '../models/Root';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
-
+import { Subscription } from 'rxjs';
+import { AES, enc } from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -19,8 +21,9 @@ import { UserService } from '../services/user.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginForm!: FormGroup;
+  private suscription: Subscription = new Subscription();
   constructor(
     private loginService: LoginService,
     private fb: FormBuilder,
@@ -32,32 +35,36 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
+  ngOnDestroy(): void {
+    this.suscription.unsubscribe();
+  }
   login() {
     console.log(this.loginForm.value);
-    return this.loginService
-      .login<RootLogin<LoginData>>(this.loginForm.value)
-      .subscribe((x: RootLogin<LoginData>) => {
-        if (x.code === 200) {
-          // if (
-          //   x.data!.user.role == 'Responsable pédagogique' ||
-          //   x.data!.user.role == 'Admin'
-          // ) {
-          //   this.router.navigate(['/verify']);
-          // }
-          this.router.navigate(['/verify']);
-          console.log(x.data);
-          
-          localStorage.setItem('user', JSON.stringify(x.data!.user));
-          this.userService.setUser(x.data!.user);
-        } else {
-          console.log(x);
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'email ou mot de passe invalide',
-          });
-        }
-      });
+    this.suscription.add(
+      this.loginService
+        .login<RootLogin<LoginData>>(this.loginForm.value)
+        .subscribe((x: RootLogin<LoginData>) => {
+          if (x.code === 200) {
+            // const encryptedToken = CryptoJS.AES.encrypt(
+            //   x.data!.token,
+            //   'MYKEY4DEMO'
+            // ).toString();
+            localStorage.setItem('token', x.data!.token);
+            localStorage.setItem('user', JSON.stringify(x.data!.user));
+            this.userService.setUser(x.data!.user);
+            this.router.navigate(['/verify']);
+            console.log(x.data);
+          } else {
+            console.log(x);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'email ou mot de passe invalide',
+              confirmButtonColor: '#002C6c',
+            });
+          }
+        })
+    );
   }
   isActive: boolean = true;
   get email() {

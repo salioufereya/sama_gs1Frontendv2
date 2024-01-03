@@ -13,9 +13,13 @@ export class IsExistComponent {
   @Input() message: string = '';
   @Input() student!: Student | null;
   @Output() closed = new EventEmitter<boolean>();
-
+  viewDiplome: boolean = false;
 
   close() {
     this.closed.emit(false);
+  }
+  setView() {
+    console.log('setView');
+    this.viewDiplome = !this.viewDiplome;
   }
 }

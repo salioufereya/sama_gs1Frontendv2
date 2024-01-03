@@ -3,10 +3,11 @@ export interface Root<T> {
   message: string;
   data: T[];
 }
+
 export interface RootLogin<T> {
   code: number;
   message: string;
-  data: T;
+  data?: T;
 }
 
 export interface Login {
@@ -97,4 +98,14 @@ export interface Reset {
 export interface Civility {
   id: number;
   libelle: string;
+}
+
+export interface GtinByEcole {
+  id_ecole: number;
+  numero_gtin: string;
+}
+
+export interface ChekExistGtin {
+  code: number;
+  message: string;
 }

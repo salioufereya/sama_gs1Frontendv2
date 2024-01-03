@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { StudentService } from '../services/student.service';
 import { RootLogin, Student } from '../models/Root';
 import {
@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { IsExistComponent } from './is-exist/is-exist.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-verify',
@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   styleUrl: './verify.component.css',
   imports: [CommonModule, ReactiveFormsModule, IsExistComponent],
 })
-export class VerifyComponent implements OnInit {
+export class VerifyComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (localStorage.getItem('user')) {
       let user = localStorage.getItem('user');
@@ -26,11 +26,14 @@ export class VerifyComponent implements OnInit {
     }
     this.formStudent.get('id_ecole')?.setValue(this.id_ecole);
   }
-  monMessage = 'Salut Enfant!';
-  isVerification:boolean = true;
-  textInput:String = "Vérifier le numéro du dipôlme";
+  isVerification: boolean = true;
+  textInput: string = 'Vérifier le numéro du dipôlme';
   private studentService = inject(StudentService);
+  private suscription: Subscription = new Subscription();
   constructor(private fb: FormBuilder) {}
+  ngOnDestroy(): void {
+    this.suscription.unsubscribe();
+  }
   id_ecole!: number;
   student!: Student | null;
   num_gtin!: string;
@@ -43,28 +46,32 @@ export class VerifyComponent implements OnInit {
 
   formStudent: FormGroup = this.fb.group({
     id_ecole: ['', Validators.required],
-    numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
+    numero_gtin: [
+      '',
+      [Validators.required, Validators.minLength(8), Validators.maxLength(13)],
+    ],
   });
 
   get numero_gtin() {
     return this.formStudent.get('numero_gtin');
   }
   getSudent() {
-    return this.studentService
-      .verify<RootLogin<Student>>(this.formStudent.value)
-      .subscribe((student) => {
-        this.clicked = true;
-        if (student.code == 200) {
-          console.log(student);
-          this.student = student.data;
-          this.isVerification = true;
-        } else {
-          console.log(student);
-          this.student = null;
+    this.suscription.add(
+      this.studentService
+        .verify<RootLogin<Student>>(this.formStudent.value)
+        .subscribe((student) => {
+          this.clicked = true;
           this.isVerification = false;
-          this.numero_gtin?.reset();
-        }
-      });
+          if (student.code == 200) {
+            console.log(student);
+            this.student = student.data!;
+          } else {
+            console.log(student);
+            this.student = null;
+            this.numero_gtin?.reset();
+          }
+        })
+    );
   }
 
   canVerif: boolean = false;

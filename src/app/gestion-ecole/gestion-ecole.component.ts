@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,8 @@ import { UserService } from '../services/user.service';
 import { EcoleService } from '../services/ecole.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gestion-ecole',
@@ -29,17 +31,22 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   ],
   styleUrl: './gestion-ecole.component.css',
 })
-export class GestionEcoleComponent implements OnInit {
+export class GestionEcoleComponent implements OnInit, OnDestroy {
   [x: string]: any;
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private ecoleService: EcoleService
+    private ecoleService: EcoleService,
+    private router: Router
   ) {}
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   formTouched: boolean = false;
   prevusialiser: boolean = false;
   user!: User;
   defaultPdfSrc: string = '';
+  private subscription: Subscription = new Subscription();
   ngOnInit() {
     if (localStorage.getItem('user')) {
       let ue = localStorage.getItem('user');
@@ -59,10 +66,15 @@ export class GestionEcoleComponent implements OnInit {
       this.telephone_bureau?.setValue(this.user.ecole.numero_bureau);
       this.photo = this.user.ecole.logo;
       this.formValue.get('photo')?.setValue(this.photo);
+      this.formValue
+        .get('numero_autorisation')
+        ?.setValue(this.user.ecole.numero_autorisation);
     }
-    this.formValue.valueChanges.subscribe((val) => {
-      this.formTouched = true;
-    });
+    this.subscription.add(
+      this.formValue.valueChanges.subscribe((val) => {
+        this.formTouched = true;
+      })
+    );
   }
   photo!: any;
   photo_diplome!: any;
@@ -71,7 +83,7 @@ export class GestionEcoleComponent implements OnInit {
     id_system: ['', [Validators.required]],
     nom: ['', [Validators.required, Validators.minLength(2)]],
     date_creation: ['', [Validators.required]],
-    numero_autorisation: [''],
+    numero_autorisation: ['', Validators.required],
     photo: ['', [Validators.required]],
     adresse: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
@@ -115,18 +127,26 @@ export class GestionEcoleComponent implements OnInit {
   }
   modify() {
     console.log(this.formValue.value);
-    this.ecoleService
-      .update<RootLogin<User>, User>('ecoles/modifier', this.formValue.value)
-      .subscribe((ecole: RootLogin<User>) => {
-        this.userService.setUser(ecole.data!);
-        console.log(ecole);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: `${ecole.message}`,
-        });
-      });
+    this.subscription.add(
+      this.ecoleService
+        .update<RootLogin<User>, User>('ecoles/modifier', this.formValue.value)
+        .subscribe((ecole: RootLogin<User>) => {
+          this.userService.setUser(ecole.data!);
+          console.log(ecole);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: `${ecole.message}`,
+            confirmButtonColor: '#002C6c',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/verify']);
+            }
+          });
+        })
+    );
   }
+
   existTof: boolean = true;
   pdfSelected: boolean = false;
   deletePhoto() {

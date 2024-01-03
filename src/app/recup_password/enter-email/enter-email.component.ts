@@ -37,6 +37,7 @@ export class EnterEmailComponent {
             icon: 'success',
             title: 'Success',
             text: `${result.message}`,
+            confirmButtonColor: '#002C6c',
           });
           this.resetForm.reset();
         },

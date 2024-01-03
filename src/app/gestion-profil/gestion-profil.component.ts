@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { Civility, RootLogin, User } from '../models/Root';
 import Swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-profil',
@@ -21,15 +22,21 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
   templateUrl: './gestion-profil.component.html',
   styleUrl: './gestion-profil.component.css',
 })
-export class GestionProfilComponent implements OnInit {
+export class GestionProfilComponent implements OnInit, OnDestroy {
   [x: string]: any;
   constructor(
     private fb: FormBuilder,
     private profileService: ProfilService,
     private userService: UserService
   ) {}
+  private subscription: Subscription = new Subscription();
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   formTouched: boolean = false;
   user!: User;
+
   ngOnInit() {
     if (localStorage.getItem('user')) {
       let ue = localStorage.getItem('user');
@@ -37,12 +44,14 @@ export class GestionProfilComponent implements OnInit {
       this.id_system?.setValue(this.user.id);
       this.formValue.patchValue(this.user);
       this.photo = this.user.photo;
-      this.formValue.get('civilite')?.patchValue(this.user.civilite)
+      this.formValue.get('civilite')?.patchValue(this.user.civilite);
     }
-    this.formValue.valueChanges.subscribe((val) => {
-      console.log(val);
-      this.formTouched = true;
-    });
+    this.subscription.add(
+      this.formValue.valueChanges.subscribe((val) => {
+        console.log(val);
+        this.formTouched = true;
+      })
+    );
   }
   photo!: any;
   photo_diplome!: any;
@@ -103,17 +112,19 @@ export class GestionProfilComponent implements OnInit {
   }
   modify() {
     console.log(this.formValue.value);
-    this.profileService
-      .update<RootLogin<User>, User>('users/modifier', this.formValue.value)
-      .subscribe((student: RootLogin<User>) => {
-        this.formValue.patchValue(student.data!);
-        this.userService.setUser(student.data!);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: `${student.message}`,
-        });
-      });
+    this.subscription.add(
+      this.profileService
+        .update<RootLogin<User>, User>('users/modifier', this.formValue.value)
+        .subscribe((student: RootLogin<User>) => {
+          this.formValue.patchValue(student.data!);
+          this.userService.setUser(student.data!);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: `${student.message}`,
+          });
+        })
+    );
   }
 
   exisToff: boolean = true;

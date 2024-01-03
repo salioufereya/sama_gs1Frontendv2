@@ -1,4 +1,4 @@
-<div class="flex relative flex-items h-[90vh] flex-col">
+<div class="flex relative flex-items mt-2 w-full  h-[90vh] flex-col bg-slate-100">
     <div class="h-20 w-full mt-3 flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText   bg-slate-100 items-center justify-center">
             <button> GESTION DES INFOS DE L'ECOLE</button>
@@ -92,7 +92,7 @@
                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 </div>
                                 <div class="relative w-full">
-                                    <input  type="file"
+                                    <input  type="file" disabled
                                         (change)="handlePdf($event)"
                                         class="block h-14 p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                         placeholder="">
@@ -177,8 +177,7 @@
         </div>
     </form>
     <div class="flex  items-center justify-center flex-col md:flex-row">
-
-        <div class="w-full h-[250px]  mt-5 flex justify-end items-end">
+        <div class="w-full fixed bottom-0 h-[250px]  mt-5 flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>
     </div>

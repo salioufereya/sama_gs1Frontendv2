@@ -1,4 +1,4 @@
-<div class="flex flex-items h-[90vh] flex-col">
+<div class="flex flex-items h-[90vh] flex-col bg-slate-100">
     <div class="mt-2   w-full flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText bg-slate-100 items-center justify-center">
             <button> AJOUT ÉTUDIANT</button>
@@ -23,7 +23,7 @@
                                     <label for="fileInput"
                                         class="inline-flex justify-center cursor-pointer items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
                                         Charger
-                                        <input id="fileInput" type="file" class="hidden" 
+                                        <input id="fileInput" type="file" class="hidden"
                                             (change)="handleFileInput($event)" accept="image/*">
                                     </label>
                                     <button type="button" (click)="deletePhoto()"
@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full  md:w-2/3 flex flex-col">
+            <div class="w-full mb-5 :mb-0 md:w-2/3 flex flex-col">
                 <div class="p-3">
                     <div
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
@@ -97,9 +97,9 @@
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Département :</mat-label>
-                                    <input matInput formControlName="departement" [matAutocomplete]="auto"
+                                    <input matInput formControlName="departement" [matAutocomplete]="autoDepatement"
                                         (change)="updateForm($event)" placeholder="">
-                                    <mat-autocomplete #auto="matAutocomplete"
+                                    <mat-autocomplete #autoDepatement="matAutocomplete"
                                         (optionSelected)="updateFormWithSelectedOption($event)">
                                         <mat-option *ngFor="let suggestion of suggestions$ | async"
                                             [value]="suggestion">
@@ -118,23 +118,29 @@
                         </div>
                         <div class="div7 relative">
                             <div>
-                                <mat-form-field style="width: 100%;">
-                                    <mat-label>Filiére</mat-label>
-                                    <mat-select formControlName="filiere_id" required>
-                                        <mat-option>--</mat-option>
-                                        @for (filiere of filieres$ | async; track filiere) {
-                                        <mat-option [value]="filiere.id">{{filiere.libelle}}</mat-option>
-                                        }
-                                    </mat-select>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Filiére :</mat-label>
+                                    <input matInput formControlName="filiere" [matAutocomplete]="autoFiliere"
+                                        (change)="updateForm1($event)" placeholder="">
+                                    <mat-autocomplete #autoFiliere="matAutocomplete"
+                                        (optionSelected)="updateFormWithSelectedOption1($event)">
+                                        <mat-option *ngFor="let filiere of suggestionFilieres$ | async"
+                                            [value]="filiere">
+                                            {{ filiere }}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
                             </div>
-                            <div *ngIf="filiere_id!.invalid && (filiere_id!.dirty || filiere_id!.touched)"
+                            <div *ngIf="filiere!.invalid && (filiere!.dirty || filiere!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="filiere_id!.errors?.['required']">La filiere est obligatoire</div>
+                                <div *ngIf="filiere!.errors?.['required']">La filiere est obligatoire</div>
+                                <div *ngIf="filiere!.errors?.['minlength']">
+                                    Veillez saisir minimum 2 caracteres
+                                </div>
                             </div>
                         </div>
                         <div class="div8 relative">
-                            <div>
+                            <!-- <div>
                                 <mat-form-field style="width: 100%;">
                                     <mat-label>Niveau d'étude</mat-label>
                                     <mat-select formControlName="niveau_id" required>
@@ -145,10 +151,28 @@
                                     </mat-select>
                                     <mat-hint>{{departement!.value?.sound}}</mat-hint>
                                 </mat-form-field>
+                            </div> -->
+
+                            <div>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Niveau d'étude :</mat-label>
+                                    <input matInput formControlName="niveau" [matAutocomplete]="autoNiveau"
+                                        (change)="updateForm2($event)" placeholder="">
+                                    <mat-autocomplete #autoNiveau="matAutocomplete"
+                                        (optionSelected)="updateFormWithSelectedOption2($event)">
+                                        <mat-option *ngFor="let niveau of suggestionNiveau$ | async" [value]="niveau">
+                                            {{ niveau }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
                             </div>
-                            <div *ngIf="niveau_id!.invalid && (niveau_id!.dirty || niveau_id!.touched)"
+
+                            <div *ngIf="niveau!.invalid && (niveau!.dirty || niveau!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="niveau_id!.errors?.['required']">Le niveau d'étude est obligatoire</div>
+                                <div *ngIf="niveau!.errors?.['required']">Le niveau d'étude est obligatoire</div>
+                                <div *ngIf="niveau!.errors?.['minlength']">
+                                    Veillez saisir minimum 2 caracteres
+                                </div>
                             </div>
                         </div>
                         <div class="div9 relative">
@@ -177,13 +201,16 @@
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="date_obtention!.errors?.['required']">La date d'obtention est obligatoire
                                 </div>
+                                <div *ngIf="date_obtention!.errors?.['ValidateDateRange']">La date saisie est invalide
+                                </div>
                             </div>
                         </div>
                         <div class="div11 relative">
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Numéro GTIN :</mat-label>
-                                    <input matInput formControlName="numero_gtin" placeholder="6046000076543">
+                                    <input matInput formControlName="numero_gtin" placeholder="6046000076543"
+                                        (input)="EtudiantIsExist($event)">
                                 </mat-form-field>
                             </div>
                             <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
@@ -192,6 +219,9 @@
                                 <div *ngIf="numero_gtin!.errors?.['minlength']">
                                     Veillez saisir minimum 8 caracteres
                                 </div>
+                            </div>
+                            <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
+                                L'étudiant avec ce numéro GTIN existe déjà
                             </div>
                         </div>
                         <div class="div12 relative">
@@ -210,20 +240,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-around mt-3">
+                    <div class="flex items-center relative justify-around mt-3">
                         <span
                             class="primarycolor  cursor-pointer flex items-center justify-center text-white  rounded-md h-12 w-32">Annuler</span>
                         <button class="bgOrange1  text-white rounded-md h-12 w-32"
-                            [disabled]="formStudent.invalid || !exisToff ">Ajouter</button>
+                            [disabled]="formStudent.invalid || !exisToff || etudiantExist ">Ajouter</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    <div class="flex  items-center justify-center flex-col md:flex-row">
-        <div class="w-full h-[250px] flex justify-end items-end">
+    <div class=" hidden md:flex items-center justify-center flex-col md:flex-row">
+        <div class="w-full  fixed  bottom-0 h-[250px] flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>
-        
+
     </div>
 </div>

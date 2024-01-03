@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { User } from '../models/Root';
 import { UserService } from '../services/user.service';
+import { Subscription } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +14,17 @@ import { UserService } from '../services/user.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
   isSidebarOpen = false;
-  constructor(private router: Router, private userService: UserService) {}
+  private subscription: Subscription = new Subscription();
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private logoutService: LoginService
+  ) {}
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -22,16 +32,21 @@ export class SidebarComponent {
   user!: User;
   role!: string | string[];
   ngOnInit() {
-    this.userService.getUser.subscribe((users) => {
-      this.user = users!;
-    });
+    this.subscription.add(
+      this.userService.getUser.subscribe((users) => {
+        this.user = users!;
+      })
+    );
     if (localStorage.getItem('user')) {
       let ue = localStorage.getItem('user');
       this.user = JSON.parse(ue!);
       this.role = this.user.role;
     }
   }
-
+  isZ50 = false;
+  toggleZ50() {
+    this.isZ50 = !this.isZ50;
+  }
   loggout() {
     Swal.fire({
       title: 'Voulez vous vraiment se déconnecter?',
@@ -44,8 +59,11 @@ export class SidebarComponent {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
+        this.logoutService.logout(this.user.id).subscribe((result) => {
+          console.log(result);
+        });
         localStorage.removeItem('user');
-        localStorage.removeItem('tkn');
+        localStorage.removeItem('token');
         this.router.navigate(['/login']);
       }
     });

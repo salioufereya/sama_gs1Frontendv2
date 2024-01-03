@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { Reset } from 'src/app/models/Root';
 import { RootService } from 'src/app/services/root.service';
@@ -26,6 +26,7 @@ export class EnterNewPasswordComponent {
   constructor(
     private fb: FormBuilder,
     route: ActivatedRoute,
+    private router: Router,
     private resetService: RootService
   ) {
     this.newPasswordForm = this.fb.group(
@@ -50,6 +51,11 @@ export class EnterNewPasswordComponent {
             icon: 'success',
             title: 'Success',
             text: `${data.message}`,
+            confirmButtonColor: '#002C6c',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/login']);
+            }
           });
           this.newPasswordForm.reset();
         },

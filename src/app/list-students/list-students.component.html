@@ -1,27 +1,41 @@
+<mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+
 <div class="flex  h-[90vh] flex-col">
     <div class="h-[15%] bg-slate-100 w-full">
         <div class="flex flex-col md:flex-row   justify-evenly mt-5">
             <div class="flex">
-                <mat-form-field class="w-[250px]">
-                    <mat-label>Recherché</mat-label>
-                    <input matInput placeholder="Search" class="p-2.5 text-sm" required>
-                </mat-form-field>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Recherché par :</mat-label>
+                        <mat-select [(ngModel)]="selectedFilterField" (selectionChange)="onFilterFieldChange($event)">
+                            <mat-option value="nom">Nom</mat-option>
+                            <mat-option value="prenom">Prénom</mat-option>
+                            <mat-option value="filiere">Filière</mat-option>
+                            <mat-option value="numero_gtin">N° vérification</mat-option>
+                            <mat-option value="departement">Département</mat-option>
+                            <mat-option value="niveau">Niveau</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="relative">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Search</mat-label>
+                        <input matInput [(ngModel)]="searchTerm" placeholder="Search">
+                    </mat-form-field>
+                </div>
             </div>
-
             <div>
                 <div class="flex">
                     <mat-form-field class="w-[250px]">
                         <mat-label>Filtré par :</mat-label>
                         <mat-select [(ngModel)]="selected">
-                            <mat-option disabled>Filtrer</mat-option>
+                            <mat-option>Tout</mat-option>
                             <mat-option *ngFor="let item of niveaux$ | async" [value]="item.libelle">
                                 {{ item.libelle }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-
-
             </div>
         </div>
         <div>
@@ -32,12 +46,10 @@
         *ngIf="detail">
         <div class="fixed top-[15%] left-[40%]    z-50  w-[700px] ">
             <div class="relative  bg-white rounded-lg shadow dark:bg-gray-700">
-               
                 <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600">
                     <div class="pt-3 pl-3 font-bold primarycolorText">
-                        <h1 >information detaillée d'un étudiant</h1>
-    
-                       </div>
+                        <h1>informations detaillées d'un étudiant</h1>
+                    </div>
                     <button type="button" (click)="resetdetail()"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="medium-modal">
@@ -48,7 +60,7 @@
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                     </button>
-                    
+
                 </div>
                 <div class="p-2 space-y-2" *ngIf="detailEtudiant">
                     <div class="flex flex-row">
@@ -59,21 +71,25 @@
                                     class="w-72 h-72 m-auto  border border-red-200   shadow">
                             </div>
                         </div>
-                        <div class="w-[40%]">
+                        <div class="w-[40%] flex items-center  flex-col justify-center">
+                            <div class="h-20 w-20">
+                                <img [src]="detailEtudiant.photo" alt=""
+                                    class="w-full cover-fill rounded-full h-full m-auto  border border-red-200   shadow">
+                            </div>
                             <ul class="flex flex-col gap-3 ml-3 mt-2">
                                 <li> <span class="font-bold">N° vérification :{{detailEtudiant.numero_gtin}} </span>
                                 </li>
                                 <li> <span class="font-bold">Matricule : {{detailEtudiant.matricule}} </span></li>
                                 <li> <span class="font-bold">Nom complet : {{detailEtudiant.nom}}
                                         {{detailEtudiant.prenom}} </span> </li>
-                                <li> <span class="font-bold">Niveau : {{detailEtudiant.niveau}} </span> </li>
+                                <li> <span class="font-bold">Niveau : {{detailEtudiant.niveau}} </span></li>
+                                <li> <span class="font-bold">Filiére : {{detailEtudiant.filiere}} </span> </li>
+                                <li> <span class="font-bold">Filiére : {{detailEtudiant.departement}} </span> </li>
                                 <li> <span class="font-bold">Année d’obtention : {{detailEtudiant.date_obtention}}
                                     </span> </li>
                             </ul>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -83,8 +99,8 @@
 
     <!--FinModalDetail-->
     <div class="container p-2 h-[55%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
-        <div class="overflow-x-auto">
-            <table class="min-w-full text-xs shadow-md p-2">
+        <div class="overflow-x-auto h-[85%] ">
+            <table class="min-w-full text-xs shadow-xl pt-2">
                 <thead class="rounded-t-lg dark:bg-gray-700">
                     <tr class="text-right">
                         <th title="Ranking" class="p-3 text-left">ID</th>
@@ -98,7 +114,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-right border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-800" *ngFor="let etudiant of etudiants | studentFiltre:selected   | paginate
+                    <tr class="text-right border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-800" *ngFor="let etudiant of etudiants | filterEtudiant:searchTerm:selectedFilterField    | studentFiltre:selected   | paginate
                         : {
                             itemsPerPage: tableSize,
                             currentPage: page,
@@ -150,14 +166,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex mt-10 justify-content-center h-[8%]">
             <div class="pagination-container">
                 <pagination-controls previousLabel=" Précédant" nextLabel="Suivant"
                     (pageChange)="onTableDataChange($event)">
                 </pagination-controls>
             </div>
         </div>
-        <div class="flex items-center  justify-center mt-5 gap-3">
+        <!-- <div class="flex items-center  justify-center mt-5 gap-3">
             <button
                 class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center orange1  uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
@@ -214,9 +230,9 @@
                     </path>
                 </svg>
             </button>
-        </div>
+        </div> -->
     </div>
-    <div class="w-full h-[30%]">
+    <div class="w-full  fixed bottom-0 h-[30%]">
         <img src="assets/images/eyes.png" alt="" style="width: 100%;">
     </div>
     <!--Modal-->
@@ -227,7 +243,7 @@
             <div class="flex items-center justify-between p-4 md:p-5">
                 <div class="flex items-center justify-center">
                     <h3 class="text-xl  ml-5 font-medium primarycolorText ">
-                        Modification des informations de l'utilisateur
+                        Modification des informations de l'étudiant
                     </h3>
                 </div>
                 <button type="button" (click)="close()"

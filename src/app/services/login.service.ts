@@ -10,4 +10,7 @@ export class LoginService extends RootService {
   login<T>(value: Identifiant): Observable<T> {
     return this.http.post<T>(this.url + '/users/login', value);
   }
+  logout<T>(value: number): Observable<T> {
+    return this.http.post<T>(this.url + '/users/logout', value);
+  }
 }

@@ -10,6 +10,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -22,7 +24,10 @@ const materialModules = [
   MatButtonModule,
   MatIconModule,
   MatMenuModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatProgressSpinnerModule,
 ];
 @NgModule({
   declarations: [],
