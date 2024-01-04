@@ -20,7 +20,7 @@
                 <div class="relative">
                     <mat-form-field appearance="fill">
                         <mat-label>Search</mat-label>
-                        <input matInput [(ngModel)]="searchTerm" placeholder="Search">
+                        <input matInput [(ngModel)]="searchTerm" placeholder="Search" [readonly]="!filter">
                     </mat-form-field>
                 </div>
             </div>
@@ -173,64 +173,6 @@
                 </pagination-controls>
             </div>
         </div>
-        <!-- <div class="flex items-center  justify-center mt-5 gap-3">
-            <button
-                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center orange1  uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" aria-hidden="true" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
-                </svg>
-                Précédant
-            </button>
-            <div class="flex items-center gap-2">
-                <button
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button">
-                    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        1
-                    </span>
-                </button>
-                <button
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button">
-                    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        2
-                    </span>
-                </button>
-                <button
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full bgOrange1 text-center align-middle font-sans text-xs font-medium uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button">
-                    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        3
-                    </span>
-                </button>
-                <button
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button">
-                    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        4
-                    </span>
-                </button>
-                <button
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button">
-                    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        5
-                    </span>
-                </button>
-            </div>
-            <button
-                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center orange1 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
-                Suivant
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" aria-hidden="true" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3">
-                    </path>
-                </svg>
-            </button>
-        </div> -->
     </div>
     <div class="w-full  fixed bottom-0 h-[30%]">
         <img src="assets/images/eyes.png" alt="" style="width: 100%;">
@@ -360,30 +302,39 @@
                             </div>
                         </div>
                         <div class="relative">
-                            <mat-form-field style="width: 100%;">
-                                <mat-label>Filiére</mat-label>
-                                <mat-select formControlName="filiere" required>
-                                    <mat-option>--</mat-option>
-                                    <mat-option *ngFor="let filiere of filieres$ | async"
-                                        [value]="filiere.libelle">{{filiere.libelle}}</mat-option>
-                                </mat-select>
+                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                <mat-label>Filiére :</mat-label>
+                                <input matInput formControlName="filiere" [matAutocomplete]="autoFiliere"
+                                    (change)="updateForm1($event)" placeholder="">
+                                <mat-autocomplete #autoFiliere="matAutocomplete"
+                                    (optionSelected)="updateFormWithSelectedOption1($event)">
+                                    <mat-option *ngFor="let filiere of suggestionFilieres$ | async" [value]="filiere">
+                                        {{ filiere }}
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
                             <div *ngIf="filiere!.invalid && (filiere!.dirty || filiere!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="filiere!.errors?.['required']">La filiere est obligatoire</div>
+                                <div *ngIf="filiere!.errors?.['minlength']">
+                                    Veillez saisir minimum 2 caracteres
+                                </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="flex  flex-col md:flex-row justify-between px-2">
                         <div class="relative">
-                            <mat-form-field style="width: 100%;">
-                                <mat-label>Niveau</mat-label>
-                                <mat-select formControlName="niveau">
-                                    <mat-option>--</mat-option>
-                                    <mat-option *ngFor="let niveau of niveaux$ | async"
-                                        [value]="niveau.libelle">{{niveau.libelle}}</mat-option>
-                                </mat-select>
+                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                <mat-label>Niveau d'étude :</mat-label>
+                                <input matInput formControlName="niveau" [matAutocomplete]="autoNiveau"
+                                    (change)="updateForm2($event)" placeholder="">
+                                <mat-autocomplete #autoNiveau="matAutocomplete"
+                                    (optionSelected)="updateFormWithSelectedOption2($event)">
+                                    <mat-option *ngFor="let niveau of suggestionNiveau$ | async" [value]="niveau">
+                                        {{ niveau }}
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
                             <div *ngIf="niveau!.invalid && (niveau!.dirty || niveau!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
@@ -394,7 +345,8 @@
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Numéro GTIN :</mat-label>
-                                    <input matInput formControlName="numero_gtin" placeholder="6046000076543">
+                                    <input matInput formControlName="numero_gtin" placeholder="6046000076543"
+                                        (input)="EtudiantIsExist($event)">
                                 </mat-form-field>
                             </div>
                             <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
@@ -403,6 +355,9 @@
                                 <div *ngIf="numero_gtin!.errors?.['minlength']">
                                     veillez saisir minimum 8 caracteres
                                 </div>
+                            </div>
+                            <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
+                                L'étudiant avec ce numéro GTIN existe déjà
                             </div>
                         </div>
                     </div>
@@ -426,22 +381,27 @@
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Matricule :</mat-label>
                                     <input matInput formControlName="matricule" placeholder="Matricule">
-                                    <mat-error *ngIf="matricule!.hasError('required')">
-                                        La matricule est obligatoire
-                                    </mat-error>
-                                    <mat-error *ngIf="matricule!.hasError('minlength')">
-                                        La matricule doit contenir au moins X caractères
-                                    </mat-error>
                                 </mat-form-field>
+                            </div>
+                            <div *ngIf="matricule!.invalid && (matricule!.dirty || matricule!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="matricule!.errors?.['required']"> La matricule de l'étudiant est obligatoire
+                                </div>
+                                <div *ngIf="matricule!.errors?.['minlength']">
+                                    La matricule doit contenir au moins 3 caractères
+                                </div>
+                                <div *ngIf="matricule!.errors?.['maxlength']">
+                                    La matricule ne doit pas depasser 10 caractères
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div
                         class="flex items-center justify-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button class="text-white  primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                            [disabled]="formStudent.invalid || !formTouched ">
+                            [disabled]="formStudent.invalid || !formTouched || etudiantExist">
                             Mettre à jour</button>
-                        <button data-modal-hide="medium-modal" type="button"
+                        <button data-modal-hide="medium-modal" type="button" (click)="close()"
                             class="ms-3  rounded-lg border text-sm font-medium text-white  bgOrange1 px-5 py-2.5 ">Annuler</button>
                     </div>
                 </form>

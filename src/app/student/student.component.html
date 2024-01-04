@@ -180,13 +180,18 @@
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Matricule :</mat-label>
                                     <input matInput formControlName="matricule" placeholder="Matricule">
-                                    <mat-error *ngIf="matricule!.hasError('required')">
-                                        La matricule de l'étudiant est obligatoire
-                                    </mat-error>
-                                    <mat-error *ngIf="matricule!.hasError('minlength')">
-                                        La matricule doit contenir au moins X caractères
-                                    </mat-error>
                                 </mat-form-field>
+                            </div>
+                            <div *ngIf="matricule!.invalid && (matricule!.dirty || matricule!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="matricule!.errors?.['required']"> La matricule de l'étudiant est obligatoire
+                                </div>
+                                <div *ngIf="matricule!.errors?.['minlength']">
+                                    La matricule doit contenir au moins 3 caractères
+                                </div>
+                                <div *ngIf="matricule!.errors?.['maxlength']">
+                                    La matricule ne doit pas depasser 10 caractères
+                                </div>
                             </div>
                         </div>
                         <div class="div10 relative">
@@ -254,6 +259,5 @@
         <div class="w-full  fixed  bottom-0 h-[250px] flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>
-
     </div>
 </div>

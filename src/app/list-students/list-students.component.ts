@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StudentService } from '../services/student.service';
 import {
+  ChekExistGtin,
   Civility,
   Filiere,
   Login,
@@ -64,6 +65,9 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   selectedFilterField: string = 'libelle';
   searchTerm: string = '';
   private subscription: Subscription = new Subscription();
+  suggestionFilieres$!: Observable<string[]>;
+  suggestionNiveau$!: Observable<string[]>;
+
   ngOnInit() {
     initFlowbite();
     if (localStorage.getItem('user')) {
@@ -98,13 +102,22 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       niveau: ['', [Validators.required]],
       numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
       date_obtention: ['', [Validators.required]],
-      matricule: ['', [Validators.required]],
+      matricule: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(10)]],
       photo: ['', [Validators.required]],
       photo_diplome: ['', [Validators.required]],
     });
     this.suggestions$ = this.departement!.valueChanges.pipe(
       debounceTime(200),
       switchMap((query) => this.suggestionService.getSuggestions(query))
+    );
+
+    this.suggestionFilieres$ = this.filiere!.valueChanges.pipe(
+      debounceTime(200),
+      switchMap((query) => this.suggestionService.getFilieres(query))
+    );
+    this.suggestionNiveau$ = this.niveau!.valueChanges.pipe(
+      debounceTime(200),
+      switchMap((query) => this.suggestionService.getNiveau(query))
     );
   }
   ngOnDestroy(): void {
@@ -146,9 +159,13 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       );
   }
   edit(etudiant: Student) {
+    console.log(etudiant);
+
     this.modalTrue = true;
     this.formStudent.patchValue(etudiant);
     this.formStudent.get('civilite')?.setValue(etudiant.civilite);
+    this.formStudent.get('filiere')?.setValue(etudiant.filiere);
+    this.formStudent.get('niveau')?.setValue(etudiant.niveau);
     this.formStudent.get('filiere')?.setValue(etudiant.filiere);
     this.photo = etudiant.photo;
     this.formStudent.get('id')?.setValue(etudiant.id);
@@ -311,8 +328,60 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   }
 
   loading$ = this.loader.loading$;
-
+  filter: boolean = false;
   onFilterFieldChange(event: MatSelectChange): void {
     this.selectedFilterField = event.value;
+    this.filter = true;
+  }
+
+  updateForm1(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.formStudent.patchValue({
+      filiere: inputValue,
+    });
+  }
+  updateFormWithSelectedOption1(event: MatAutocompleteSelectedEvent) {
+    this.formStudent.patchValue({
+      filiere: event.option.value,
+    });
+  }
+
+  updateForm2(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.formStudent.patchValue({
+      niveau: inputValue,
+    });
+  }
+  updateFormWithSelectedOption2(event: MatAutocompleteSelectedEvent) {
+    this.formStudent.patchValue({
+      niveau: event.option.value,
+    });
+  }
+
+  etudiantExist: boolean = false;
+
+
+  
+  EtudiantIsExist(event: Event) {
+    let evnt = event.target as HTMLInputElement;
+    if (evnt.value.length >= 8) {
+      this.subscription.add(
+        this.studentService
+          .isExist<ChekExistGtin>({
+            id_ecole: this.id_ecole,
+            numero_gtin: evnt.value,
+          })
+          .subscribe((val: ChekExistGtin) => {
+            console.log(val);
+            if (val.code == 200) {
+              this.etudiantExist = true;
+            } else {
+              this.etudiantExist = false;
+            }
+          })
+      );
+    } else {
+      this.etudiantExist = false;
+    }
   }
 }

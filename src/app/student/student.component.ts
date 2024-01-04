@@ -140,7 +140,10 @@ export class StudentComponent implements OnInit, OnDestroy {
     niveau: ['', [Validators.required, Validators.minLength(2)]],
     numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
     photo: ['', [Validators.required]],
-    matricule: ['', [Validators.required]],
+    matricule: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
+    ],
     date_obtention: [
       '',
       [
@@ -284,6 +287,7 @@ export class StudentComponent implements OnInit, OnDestroy {
             numero_gtin: evnt.value,
           })
           .subscribe((val: ChekExistGtin) => {
+            console.log(val);
             if (val.code == 200) {
               this.etudiantExist = true;
             } else {
