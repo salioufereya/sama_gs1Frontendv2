@@ -48,13 +48,16 @@
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Prénom :</mat-label>
                                     <input matInput formControlName="prenom" placeholder="">
-                                </mat-form-field>
+                                </mat-form-field>*
                             </div>
                             <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="prenom!.errors?.['required']">Le prenom est obligatoire</div>
+                                <div *ngIf="prenom!.errors?.['required']">Le prénom est obligatoire</div>
                                 <div *ngIf="prenom!.errors?.['minlength']">
-                                    Veillez saisir minimum 2 caracteres
+                                    Veillez saisir minimum 2 caractères
+                                </div>
+                                <div *ngIf="prenom!.errors?.['validString']">
+                                    Les caracteres spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                         </div>
@@ -70,6 +73,9 @@
                                 <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
                                 <div *ngIf="nom!.errors?.['minlength']">
                                     Veillez saisir minimum 2 caracteres
+                                </div>
+                                <div *ngIf="nom!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                         </div>
@@ -114,6 +120,9 @@
                                 <div *ngIf="departement!.errors?.['minlength']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
+                                <div *ngIf="departement!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                         <div class="div7 relative">
@@ -137,22 +146,12 @@
                                 <div *ngIf="filiere!.errors?.['minlength']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
+                                <div *ngIf="filiere!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                         <div class="div8 relative">
-                            <!-- <div>
-                                <mat-form-field style="width: 100%;">
-                                    <mat-label>Niveau d'étude</mat-label>
-                                    <mat-select formControlName="niveau_id" required>
-                                        <mat-option>--</mat-option>
-                                        @for (niveau of niveaux$ | async; track niveau) {
-                                        <mat-option [value]="niveau.id">{{niveau.libelle}}</mat-option>
-                                        }
-                                    </mat-select>
-                                    <mat-hint>{{departement!.value?.sound}}</mat-hint>
-                                </mat-form-field>
-                            </div> -->
-
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Niveau d'étude :</mat-label>
@@ -173,6 +172,9 @@
                                 <div *ngIf="niveau!.errors?.['minlength']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
+                                <div *ngIf="niveau!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                         <div class="div9 relative">
@@ -191,6 +193,9 @@
                                 </div>
                                 <div *ngIf="matricule!.errors?.['maxlength']">
                                     La matricule ne doit pas depasser 10 caractères
+                                </div>
+                                <div *ngIf="matricule!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                         </div>
@@ -222,12 +227,16 @@
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="numero_gtin!.errors?.['required']">Le numero gtin est obligatoire</div>
                                 <div *ngIf="numero_gtin!.errors?.['minlength']">
-                                    Veillez saisir minimum 8 caracteres
+                                    Veillez saisir minimum 8 caractères
+                                </div>
+                                <div *ngIf="numero_gtin!.errors?.['validString']">
+                                    Les caractères spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                             <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
                                 L'étudiant avec ce numéro GTIN existe déjà
                             </div>
+
                         </div>
                         <div class="div12 relative">
                             <div class="flex">

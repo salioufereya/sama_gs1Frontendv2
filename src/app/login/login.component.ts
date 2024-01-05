@@ -12,8 +12,7 @@ import { LoginData, RootLogin } from '../models/Root';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
-import { AES, enc } from 'crypto-js';
-import * as CryptoJS from 'crypto-js';
+import { LocalService } from '../services/local.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -28,7 +27,8 @@ export class LoginComponent implements OnDestroy {
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private localStore: LocalService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,12 +45,8 @@ export class LoginComponent implements OnDestroy {
         .login<RootLogin<LoginData>>(this.loginForm.value)
         .subscribe((x: RootLogin<LoginData>) => {
           if (x.code === 200) {
-            // const encryptedToken = CryptoJS.AES.encrypt(
-            //   x.data!.token,
-            //   'MYKEY4DEMO'
-            // ).toString();
-            localStorage.setItem('token', x.data!.token);
-            localStorage.setItem('user', JSON.stringify(x.data!.user));
+            this.localStore.saveData('token1', x.data!.token);
+            this.localStore.saveDataJson('user1', x.data!.user);
             this.userService.setUser(x.data!.user);
             this.router.navigate(['/verify']);
             console.log(x.data);

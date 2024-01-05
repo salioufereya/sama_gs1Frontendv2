@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { IsExistComponent } from './is-exist/is-exist.component';
 import { Subscription } from 'rxjs';
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-verify',
@@ -20,17 +21,23 @@ import { Subscription } from 'rxjs';
 })
 export class VerifyComponent implements OnInit, OnDestroy {
   ngOnInit() {
-    if (localStorage.getItem('user')) {
-      let user = localStorage.getItem('user');
-      this.id_ecole = JSON.parse(user!).ecole_id;
+    // if (localStorage.getItem('user1')) {
+    //   let user = localStorage.getItem('user1');
+    //   this.id_ecole = JSON.parse(user!).ecole_id;
+    // }
+    if (this.localStore.getDataJson('user1')) {
+      console.log('userA', this.localStore.getDataJson('user1'));
+      let user = this.localStore.getDataJson('user1')!;
+      this.id_ecole = user.ecole_id!;
     }
     this.formStudent.get('id_ecole')?.setValue(this.id_ecole);
+
   }
   isVerification: boolean = true;
   textInput: string = 'Vérifier le numéro du dipôlme';
   private studentService = inject(StudentService);
   private suscription: Subscription = new Subscription();
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,private localStore:LocalService) {}
   ngOnDestroy(): void {
     this.suscription.unsubscribe();
   }

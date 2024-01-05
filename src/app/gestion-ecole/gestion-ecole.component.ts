@@ -17,6 +17,7 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-gestion-ecole',
@@ -37,7 +38,8 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userService: UserService,
     private ecoleService: EcoleService,
-    private router: Router
+    private router: Router,
+    private localStore: LocalService
   ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -48,9 +50,9 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
   defaultPdfSrc: string = '';
   private subscription: Subscription = new Subscription();
   ngOnInit() {
-    if (localStorage.getItem('user')) {
-      let ue = localStorage.getItem('user');
-      this.user = JSON.parse(ue!);
+    if (this.localStore.getDataJson('user1')) {
+      let ue = this.localStore.getDataJson('user1');
+      this.user = ue!;
       console.log(this.user);
       this.id_system?.setValue(this.user.ecole.id);
       this.formValue.get('nom')!.patchValue(this.user.ecole.libelle);

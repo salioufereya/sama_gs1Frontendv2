@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { Subscription } from 'rxjs';
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-gestion-profil',
@@ -27,7 +28,8 @@ export class GestionProfilComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private profileService: ProfilService,
-    private userService: UserService
+    private userService: UserService,
+    private localStore: LocalService
   ) {}
   private subscription: Subscription = new Subscription();
 
@@ -38,9 +40,9 @@ export class GestionProfilComponent implements OnInit, OnDestroy {
   user!: User;
 
   ngOnInit() {
-    if (localStorage.getItem('user')) {
-      let ue = localStorage.getItem('user');
-      this.user = JSON.parse(ue!);
+    if (this.localStore.getDataJson('user1')) {
+      let ue = this.localStore.getDataJson('user1');
+      this.user = ue!;
       this.id_system?.setValue(this.user.id);
       this.formValue.patchValue(this.user);
       this.photo = this.user.photo;

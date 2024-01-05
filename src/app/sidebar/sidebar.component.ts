@@ -6,6 +6,7 @@ import { User } from '../models/Root';
 import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,7 +21,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private userService: UserService,
-    private logoutService: LoginService
+    private logoutService: LoginService,
+    private localStore: LocalService
   ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -37,9 +39,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.user = users!;
       })
     );
-    if (localStorage.getItem('user')) {
-      let ue = localStorage.getItem('user');
-      this.user = JSON.parse(ue!);
+    // if (localStorage.getItem('user')) {
+    //   let ue = localStorage.getItem('user');
+    //   this.user = JSON.parse(ue!);
+    //   this.role = this.user.role;
+    // }
+    if (this.localStore.getDataJson('user1')) {
+      console.log('userA', this.localStore.getDataJson('user1'));
+      this.user = this.localStore.getDataJson('user1')!;
       this.role = this.user.role;
     }
   }
@@ -62,8 +69,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.logoutService.logout(this.user.id).subscribe((result) => {
           console.log(result);
         });
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        sessionStorage.clear();
         this.router.navigate(['/login']);
       }
     });

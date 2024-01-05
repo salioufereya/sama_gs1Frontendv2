@@ -98,7 +98,7 @@
 
 
     <!--FinModalDetail-->
-    <div class="container p-2 h-[55%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
+    <div class="container p-2 h-[65%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
         <div class="overflow-x-auto h-[85%] ">
             <table class="min-w-full text-xs shadow-xl pt-2">
                 <thead class="rounded-t-lg dark:bg-gray-700">
@@ -166,7 +166,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="d-flex mt-10 justify-content-center h-[8%]">
+        <div class="d-flex mt-2 justify-content-center h-[8%]">
             <div class="pagination-container">
                 <pagination-controls previousLabel=" Précédant" nextLabel="Suivant"
                     (pageChange)="onTableDataChange($event)">
@@ -243,6 +243,9 @@
                                 <div *ngIf="nom!.errors?.['minlength']">
                                     veillez saisir minimum 2 caracteres
                                 </div>
+                                <div *ngIf="nom!.errors?.['validString']">
+                                    Les caracteres spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                         <div class="relative">
@@ -255,6 +258,9 @@
                                 <div *ngIf="prenom!.errors?.['required']">Le prenom est obligatoire</div>
                                 <div *ngIf="prenom!.errors?.['minlength']">
                                     veillez saisir minimum 2 caracteres
+                                </div>
+                                <div *ngIf="prenom!.errors?.['validString']">
+                                    Les caracteres spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                         </div>
@@ -278,12 +284,15 @@
                                 <div *ngIf="departement!.errors?.['minlength']">
                                     veillez saisir minimum 2 caracteres
                                 </div>
+                                <div *ngIf="departement!.errors?.['validString']">
+                                    Les caracteres spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                         <div>
                             <mat-form-field class="example-full-width" style="width: 100%;">
                                 <mat-label>Ecole :</mat-label>
-                                <input formControlName="ecole" matInput placeholder="Ex. pat@example.com">
+                                <input formControlName="ecole" matInput placeholder="Ex. pat@example.com" readonly>
                             </mat-form-field>
                         </div>
                     </div>
@@ -359,6 +368,9 @@
                             <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
                                 L'étudiant avec ce numéro GTIN existe déjà
                             </div>
+                            <div *ngIf="numero_gtin!.errors?.['validString']">
+                                Les caracteres spéciaux ne sont pas autorisés
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row justify-between px-2">
@@ -393,6 +405,9 @@
                                 <div *ngIf="matricule!.errors?.['maxlength']">
                                     La matricule ne doit pas depasser 10 caractères
                                 </div>
+                                <div *ngIf="matricule!.errors?.['validString']">
+                                    Les caracteres spéciaux ne sont pas autorisés
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -410,6 +425,4 @@
         </div>
     </div>
     <!--Fin Modal-->
-
-
 </div>

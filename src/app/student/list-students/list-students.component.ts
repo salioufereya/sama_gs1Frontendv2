@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { StudentService } from '../services/student.service';
+import { StudentService } from '../../services/student.service';
 import {
   ChekExistGtin,
   Civility,
@@ -10,7 +10,7 @@ import {
   Root,
   RootLogin,
   Student,
-} from '../models/Root';
+} from '../../models/Root';
 import {
   FormBuilder,
   FormGroup,
@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FiltreCoursPipe } from '../shared/pipes/student-filtre.pipe';
+import { FiltreCoursPipe } from '../../shared/pipes/student-filtre.pipe';
 import {
   Observable,
   Subscription,
@@ -28,17 +28,21 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import { NiveauService } from '../niveau.service';
+import { NiveauService } from '../../niveau.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { initFlowbite } from 'flowbite';
-import { AngularMaterialModule } from '../angular-material/angular-material.module';
-import { SuggestionService } from '../suggestion.service';
+import { AngularMaterialModule } from '../../angular-material/angular-material.module';
+import { SuggestionService } from '../../suggestion.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FiliereService } from '../filiere.service';
+import { FiliereService } from '../../filiere.service';
 import Swal from 'sweetalert2';
-import { LoadingService } from '../services/loading.service';
-import { FilterEtudiantPipe } from '../shared/pipes/filter-etudiant.pipe';
+import { LoadingService } from '../../services/loading.service';
+import { FilterEtudiantPipe } from '../../shared/pipes/filter-etudiant.pipe';
 import { MatSelectChange } from '@angular/material/select';
+import { ListStudentService } from 'src/app/services/list-student.service';
+import { LocalService } from 'src/app/services/local.service';
+import { dateRangeValidator } from 'src/app/shared/dateValidator';
+import { ValidateString } from 'src/app/shared/pipes/validateString';
 
 @Component({
   selector: 'app-list-students',
@@ -70,11 +74,17 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     initFlowbite();
-    if (localStorage.getItem('user')) {
-      let user = localStorage.getItem('user');
-      this.id = JSON.parse(user!).ecole_id;
-      this.id_ecole = JSON.parse(user!).ecole_id;
+    if (this.localStore.getDataJson('user1')) {
+      let user = this.localStore.getDataJson('user1');
+      this.id = user?.ecole_id!;
+      this.id_ecole = user?.ecole_id!;
     }
+    this.studentListService.studentAdded$.subscribe((student) => {
+      if (student) {
+        this.etudiants.unshift(student);
+      }
+      console.log('studentAdded', student);
+    });
     this.getNiveau();
     this.getFiliere();
     this.all();
@@ -82,6 +92,8 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       this.formTouched = true;
     });
   }
+  anneeMinimale = 2000;
+  dateMaximale = new Date();
   formStudent: FormGroup;
   constructor(
     private studentService: StudentService,
@@ -89,20 +101,82 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private suggestionService: SuggestionService,
     private filiereService: FiliereService,
-    public loader: LoadingService
+    public loader: LoadingService,
+    private studentListService: ListStudentService,
+    private localStore: LocalService
   ) {
     this.formStudent = this.fb.group({
       id: ['', [Validators.required]],
-      nom: ['', [Validators.required, Validators.minLength(2)]],
-      prenom: ['', [Validators.required, Validators.minLength(2)]],
-      departement: ['', [Validators.required, Validators.minLength(2)]],
-      ecole: ['', [Validators.required, Validators.minLength(2)]],
+      nom: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(30),
+          ValidateString,
+        ],
+      ],
+      prenom: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(30),
+          ValidateString,
+        ],
+      ],
+      departement: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+          ValidateString,
+        ],
+      ],
+      ecole: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+          ValidateString,
+        ],
+      ],
       civilite: ['', [Validators.required, Validators.minLength(2)]],
-      filiere: ['', [Validators.required]],
-      niveau: ['', [Validators.required]],
-      numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
-      date_obtention: ['', [Validators.required]],
-      matricule: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(10)]],
+      filiere: [
+        '',
+        [Validators.required, ValidateString, Validators.maxLength(20)],
+      ],
+      niveau: [
+        '',
+        [Validators.required, ValidateString, Validators.maxLength(20)],
+      ],
+      numero_gtin: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          ValidateString,
+        ],
+      ],
+      date_obtention: [
+        '',
+        [
+          Validators.required,
+          dateRangeValidator(this.anneeMinimale, this.dateMaximale),
+        ],
+      ],
+      matricule: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10),
+          ValidateString,
+        ],
+      ],
       photo: ['', [Validators.required]],
       photo_diplome: ['', [Validators.required]],
     });
@@ -129,7 +203,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   page: number = 1;
   count: number = 0;
-  tableSize: number = 8;
+  tableSize: number = 10;
   detail: boolean = false;
   onTableDataChange(event: any) {
     this.page = event;
@@ -148,19 +222,16 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   }
   niveaux$!: Observable<Niveau[]>;
   getNiveau() {
-    this.niveaux$ = this.niveauService
-      .byId<Root<Niveau>>(this.id, 'niveaux/ecole')
-      .pipe(
-        map((response: Root<Niveau>) => response.data),
-        catchError((error) => {
-          console.error('Error fetching niveau data:', error);
-          return of([]);
-        })
-      );
+    this.niveaux$ = this.niveauService.all<Root<Niveau>>('niveaux').pipe(
+      map((response: Root<Niveau>) => response.data),
+      catchError((error) => {
+        console.error('Error fetching niveau data:', error);
+        return of([]);
+      })
+    );
   }
   edit(etudiant: Student) {
     console.log(etudiant);
-
     this.modalTrue = true;
     this.formStudent.patchValue(etudiant);
     this.formStudent.get('civilite')?.setValue(etudiant.civilite);
@@ -174,7 +245,6 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   close() {
     this.modalTrue = false;
   }
-
   get nom() {
     return this.formStudent.get('nom');
   }
@@ -357,11 +427,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       niveau: event.option.value,
     });
   }
-
   etudiantExist: boolean = false;
-
-
-  
   EtudiantIsExist(event: Event) {
     let evnt = event.target as HTMLInputElement;
     if (evnt.value.length >= 8) {

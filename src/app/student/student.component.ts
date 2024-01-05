@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import {
@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { StudentService } from '../services/student.service';
 import { NiveauService } from '../niveau.service';
 import {
@@ -17,6 +17,7 @@ import {
   Filiere,
   Niveau,
   Root,
+  RootLogin,
   Student,
 } from '../models/Root';
 import { CommonModule } from '@angular/common';
@@ -36,6 +37,10 @@ import { SuggestionService } from '../suggestion.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { dateRangeValidator } from '../shared/dateValidator';
+import { ListStudentsComponent } from './list-students/list-students.component';
+import { ListStudentService } from '../services/list-student.service';
+import { ValidateString } from '../shared/pipes/validateString';
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-student',
@@ -61,13 +66,18 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   suggestionNiveau$!: Observable<string[]>;
 
+  @ViewChild(ListStudentsComponent) list!: ListStudentsComponent;
+
   isDropdownOpen: any;
   constructor(
     private fb: FormBuilder,
     private studentService: StudentService,
     private niveauService: NiveauService,
     private filiereService: FiliereService,
-    private suggestionService: SuggestionService
+    private suggestionService: SuggestionService,
+    private router: Router,
+    private studentListService: ListStudentService,
+    private localStore: LocalService
   ) {
     this.suggestions$ = this.departement!.valueChanges.pipe(
       debounceTime(200),
@@ -86,10 +96,11 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.souscription.unsubscribe();
   }
   ngOnInit(): void {
-    if (localStorage.getItem('user')) {
-      let user = localStorage.getItem('user');
-      this.id = JSON.parse(user!).ecole_id;
+    if (this.localStore.getDataJson('user1')) {
+      let user = this.localStore.getDataJson('user1');
+      this.id = user?.ecole_id!;
     }
+
     this.getFiliere();
     this.getNiveau();
     this.formStudent.get('ecole_id')!.setValue(this.id);
@@ -132,13 +143,61 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   formStudent: FormGroup = this.fb.group({
     civilite: ['', [Validators.required, Validators.minLength(2)]],
-    nom: ['', [Validators.required, Validators.minLength(2)]],
-    prenom: ['', [Validators.required, Validators.minLength(2)]],
+    nom: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+        Validators.maxLength(30),
+      ],
+    ],
+    prenom: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+        Validators.maxLength(30),
+      ],
+    ],
     ecole_id: ['', [Validators.required]],
-    departement: ['', [Validators.required, Validators.minLength(2)]],
-    filiere: ['', [Validators.required, Validators.minLength(2)]],
-    niveau: ['', [Validators.required, Validators.minLength(2)]],
-    numero_gtin: ['', [Validators.required, Validators.minLength(8)]],
+    departement: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+        Validators.maxLength(30),
+      ],
+    ],
+    filiere: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+        Validators.maxLength(20),
+      ],
+    ],
+    niveau: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+        Validators.maxLength(20),
+      ],
+    ],
+    numero_gtin: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        ValidateString,
+        Validators.maxLength(20),
+      ],
+    ],
     photo: ['', [Validators.required]],
     matricule: [
       '',
@@ -225,9 +284,14 @@ export class StudentComponent implements OnInit, OnDestroy {
     console.log(this.formStudent.value);
     this.souscription.add(
       this.studentService
-        .add<Root<Student>>('etudiants', this.formStudent.value)
+        .add<RootLogin<Student>>('etudiants', this.formStudent.value)
         .subscribe(
-          (student: Root<Student>) => {
+          (student: RootLogin<Student>) => {
+            // this.list.etudiants.unshift(...student.data);
+            this.studentListService.addStudent(student.data);
+            console.log('stu', student.data);
+
+            this.router.navigate(['/listStudents']);
             Swal.fire({
               icon: 'success',
               title: 'Success',
