@@ -21,23 +21,18 @@ import { LocalService } from '../services/local.service';
 })
 export class VerifyComponent implements OnInit, OnDestroy {
   ngOnInit() {
-    // if (localStorage.getItem('user1')) {
-    //   let user = localStorage.getItem('user1');
-    //   this.id_ecole = JSON.parse(user!).ecole_id;
-    // }
     if (this.localStore.getDataJson('user1')) {
       console.log('userA', this.localStore.getDataJson('user1'));
       let user = this.localStore.getDataJson('user1')!;
       this.id_ecole = user.ecole_id!;
     }
     this.formStudent.get('id_ecole')?.setValue(this.id_ecole);
-
   }
   isVerification: boolean = true;
-  textInput: string = 'Vérifier le numéro du dipôlme';
+  // textInput: string = 'Vérifier le numéro du dipôlme';
   private studentService = inject(StudentService);
   private suscription: Subscription = new Subscription();
-  constructor(private fb: FormBuilder,private localStore:LocalService) {}
+  constructor(private fb: FormBuilder, private localStore: LocalService) {}
   ngOnDestroy(): void {
     this.suscription.unsubscribe();
   }
@@ -63,6 +58,12 @@ export class VerifyComponent implements OnInit, OnDestroy {
     return this.formStudent.get('numero_gtin');
   }
   getSudent() {
+    if (!this.isVerification) {
+      this.clicked = false;
+      this.isVerification = true;
+      this.numero_gtin?.reset();
+      return;
+    }
     this.suscription.add(
       this.studentService
         .verify<RootLogin<Student>>(this.formStudent.value)
@@ -75,7 +76,6 @@ export class VerifyComponent implements OnInit, OnDestroy {
           } else {
             console.log(student);
             this.student = null;
-            this.numero_gtin?.reset();
           }
         })
     );
@@ -89,5 +89,7 @@ export class VerifyComponent implements OnInit, OnDestroy {
 
   enlever(clicked: boolean) {
     this.clicked = clicked;
+    this.isVerification = true;
+    this.numero_gtin?.reset();
   }
 }

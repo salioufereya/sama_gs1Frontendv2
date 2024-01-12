@@ -42,18 +42,18 @@
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
                         <span>Identification de l'étudiant</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-2 relative">
                         <div class="div3 relative">
                             <div class="flex">
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Prénom :</mat-label>
                                     <input matInput formControlName="prenom" placeholder="">
-                                </mat-form-field>*
+                                </mat-form-field>
                             </div>
                             <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="prenom!.errors?.['required']">Le prénom est obligatoire</div>
-                                <div *ngIf="prenom!.errors?.['minlength']">
+                                <div *ngIf="prenom!.errors?.['minlength'] && !prenom!.errors?.['validString']">
                                     Veillez saisir minimum 2 caractères
                                 </div>
                                 <div *ngIf="prenom!.errors?.['validString']">
@@ -71,7 +71,7 @@
                             <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
-                                <div *ngIf="nom!.errors?.['minlength']">
+                                <div *ngIf="nom!.errors?.['minlength'] && !nom!.errors?.['validString']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="nom!.errors?.['validString']">
@@ -117,7 +117,8 @@
                             <div *ngIf="departement!.invalid && (departement!.dirty || departement!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="departement!.errors?.['required']">Le département est obligatoire</div>
-                                <div *ngIf="departement!.errors?.['minlength']">
+                                <div
+                                    *ngIf="departement!.errors?.['minlength'] && !departement!.errors?.['validString']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="departement!.errors?.['validString']">
@@ -143,7 +144,7 @@
                             <div *ngIf="filiere!.invalid && (filiere!.dirty || filiere!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="filiere!.errors?.['required']">La filiere est obligatoire</div>
-                                <div *ngIf="filiere!.errors?.['minlength']">
+                                <div *ngIf="filiere!.errors?.['minlength'] && !filiere!.errors?.['validString']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="filiere!.errors?.['validString']">
@@ -169,7 +170,7 @@
                             <div *ngIf="niveau!.invalid && (niveau!.dirty || niveau!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="niveau!.errors?.['required']">Le niveau d'étude est obligatoire</div>
-                                <div *ngIf="niveau!.errors?.['minlength']">
+                                <div *ngIf="niveau!.errors?.['minlength'] && !niveau!.errors?.['validString']">
                                     Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="niveau!.errors?.['validString']">
@@ -188,10 +189,10 @@
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="matricule!.errors?.['required']"> La matricule de l'étudiant est obligatoire
                                 </div>
-                                <div *ngIf="matricule!.errors?.['minlength']">
+                                <div *ngIf="matricule!.errors?.['minlength'] && !matricule!.errors?.['validString']">
                                     La matricule doit contenir au moins 3 caractères
                                 </div>
-                                <div *ngIf="matricule!.errors?.['maxlength']">
+                                <div *ngIf="matricule!.errors?.['maxlength'] && !matricule!.errors?.['validString']">
                                     La matricule ne doit pas depasser 10 caractères
                                 </div>
                                 <div *ngIf="matricule!.errors?.['validString']">
@@ -225,12 +226,16 @@
                             </div>
                             <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="numero_gtin!.errors?.['required']">Le numero gtin est obligatoire</div>
-                                <div *ngIf="numero_gtin!.errors?.['minlength']">
+                                <div *ngIf="numero_gtin!.errors?.['required']">Le numéro d'identification est
+                                    obligatoire</div>
+                                <div *ngIf="numero_gtin!.errors?.['minlength'] && !numero_gtin!.errors?.['validGtin']">
                                     Veillez saisir minimum 8 caractères
                                 </div>
-                                <div *ngIf="numero_gtin!.errors?.['validString']">
-                                    Les caractères spéciaux ne sont pas autorisés
+                                <div *ngIf="numero_gtin!.errors?.['maxlength'] && !numero_gtin!.errors?.['validGtin']">
+                                    Maximum 20 caractères
+                                </div>
+                                <div *ngIf="numero_gtin!.errors?.['validGtin'] && !numero_gtin!.errors?.['required']">
+                                    Numéro d'identification invalide
                                 </div>
                             </div>
                             <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
@@ -238,6 +243,13 @@
                             </div>
 
                         </div>
+                        <!--previsualiser diplome-->
+                        <div *ngIf="previewdiplome"
+                            class="fixed  cursor-pointer top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full ">
+                            <img [src]="photo_diplome" class="object-cover rounded-lg" alt="Avatar"
+                                (click)="setView()" />
+                        </div>
+                        <!--previsualiser diplome-->
                         <div class="div12 relative">
                             <div class="flex">
                                 <span
@@ -253,10 +265,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="text-bold absolute right-0 bottom-0 cursor-pointer" *ngIf="previ">
+                            <span class="text-bold" (click)="setView()"> Prévisualiser</span>
+                        </div>
                     </div>
                     <div class="flex items-center relative justify-around mt-3">
                         <span
-                            class="primarycolor  cursor-pointer flex items-center justify-center text-white  rounded-md h-12 w-32">Annuler</span>
+                            class="primarycolor  cursor-pointer flex items-center justify-center text-white  rounded-md h-12 w-32"
+                            (click)="reset()">Annuler</span>
                         <button class="bgOrange1  text-white rounded-md h-12 w-32"
                             [disabled]="formStudent.invalid || !exisToff || etudiantExist ">Ajouter</button>
                     </div>

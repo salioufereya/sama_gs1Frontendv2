@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { User } from '../models/Root';
+import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 export class LocalService {
+  constructor(private loginService: LoginService, private router: Router) {}
   key = '"((-"-(@-èèé("""" +Gs1_';
   public saveData(key: string, value: string) {
     sessionStorage.setItem(key, this.encrypt(value));
@@ -53,6 +56,9 @@ export class LocalService {
       return jsonObject;
     } catch (error) {
       console.error('Error decrypting and parsing object:', error);
+      //this.loginService.logout();
+      sessionStorage.clear();
+      this.router.navigate(['/login']);
       return null;
     }
   }

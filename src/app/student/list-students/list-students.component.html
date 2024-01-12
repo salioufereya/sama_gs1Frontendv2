@@ -1,5 +1,4 @@
 <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
-
 <div class="flex  h-[90vh] flex-col">
     <div class="h-[15%] bg-slate-100 w-full">
         <div class="flex flex-col md:flex-row   justify-evenly mt-5">
@@ -18,13 +17,13 @@
                     </mat-form-field>
                 </div>
                 <div class="relative">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field appearance="fill" class="w-[450px]">
                         <mat-label>Search</mat-label>
                         <input matInput [(ngModel)]="searchTerm" placeholder="Search" [readonly]="!filter">
                     </mat-form-field>
                 </div>
             </div>
-            <div>
+            <!-- <div>
                 <div class="flex">
                     <mat-form-field class="w-[250px]">
                         <mat-label>Filtré par :</mat-label>
@@ -36,7 +35,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div>
         </div>
@@ -48,28 +47,33 @@
             <div class="relative  bg-white rounded-lg shadow dark:bg-gray-700">
                 <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600">
                     <div class="pt-3 pl-3 font-bold primarycolorText">
-                        <h1>informations detaillées d'un étudiant</h1>
+                        <h1>informations detaillées de l'étudiant</h1>
                     </div>
                     <button type="button" (click)="resetdetail()"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="medium-modal">
-
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                     </button>
-
                 </div>
                 <div class="p-2 space-y-2" *ngIf="detailEtudiant">
                     <div class="flex flex-row">
                         <div class="w-[40%] mx-3">
                             <label for="" class="primarycolorText">Photo Du diplôme</label>
                             <div class="mt-2">
-                                <img [src]="detailEtudiant.photo_diplome" alt=""
-                                    class="w-72 h-72 m-auto  border border-red-200   shadow">
+                                <img [src]="detailEtudiant.photo_diplome" alt="" (click)="setView()"
+                                    class="w-72 h-72 m-auto cursor-pointer border border-red-200   shadow">
                             </div>
+                            <!--previsualiser diplome-->
+                            <div *ngIf="previewdiplome"
+                                class="fixed  cursor-pointer top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full ">
+                                <img [src]="detailEtudiant.photo_diplome" class="object-cover rounded-lg" alt="Avatar"
+                                    (click)="setView()" />
+                            </div>
+                            <!--previsualiser diplome-->
                         </div>
                         <div class="w-[40%] flex items-center  flex-col justify-center">
                             <div class="h-20 w-20">
@@ -77,14 +81,14 @@
                                     class="w-full cover-fill rounded-full h-full m-auto  border border-red-200   shadow">
                             </div>
                             <ul class="flex flex-col gap-3 ml-3 mt-2">
+                                <li> <span class="font-bold">Nom complet : {{detailEtudiant.nom}}
+                                        {{detailEtudiant.prenom}} </span> </li>
                                 <li> <span class="font-bold">N° vérification :{{detailEtudiant.numero_gtin}} </span>
                                 </li>
                                 <li> <span class="font-bold">Matricule : {{detailEtudiant.matricule}} </span></li>
-                                <li> <span class="font-bold">Nom complet : {{detailEtudiant.nom}}
-                                        {{detailEtudiant.prenom}} </span> </li>
-                                <li> <span class="font-bold">Niveau : {{detailEtudiant.niveau}} </span></li>
+                                <li> <span class="font-bold">Département : {{detailEtudiant.departement}} </span> </li>
                                 <li> <span class="font-bold">Filiére : {{detailEtudiant.filiere}} </span> </li>
-                                <li> <span class="font-bold">Filiére : {{detailEtudiant.departement}} </span> </li>
+                                <li> <span class="font-bold">Niveau : {{detailEtudiant.niveau}} </span></li>
                                 <li> <span class="font-bold">Année d’obtention : {{detailEtudiant.date_obtention}}
                                     </span> </li>
                             </ul>
@@ -94,9 +98,6 @@
             </div>
         </div>
     </div>
-
-
-
     <!--FinModalDetail-->
     <div class="container p-2 h-[65%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
         <div class="overflow-x-auto h-[85%] ">
@@ -178,7 +179,6 @@
         <img src="assets/images/eyes.png" alt="" style="width: 100%;">
     </div>
     <!--Modal-->
-
     <div *ngIf="modalTrue"
         class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full backdrop-brightness-50 ">
         <div class="bg-white rounded-sm">
@@ -198,11 +198,11 @@
                     </svg>
                 </button>
             </div>
-            <div class="md:w-[550px] w-[350px]">
+            <div class="md:w-[650px] w-[350px]">
                 <form [formGroup]="formStudent" (ngSubmit)="modify()">
-                    <div class="text-center flex my-3 flex-row justify-center items-center">
+                    <div class="text-center flex my-2 flex-row justify-center items-center">
                         <div>
-                            <label for="">Photo De l'étudiant</label>
+                            <label for="" class="primarycolorText font-bold">Etudiant</label>
                             <div class="mt-2">
                                 <img [src]="photo" alt=""
                                     class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
@@ -216,7 +216,7 @@
                             </div>
                         </div>
                         <div>
-                            <label for="">Photo Du diplome</label>
+                            <label for="" class="primarycolorText font-bold">Diplome</label>
                             <div class="mt-2">
                                 <img [src]="photo_diplome" alt=""
                                     class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
@@ -231,24 +231,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex  flex-col md:flex-row justify-between px-2">
-                        <div class="relative">
+                    <div class="flex flex-col my-2 md:flex-row justify-between px-2">
+
+                        <div class="relative w-[45%]">
                             <mat-form-field style="width: 100%;">
-                                <mat-label>Nom :</mat-label>
-                                <input formControlName="nom" matInput placeholder="nom">
+                                <mat-label>Civilité</mat-label>
+                                <mat-select formControlName="civilite" required>
+                                    <mat-option *ngFor="let civil of civility"
+                                        [value]="civil.libelle">{{civil.libelle}}</mat-option>
+                                </mat-select>
                             </mat-form-field>
-                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
-                                <div *ngIf="nom!.errors?.['minlength']">
-                                    veillez saisir minimum 2 caracteres
-                                </div>
-                                <div *ngIf="nom!.errors?.['validString']">
-                                    Les caracteres spéciaux ne sont pas autorisés
-                                </div>
-                            </div>
                         </div>
-                        <div class="relative">
+
+                        <div class="relative w-[45%]">
+                            <mat-form-field class="example-full-width" style="width: 100%;">
+                                <mat-label>Ecole :</mat-label>
+                                <input formControlName="ecole" matInput placeholder="Ex. pat@example.com" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex  flex-col md:flex-row justify-between px-2">
+                        <div class="relative w-[45%]">
                             <mat-form-field class="example-full-width" style="width: 100%;">
                                 <mat-label>Prénom :</mat-label>
                                 <input formControlName="prenom" matInput placeholder="prenom">
@@ -256,17 +259,15 @@
                             <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="prenom!.errors?.['required']">Le prenom est obligatoire</div>
-                                <div *ngIf="prenom!.errors?.['minlength']">
-                                    veillez saisir minimum 2 caracteres
+                                <div *ngIf="prenom!.errors?.['minlength'] && !prenom!.errors?.['validString']">
+                                    Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="prenom!.errors?.['validString']">
-                                    Les caracteres spéciaux ne sont pas autorisés
+                                    Pas de caracteres spéciaux
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex  flex-col md:flex-row justify-between px-2">
-                        <div class="flex">
+                        <div class="flex relative w-[45%]">
                             <mat-form-field class="example-full-width" style="width: 100%;">
                                 <mat-label>Département :</mat-label>
                                 <input matInput formControlName="departement" [matAutocomplete]="auto"
@@ -281,36 +282,34 @@
                             <div *ngIf="departement!.invalid && (departement!.dirty || departement!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="departement!.errors?.['required']">Le departement est obligatoire</div>
-                                <div *ngIf="departement!.errors?.['minlength']">
-                                    veillez saisir minimum 2 caracteres
+                                <div
+                                    *ngIf="departement!.errors?.['minlength'] && !departement!.errors?.['validString']">
+                                    Veillez saisir minimum 2 caracteres
                                 </div>
                                 <div *ngIf="departement!.errors?.['validString']">
-                                    Les caracteres spéciaux ne sont pas autorisés
+                                    Pas de caracteres spéciaux
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width" style="width: 100%;">
-                                <mat-label>Ecole :</mat-label>
-                                <input formControlName="ecole" matInput placeholder="Ex. pat@example.com" readonly>
-                            </mat-form-field>
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row justify-between px-2">
-                        <div class="relative">
+                        <div class="relative w-[45%]">
                             <mat-form-field style="width: 100%;">
-                                <mat-label>Civilité</mat-label>
-                                <mat-select formControlName="civilite" required>
-                                    <mat-option *ngFor="let civil of civility"
-                                        [value]="civil.libelle">{{civil.libelle}}</mat-option>
-                                </mat-select>
+                                <mat-label>Nom :</mat-label>
+                                <input formControlName="nom" matInput placeholder="nom">
                             </mat-form-field>
-                            <div *ngIf="civilite!.invalid && (civilite!.dirty || civilite!.touched)"
+                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="civilite!.errors?.['required']">La civilité est obligatoire</div>
+                                <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
+                                <div *ngIf="nom!.errors?.['minlength'] && !nom!.errors?.['validString']">
+                                    Veillez saisir minimum 2 caracteres
+                                </div>
+                                <div *ngIf="nom!.errors?.['validString']">
+                                    Pas de caracteres spéciaux
+                                </div>
                             </div>
                         </div>
-                        <div class="relative">
+                        <div class="relative  w-[45%]">
                             <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                 <mat-label>Filiére :</mat-label>
                                 <input matInput formControlName="filiere" [matAutocomplete]="autoFiliere"
@@ -325,15 +324,39 @@
                             <div *ngIf="filiere!.invalid && (filiere!.dirty || filiere!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="filiere!.errors?.['required']">La filiere est obligatoire</div>
-                                <div *ngIf="filiere!.errors?.['minlength']">
-                                    Veillez saisir minimum 2 caracteres
+                                <div *ngIf="filiere!.errors?.['minlength'] && !filiere!.errors?.['validString']">
+                                    Veillez saisir minimum 2 caractéres
+                                </div>
+                                <div *ngIf="filiere!.errors?.['validString']">
+                                    Pas de caracteres spéciaux
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="flex  flex-col md:flex-row justify-between px-2">
-                        <div class="relative">
+                        <div class="div9 relative  w-[45%]">
+                            <div>
+                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
+                                    <mat-label>Matricule :</mat-label>
+                                    <input matInput formControlName="matricule" placeholder="Matricule">
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="matricule!.invalid && (matricule!.dirty || matricule!.touched)"
+                                class="flex absolute top-14 left-0 text-red-600 error-message">
+                                <div *ngIf="matricule!.errors?.['required']"> La matricule de l'étudiant est obligatoire
+                                </div>
+                                <div *ngIf="matricule!.errors?.['minlength'] && !matricule!.errors?.['validString']">
+                                    3 caractères minimum
+                                </div>
+                                <div *ngIf="matricule!.errors?.['maxlength'] && !matricule!.errors?.['validString']">
+                                    10 caractères au maximum
+                                </div>
+                                <div *ngIf="matricule!.errors?.['validString']">
+                                    Pas de caractères spéciaux
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative  w-[45%]">
                             <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                 <mat-label>Niveau d'étude :</mat-label>
                                 <input matInput formControlName="niveau" [matAutocomplete]="autoNiveau"
@@ -348,9 +371,14 @@
                             <div *ngIf="niveau!.invalid && (niveau!.dirty || niveau!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="niveau!.errors?.['required']">Le niveau est obligatoire</div>
+                                <div *ngIf="niveau!.errors?.['validString']">
+                                    Pas de caracteres spéciaux
+                                </div>
                             </div>
                         </div>
-                        <div class="div11 relative">
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between px-2">
+                        <div class="div11 relative  w-[45%]">
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Numéro GTIN :</mat-label>
@@ -360,21 +388,23 @@
                             </div>
                             <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="numero_gtin!.errors?.['required']">Le numero gtin est obligatoire</div>
-                                <div *ngIf="numero_gtin!.errors?.['minlength']">
+                                <div *ngIf="numero_gtin!.errors?.['required']">Le numéro d'identification est
+                                    obligatoire</div>
+                                <div *ngIf="numero_gtin!.errors?.['maxlength'] && !numero_gtin!.errors?.['validGtin']">
+                                    20 caractères au maximum
+                                </div>
+                                <div *ngIf="numero_gtin!.errors?.['minlength'] && !numero_gtin!.errors?.['validGtin']">
                                     veillez saisir minimum 8 caracteres
+                                </div>
+                                <div *ngIf="numero_gtin!.errors?.['validGtin'] && !numero_gtin!.errors?.['required']">
+                                    Numéro d'Identification invalide
                                 </div>
                             </div>
                             <div class="flex absolute top-14 left-0 text-red-600 error-message" *ngIf="etudiantExist">
                                 L'étudiant avec ce numéro GTIN existe déjà
                             </div>
-                            <div *ngIf="numero_gtin!.errors?.['validString']">
-                                Les caracteres spéciaux ne sont pas autorisés
-                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-col md:flex-row justify-between px-2">
-                        <div class="div10 relative">
+                        <div class="div10 relative  w-[45%]">
                             <div>
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
                                     <mat-label>Date d'obtention :</mat-label>
@@ -385,28 +415,6 @@
                             <div *ngIf="date_obtention!.invalid && (date_obtention!.dirty || date_obtention!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
                                 <div *ngIf="date_obtention!.errors?.['required']">La date d'obtention est obligatoire
-                                </div>
-                            </div>
-                        </div>
-                        <div class="div9 relative">
-                            <div>
-                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                    <mat-label>Matricule :</mat-label>
-                                    <input matInput formControlName="matricule" placeholder="Matricule">
-                                </mat-form-field>
-                            </div>
-                            <div *ngIf="matricule!.invalid && (matricule!.dirty || matricule!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="matricule!.errors?.['required']"> La matricule de l'étudiant est obligatoire
-                                </div>
-                                <div *ngIf="matricule!.errors?.['minlength']">
-                                    La matricule doit contenir au moins 3 caractères
-                                </div>
-                                <div *ngIf="matricule!.errors?.['maxlength']">
-                                    La matricule ne doit pas depasser 10 caractères
-                                </div>
-                                <div *ngIf="matricule!.errors?.['validString']">
-                                    Les caracteres spéciaux ne sont pas autorisés
                                 </div>
                             </div>
                         </div>

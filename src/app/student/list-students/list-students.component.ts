@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FiltreCoursPipe } from '../../shared/pipes/student-filtre.pipe';
+import { FiltreStudentPipe } from '../../shared/pipes/student-filtre.pipe';
 import {
   Observable,
   Subscription,
@@ -43,6 +43,7 @@ import { ListStudentService } from 'src/app/services/list-student.service';
 import { LocalService } from 'src/app/services/local.service';
 import { dateRangeValidator } from 'src/app/shared/dateValidator';
 import { ValidateString } from 'src/app/shared/pipes/validateString';
+import { ValidateGtin } from 'src/app/shared/pipes/validateGtin';
 
 @Component({
   selector: 'app-list-students',
@@ -52,7 +53,7 @@ import { ValidateString } from 'src/app/shared/pipes/validateString';
   imports: [
     CommonModule,
     FormsModule,
-    FiltreCoursPipe,
+    FiltreStudentPipe,
     NgxPaginationModule,
     AngularMaterialModule,
     ReactiveFormsModule,
@@ -60,6 +61,9 @@ import { ValidateString } from 'src/app/shared/pipes/validateString';
   ],
 })
 export class ListStudentsComponent implements OnInit, OnDestroy {
+  setView() {
+    this.previewdiplome = !this.previewdiplome;
+  }
   id!: number;
   suggestions$!: Observable<string[]>;
   filieres$!: Observable<Filiere[]>;
@@ -71,6 +75,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   suggestionFilieres$!: Observable<string[]>;
   suggestionNiveau$!: Observable<string[]>;
+  previewdiplome: boolean = false;
 
   ngOnInit() {
     initFlowbite();
@@ -112,7 +117,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(30),
+          Validators.maxLength(50),
           ValidateString,
         ],
       ],
@@ -121,7 +126,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(30),
+          Validators.maxLength(50),
           ValidateString,
         ],
       ],
@@ -130,7 +135,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(20),
+          Validators.maxLength(50),
           ValidateString,
         ],
       ],
@@ -139,18 +144,18 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(20),
+          Validators.maxLength(50),
           ValidateString,
         ],
       ],
       civilite: ['', [Validators.required, Validators.minLength(2)]],
       filiere: [
         '',
-        [Validators.required, ValidateString, Validators.maxLength(20)],
+        [Validators.required, ValidateString, Validators.maxLength(50)],
       ],
       niveau: [
         '',
-        [Validators.required, ValidateString, Validators.maxLength(20)],
+        [Validators.required, ValidateString, Validators.maxLength(50)],
       ],
       numero_gtin: [
         '',
@@ -158,7 +163,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(20),
-          ValidateString,
+          ValidateGtin,
         ],
       ],
       date_obtention: [

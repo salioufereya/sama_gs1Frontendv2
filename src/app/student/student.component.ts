@@ -41,6 +41,7 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { ListStudentService } from '../services/list-student.service';
 import { ValidateString } from '../shared/pipes/validateString';
 import { LocalService } from '../services/local.service';
+import { ValidateGtin } from '../shared/pipes/validateGtin';
 
 @Component({
   selector: 'app-student',
@@ -57,11 +58,16 @@ import { LocalService } from '../services/local.service';
   styleUrl: './student.component.css',
 })
 export class StudentComponent implements OnInit, OnDestroy {
+  setView() {
+    this.previewdiplome = !this.previewdiplome;
+    // console.log("test view");
+  }
+  previewdiplome: boolean = false;
   toggleDropdown() {
     throw new Error('Method not implemented.');
   }
   suggestions$!: Observable<string[]>;
-
+  previ: boolean = false;
   suggestionFilieres$!: Observable<string[]>;
 
   suggestionNiveau$!: Observable<string[]>;
@@ -194,7 +200,7 @@ export class StudentComponent implements OnInit, OnDestroy {
       [
         Validators.required,
         Validators.minLength(8),
-        ValidateString,
+        ValidateGtin,
         Validators.maxLength(20),
       ],
     ],
@@ -278,6 +284,7 @@ export class StudentComponent implements OnInit, OnDestroy {
       this.photo_diplome = e.target?.result as string;
       this.formStudent.get('photo_diplome')?.setValue(this.photo_diplome);
       this.exisToff = true;
+      this.previ = true;
     });
   }
   addStudent() {
@@ -417,5 +424,8 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.formStudent.patchValue({
       niveau: event.option.value,
     });
+  }
+  reset() {
+    this.formStudent.reset();
   }
 }

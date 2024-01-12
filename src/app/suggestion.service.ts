@@ -6,19 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SuggestionService extends RootService {
-
-
-
   getSuggestions(query: string): Observable<string[]> {
     return this.http.get<string[]>(`${this.url}/suggestions?query=${query}`);
   }
 
   getFilieres(query: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.url}/suggestionFilieres?query=${query}`);
+    return this.http.get<string[]>(
+      `${this.url}/suggestionFilieres?query=${query}`
+    );
   }
 
   getNiveau(query: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.url}/suggestionNiveaux?query=${query}`);
+    return this.http.get<string[]>(
+      `${this.url}/suggestionNiveaux?query=${query}`
+    );
   }
 
+  getEcole(query: string): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${this.url}/suggestionNiveaux?query=${query}`
+    );
+  }
+  getTypeEcoles(query: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.url}/suggestionTypeEcoles?query=${query}`);
+  }
 }

@@ -1,8 +1,8 @@
-import { StudentFiltrePipe } from './student-filtre.pipe';
+import { FiltreStudentPipe } from './student-filtre.pipe';
 
 describe('StudentFiltrePipe', () => {
   it('create an instance', () => {
-    const pipe = new StudentFiltrePipe();
+    const pipe = new FiltreStudentPipe();
     expect(pipe).toBeTruthy();
   });
 });

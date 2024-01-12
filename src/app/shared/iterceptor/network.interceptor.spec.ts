@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptor } from '@angular/common/http';
 
 import { NetworkInterceptor } from './network.interceptor';
 
 describe('networkInterceptor', () => {
-  const interceptor: HttpInterceptorFn = (req, next) =>
-    TestBed.runInInjectionContext(() => NetworkInterceptor(req, next));
+  const interceptor: HttpInterceptor = TestBed.inject(NetworkInterceptor);
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        NetworkInterceptor,
+      ],
+    });
   });
 
   it('should be created', () => {

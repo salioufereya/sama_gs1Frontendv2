@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'studentFiltre',
   standalone: true,
 })
-export class FiltreCoursPipe implements PipeTransform {
+export class FiltreStudentPipe implements PipeTransform {
   transform(items: any[], selected: any): any[] {
     if (!items || !selected || selected == 'Filtrer') {
       return items;

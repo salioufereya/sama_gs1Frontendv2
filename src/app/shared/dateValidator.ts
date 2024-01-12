@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import * as moment from 'moment';
 
-export function dateRangeValidator(year: number, maxDate: Date) {
+export function dateRangeValidator(year: number, maxDate: any) {
   return (control: AbstractControl): ValidationErrors | null => {
     const dateValue = moment(control.value);
 
@@ -13,7 +13,6 @@ export function dateRangeValidator(year: number, maxDate: Date) {
     if (Number(validationString) < year || dateValue.isAfter(maxDate)) {
       return { ValidateDateRange: { invalid: true } };
     }
-
     return null;
   };
 }

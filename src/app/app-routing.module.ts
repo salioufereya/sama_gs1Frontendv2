@@ -14,6 +14,11 @@ import { ListStudentsComponent } from './student/list-students/list-students.com
 import { GestionProfilComponent } from './gestion-profil/gestion-profil.component';
 import { GestionEcoleComponent } from './gestion-ecole/gestion-ecole.component';
 import { AuthGuard } from './guards/auth-guard';
+import { CreerEcoleComponent } from './admin/creer-ecole/creer-ecole.component';
+import { VerifyProductComponent } from './verify-product/verify-product.component';
+import { SideBarProductComponent } from './side-bar-product/side-bar-product.component';
+import { SideBarAdminComponent } from './admin/side-bar-admin/side-bar-admin.component';
+import { ChoiceProfilDiplomeComponent } from './choice-profil-diplome/choice-profil-diplome.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,8 +28,12 @@ const routes: Routes = [
   { path: 'sidebar', component: SidebarComponent, canActivate: [AuthGuard] },
   { path: 'verify', component: VerifyComponent, canActivate: [AuthGuard] },
   { path: 'choice_profil', component: ChoiceProfilComponent },
+  { path: 'choice_profil_diplome', component: ChoiceProfilDiplomeComponent },
+  { path: 'creer_ecole', component: CreerEcoleComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'verify_product', component: SideBarProductComponent },
   { path: 'students', component: StudentComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: SideBarAdminComponent, canActivate: [AuthGuard] },
   {
     path: 'listStudents',
     component: ListStudentsComponent,
