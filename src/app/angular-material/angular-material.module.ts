@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatBadgeModule } from '@angular/material/badge';
 const materialModules = [
   MatAutocompleteModule,
   MatFormFieldModule,
@@ -28,6 +28,7 @@ const materialModules = [
   MatButtonModule,
   MatToolbarModule,
   MatProgressSpinnerModule,
+  MatBadgeModule,
 ];
 @NgModule({
   declarations: [],

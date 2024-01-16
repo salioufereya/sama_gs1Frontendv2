@@ -43,11 +43,29 @@
     </div>
     <div class="h-full  flex flex-col primarycolor dark:bg-gray-800">
         <ul class="font-medium ">
-            <div class="orange1 py-2 flex justify-center">
+            <div class="orange1 pt-2 flex justify-center">
                 MON ESPACE ADMIN
             </div>
             <img [src]="user.photo" *ngIf="user.role !== 'Admin'" class="mx-auto mb-4 w-32 rounded-lg" alt="Avatar" />
             <img [src]="user.ecole.logo" *ngIf="user.role=='Admin'" class="mx-auto mb-4 w-44 rounded-lg" alt="Avatar" />
+            <div class="flex items-center justify-center" *ngIf="user.role=='Admin'">
+                <button mat-icon-button color="white" (click)="openModal()">
+                    <mat-icon [matBadge]="cartItm" matBadgeSize="medium" style="color: white; font-size: 35px;"
+                        [matBadgeHidden]="cartItm===0">notifications</mat-icon>
+                </button>
+            </div>
+            <div class="flex justify-center">
+                <div *ngIf="open && cartItm !== 0"
+                class="absolute py-2 px-2 bg-white shadow w-[205px] h-[200px] rounded-sm">
+                Le Responsable a ajouté {{ cartItm <= 1 ? 'un nouveau étudiant' : 'des nouveaux étudiants' }}
+                <div class="absolute bottom-1 p-1 flex items-center justify-center">
+                    <button class="bg-[#002C6c] rounded-md w-[75px] text-white mr-2" (click)="openModal()">Fermer</button>
+                    <button class="bg-[#F26334] w-[75px] rounded-md text-white" (click)="view()">Voir</button>
+                </div>
+            </div>
+            
+            </div>
+
             <li *ngIf="user.role=='!Admin'">
                 <span
                     class="flex items-center p-2 text-white  rounded-lg dark:text-white   dark:hover:bg-gray-700 group">

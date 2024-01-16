@@ -44,6 +44,7 @@ import { LocalService } from 'src/app/services/local.service';
 import { dateRangeValidator } from 'src/app/shared/dateValidator';
 import { ValidateString } from 'src/app/shared/pipes/validateString';
 import { ValidateGtin } from 'src/app/shared/pipes/validateGtin';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-list-students',
@@ -65,6 +66,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     this.previewdiplome = !this.previewdiplome;
   }
   id!: number;
+  role!: string;
   suggestions$!: Observable<string[]>;
   filieres$!: Observable<Filiere[]>;
   photo!: any;
@@ -83,6 +85,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       let user = this.localStore.getDataJson('user1');
       this.id = user?.ecole_id!;
       this.id_ecole = user?.ecole_id!;
+      this.role = user!.role;
     }
     this.studentListService.studentAdded$.subscribe((student) => {
       if (student) {
@@ -108,7 +111,8 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     private filiereService: FiliereService,
     public loader: LoadingService,
     private studentListService: ListStudentService,
-    private localStore: LocalService
+    private localStore: LocalService,
+    private userService: UserService
   ) {
     this.formStudent = this.fb.group({
       id: ['', [Validators.required]],
@@ -208,7 +212,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   page: number = 1;
   count: number = 0;
-  tableSize: number = 10;
+  tableSize: number = 7;
   detail: boolean = false;
   onTableDataChange(event: any) {
     this.page = event;
@@ -326,6 +330,38 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         })
     );
   }
+  item!: number;
+  valider(student: Student) {
+    this.subscription.add(
+      this.studentService
+        .update<RootLogin<Student>, Student>('etudiants/valider', student)
+        .subscribe((student: RootLogin<Student>) => {
+          console.log(student);
+          if (student.code == 200) {
+            this.userService.getItemNumer.subscribe((etu) => {
+              this.item = etu;
+            });
+            this.userService.setItemNumber(this.item - 1);
+            this.formStudent.reset();
+            const index = this.etudiants.findIndex(
+              (item) => item.id === student.data!.id
+            );
+            if (index !== -1) {
+              this.etudiants[index] = student.data!;
+            }
+            this.detailEtudiant.etat = 'valide';
+            this.detail = false;
+          }
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: `${student.message}`,
+            confirmButtonColor: '#002C6c',
+          });
+          this.close();
+        })
+    );
+  }
 
   getFiliere() {
     this.filieres$ = this.filiereService
@@ -358,6 +394,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       this.formStudent.get('photo_diplome')?.setValue(this.photo_diplome);
     });
   }
+  cartItm: number = 0;
 
   delete(id: number) {
     Swal.fire({
@@ -380,10 +417,22 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
                 this.etudiants = this.etudiants.filter(
                   (etudiant) => etudiant.id !== id
                 );
+                this.userService.getItemNumer.subscribe((etu) => {
+                  this.item = etu;
+                });
+                this.userService.setItemNumber(this.item - 1);
+                this.detail = false;
                 Swal.fire({
                   title: 'Supprimé!',
                   text: `${resulat.message}`,
                   icon: 'success',
+                  confirmButtonColor: '#002C6c',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: `${resulat.message}`,
                   confirmButtonColor: '#002C6c',
                 });
               }

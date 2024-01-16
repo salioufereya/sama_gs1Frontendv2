@@ -11,9 +11,7 @@ import { LocalService } from './local.service';
 export class AuthService extends RootService {
   private logoutService = inject(LoginService);
   private localStore = inject(LocalService);
-
   private router = inject(Router);
-
   logout() {
     this.logoutService.logout(1).subscribe((result) => {
       console.log(result);
@@ -27,7 +25,8 @@ export class AuthService extends RootService {
   }
   user!: User;
   public getUser() {
-    this.user = this.localStore.decryptObject('user1')!;
+    this.user = this.localStore.getDataJson('user1')!;
+    console.log(this.user.role);
     return this.user.role;
   }
 }

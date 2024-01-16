@@ -42,6 +42,7 @@ import { ListStudentService } from '../services/list-student.service';
 import { ValidateString } from '../shared/pipes/validateString';
 import { LocalService } from '../services/local.service';
 import { ValidateGtin } from '../shared/pipes/validateGtin';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-student',
@@ -58,6 +59,7 @@ import { ValidateGtin } from '../shared/pipes/validateGtin';
   styleUrl: './student.component.css',
 })
 export class StudentComponent implements OnInit, OnDestroy {
+  id_ecole!: number;
   setView() {
     this.previewdiplome = !this.previewdiplome;
     // console.log("test view");
@@ -81,6 +83,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     private niveauService: NiveauService,
     private filiereService: FiliereService,
     private suggestionService: SuggestionService,
+    private userService: UserService,
     private router: Router,
     private studentListService: ListStudentService,
     private localStore: LocalService
@@ -101,15 +104,20 @@ export class StudentComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.souscription.unsubscribe();
   }
+  ecole!: string;
   ngOnInit(): void {
     if (this.localStore.getDataJson('user1')) {
       let user = this.localStore.getDataJson('user1');
       this.id = user?.ecole_id!;
+      this.id_ecole = user?.ecole_id!;
+      this.role = this.formStudent.get('role_user')!.setValue(user?.role)!;
+      this.ecole = user?.ecole.libelle!;
     }
 
     this.getFiliere();
     this.getNiveau();
     this.formStudent.get('ecole_id')!.setValue(this.id);
+    this.all();
   }
   civility: Civility[] = [
     { id: 1, libelle: 'Monsieur' },
@@ -134,6 +142,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   niveaux$!: Observable<Niveau[]>;
   niveaux: Niveau[] = [];
   id!: number;
+  role!: string;
   private souscription: Subscription = new Subscription();
   getNiveau() {
     this.niveaux$ = this.niveauService
@@ -149,6 +158,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   formStudent: FormGroup = this.fb.group({
     civilite: ['', [Validators.required, Validators.minLength(2)]],
+    role_user: ['', Validators.required],
     nom: [
       '',
       [
@@ -287,6 +297,23 @@ export class StudentComponent implements OnInit, OnDestroy {
       this.previ = true;
     });
   }
+  cartItm!: number;
+  all() {
+    this.souscription.add(
+      this.studentService
+        .byId<Root<Student>>(this.id_ecole, 'etudiants/ecole')
+        .subscribe((student) => {
+          console.log(student);
+          this.cartItm = 0;
+          student.data.forEach((element) => {
+            if (element.etat == 'enAttente') {
+              this.cartItm = this.cartItm + 1;
+            }
+          });
+          this.userService.setItemNumber(this.cartItm);
+        })
+    );
+  }
   addStudent() {
     console.log(this.formStudent.value);
     this.souscription.add(
@@ -297,8 +324,8 @@ export class StudentComponent implements OnInit, OnDestroy {
             // this.list.etudiants.unshift(...student.data);
             this.studentListService.addStudent(student.data);
             console.log('stu', student.data);
-
             this.router.navigate(['/listStudents']);
+            
             Swal.fire({
               icon: 'success',
               title: 'Success',

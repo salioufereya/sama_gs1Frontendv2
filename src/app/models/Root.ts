@@ -29,6 +29,7 @@ export interface User {
   adresse: string;
   civilite: string;
   photo?: string;
+  etat: string;
 }
 
 export interface Ecole {
@@ -59,6 +60,7 @@ export interface Student {
   matricule?: string;
   numero_gtin: string;
   date_obtention: string;
+  etat: string;
 }
 
 export interface Class {

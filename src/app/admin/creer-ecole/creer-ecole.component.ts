@@ -37,6 +37,10 @@ import Swal from 'sweetalert2';
   styleUrl: './creer-ecole.component.css',
 })
 export class CreerEcoleComponent implements OnInit {
+add(arg0: number) {
+  console.log(arg0);
+  
+}
   modalTrue: boolean = false;
   defaultPdfSrc: string = '';
   private subscription: Subscription = new Subscription();

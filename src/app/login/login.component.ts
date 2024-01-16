@@ -44,12 +44,17 @@ export class LoginComponent implements OnDestroy {
       this.loginService
         .login<RootLogin<LoginData>>(this.loginForm.value)
         .subscribe((x: RootLogin<LoginData>) => {
+          console.log(x);
           if (x.code === 200) {
             this.localStore.saveData('token1', x.data!.token);
             this.localStore.saveDataJson('user1', x.data!.user);
             this.userService.setUser(x.data!.user);
-            this.router.navigate(['/verify']);
-            console.log(x.data);
+            // this.localStore.saveItem('item', 0);
+            if (x.data?.user.role == 'Super admin') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/verify']);
+            }
           } else {
             console.log(x);
             Swal.fire({
