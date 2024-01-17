@@ -71,6 +71,8 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
       this.formValue
         .get('numero_autorisation')
         ?.setValue(this.user.ecole.numero_autorisation);
+      this.pdfSrc = this.user.ecole.numero_autorisation;
+      this.pdfSelected = true;
     }
     this.subscription.add(
       this.formValue.valueChanges.subscribe((val) => {

@@ -20,6 +20,7 @@ import { SideBarProductComponent } from './side-bar-product/side-bar-product.com
 import { SideBarAdminComponent } from './admin/side-bar-admin/side-bar-admin.component';
 import { ChoiceProfilDiplomeComponent } from './choice-profil-diplome/choice-profil-diplome.component';
 import { hasRoleGuard } from './guards/has-role.guard';
+import { DetailEcoleComponent } from './admin/detail-ecole/detail-ecole.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,9 +35,11 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'verify_product', component: SideBarProductComponent },
   { path: 'students', component: StudentComponent, canActivate: [AuthGuard] },
+  { path: 'detail_school', component: DetailEcoleComponent, canActivate: [AuthGuard] },
+
   {
     path: 'admin',
-    component: SideBarAdminComponent,
+    component: CreerEcoleComponent,
     canActivate: [AuthGuard, hasRoleGuard],
     data: {
       role: ['Super admin'],

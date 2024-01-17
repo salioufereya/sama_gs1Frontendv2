@@ -10,7 +10,6 @@ export class ListStudentService {
 
   addStudent(student?: Student ) {
     console.log(student);
-    
     this.studentAddedSource.next(student!);
   }
 }

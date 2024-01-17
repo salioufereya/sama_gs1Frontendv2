@@ -9,13 +9,14 @@ import { LoginService } from '../services/login.service';
 import { LocalService } from '../services/local.service';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { StudentService } from '../services/student.service';
+import { SideBarAdminComponent } from "../admin/side-bar-admin/side-bar-admin.component";
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule, RouterModule, AngularMaterialModule],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
+    selector: 'app-sidebar',
+    standalone: true,
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.css',
+    imports: [CommonModule, RouterModule, AngularMaterialModule, SideBarAdminComponent]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   isSidebarOpen = false;

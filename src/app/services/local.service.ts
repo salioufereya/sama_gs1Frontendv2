@@ -17,6 +17,11 @@ export class LocalService {
     let data = sessionStorage.getItem(key) || '';
     return this.decrypt(data);
   }
+
+  public getDataItem(key: string) {
+    let data = sessionStorage.getItem(key) || '';
+    return this.decryptItem(data);
+  }
   public removeData(key: string) {
     sessionStorage.removeItem(key);
   }
@@ -76,7 +81,7 @@ export class LocalService {
   public decryptItem(txtToDecrypt: string): number | null {
     try {
       const decryptedText = this.decrypt(txtToDecrypt);
-      // const jsonObject = JSON.parse(decryptedText);
+      //const jsonObject = JSON.parse(decryptedText);
       return +decryptedText;
     } catch (error) {
       console.error('Error decrypting and parsing object:', error);

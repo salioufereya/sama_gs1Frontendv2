@@ -31,6 +31,19 @@ export interface User {
   photo?: string;
   etat: string;
 }
+export interface Utilisateur {
+  id: number;
+  nom: string;
+  prenom: string;
+  telephone: string;
+  email: string;
+  role: string;
+  ecole?: Ecole;
+  ecole_id?: number;
+  adresse: string;
+  civilite: string;
+  photo?: string;
+}
 
 export interface Ecole {
   id: number;

@@ -23,7 +23,6 @@ export class UserService implements OnInit {
   getUser = this.user.asObservable();
   getItemNumer = this.itemNumber.asObservable();
   getIdEcole = this.idEcole.asObservable();
-
   setUser(newUser: User) {
     this.localstore.saveDataJson('user1', newUser);
     this.user.next(newUser);
