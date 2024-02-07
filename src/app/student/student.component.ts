@@ -184,7 +184,7 @@ export class StudentComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(2),
         ValidateString,
-        Validators.maxLength(30),
+        Validators.maxLength(40),
       ],
     ],
     filiere: [
@@ -193,7 +193,7 @@ export class StudentComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(2),
         ValidateString,
-        Validators.maxLength(20),
+        Validators.maxLength(40),
       ],
     ],
     niveau: [

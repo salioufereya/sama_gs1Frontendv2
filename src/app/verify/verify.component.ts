@@ -11,6 +11,7 @@ import {
 import { IsExistComponent } from './is-exist/is-exist.component';
 import { Subscription } from 'rxjs';
 import { LocalService } from '../services/local.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-verify',
@@ -21,6 +22,7 @@ import { LocalService } from '../services/local.service';
 })
 export class VerifyComponent implements OnInit, OnDestroy {
   ngOnInit() {
+    initFlowbite();
     if (this.localStore.getDataJson('user1')) {
       console.log('userA', this.localStore.getDataJson('user1'));
       let user = this.localStore.getDataJson('user1')!;

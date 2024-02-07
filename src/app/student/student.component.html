@@ -1,4 +1,4 @@
-<div class="flex flex-items h-[90vh] flex-col bg-slate-100">
+<div class="flex flex-items h-full flex-col bg-slate-100">
     <div class="mt-2   w-full flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText bg-slate-100 items-center justify-center">
             <button> AJOUT ÉTUDIANT</button>
@@ -19,7 +19,7 @@
                                     <img [src]="photo" alt=""
                                         class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
                                 </div>
-                                <div class="flex flex-col md:flex-row ">
+                                <div class="flex flex-col md:flex-col  xl:flex-col 2xl:flex-row">
                                     <label for="fileInput"
                                         class="inline-flex justify-center cursor-pointer items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
                                         Charger
@@ -280,7 +280,7 @@
             </div>
         </div>
     </form>
-    <div class=" hidden md:flex items-center justify-center flex-col md:flex-row">
+    <div class="hidden md:flex items-center justify-center flex-col md:flex-row  xl:hidden 2xl:flex">
         <div class="w-full  fixed  bottom-0 h-[250px] flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>

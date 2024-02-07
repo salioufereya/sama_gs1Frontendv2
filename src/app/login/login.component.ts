@@ -13,10 +13,16 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
 import { LocalService } from '../services/local.service';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    AngularMaterialModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -38,6 +44,7 @@ export class LoginComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.suscription.unsubscribe();
   }
+  load: boolean = false;
   login() {
     console.log(this.loginForm.value);
     this.suscription.add(
@@ -50,11 +57,15 @@ export class LoginComponent implements OnDestroy {
             this.localStore.saveDataJson('user1', x.data!.user);
             this.userService.setUser(x.data!.user);
             // this.localStore.saveItem('item', 0);
-            if (x.data?.user.role == 'Super admin') {
-              this.router.navigate(['/admin']);
-            } else {
-              this.router.navigate(['/verify']);
-            }
+            this.load = true;
+            setTimeout(() => {
+              if (x.data?.user.role == 'Super admin') {
+                this.router.navigate(['/admin']);
+              } else {
+                this.router.navigate(['/verify']);
+              }
+              this.load = false;
+            }, 1000);
           } else {
             console.log(x);
             Swal.fire({

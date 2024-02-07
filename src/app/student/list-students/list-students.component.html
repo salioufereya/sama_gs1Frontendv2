@@ -17,7 +17,7 @@
                     </mat-form-field>
                 </div>
                 <div class="relative">
-                    <mat-form-field appearance="fill" class="w-[450px]">
+                    <mat-form-field appearance="fill" class="w-[200px] md:w-[450px]">
                         <mat-label>Search</mat-label>
                         <input matInput [(ngModel)]="searchTerm" placeholder="Search" [readonly]="!filter">
                     </mat-form-field>
@@ -115,7 +115,7 @@
                         <th title="Losses" class="p-3">DEPARTEMENT</th>
                         <th title="Win percentage" class="p-3">FILIERE</th>
                         <th title="Games behind" class="p-3">NIVEAU</th>
-                        <th title="Home games" class="p-3">ACTIONS</th>
+                        <th title="Home games" class="p-3 hidden md:flex">ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,7 +147,7 @@
                         <td class="px-3 py-2 text-right">
                             <span>{{etudiant.niveau}}</span>
                         </td>
-                        <td class="">
+                        <td class="hidden md:flex">
                             <button mat-icon-button class="" (click)="delete(etudiant.id)">
                                 <!-- <svg xmlns="http://www.w3.org/2000/svg"
                                     height="20" width="17.5" viewBox="0 0 448 512">
@@ -197,7 +197,7 @@
             </div>
         </div>
     </div>
-    <div class="w-full  fixed bottom-0 h-[30%]">
+    <div class="hidden md:flex  w-full  fixed bottom-0 h-[30%]">
         <img src="assets/images/eyes.png" alt="" style="width: 100%;">
     </div>
     <!--Modal-->

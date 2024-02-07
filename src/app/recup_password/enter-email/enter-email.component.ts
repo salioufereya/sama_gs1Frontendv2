@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AngularMaterialModule } from 'src/app/angular-material/angular-material.module';
 import { Reset } from 'src/app/models/Root';
 import { RootService } from 'src/app/services/root.service';
 import Swal from 'sweetalert2';
@@ -13,7 +15,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-enter-email',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AngularMaterialModule,RouterModule],
   templateUrl: './enter-email.component.html',
   styleUrl: './enter-email.component.css',
 })
@@ -28,11 +30,15 @@ export class EnterEmailComponent {
   }
   ngOnInit(): void {}
   onSubmit() {
+    this.load = true;
     this.authService
       .sendResetPasswordLink<Reset>(this.resetForm.value)
       .subscribe(
         (result: Reset) => {
           this.successMsg = result.message;
+          if (result.code == 200) {
+            this.load = false;
+          }
           Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -51,6 +57,7 @@ export class EnterEmailComponent {
         }
       );
   }
+  load: boolean = false;
   get email() {
     return this.resetForm.get('email');
   }

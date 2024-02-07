@@ -9,7 +9,7 @@ import {
 import { validatePhoneNumberSn } from '../shared/numberSn';
 import { CommonModule } from '@angular/common';
 import { validatephoneNumberFixeSn } from '../shared/numeroBureau';
-import { RootLogin, User } from '../models/Root';
+import { ChekExistGtin, RootLogin, User } from '../models/Root';
 import Swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
 import { EcoleService } from '../services/ecole.service';
@@ -59,6 +59,8 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
       this.formValue.get('adresse')!.patchValue(this.user.ecole.adresse);
       this.formValue.get('email')!.patchValue(this.user.ecole.email);
       this.formValue.get('id_user')!.patchValue(this.user.id);
+      this.formValue.get('id_system')!.patchValue(this.user.ecole_id);
+
       this.formValue
         .get('telephone')!
         .patchValue(this.user.ecole.numero_personnel);
@@ -178,6 +180,37 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
       fileReader.readAsDataURL(selectedFile);
     } else {
       this.pdfSelected = false;
+    }
+  }
+
+  private souscription: Subscription = new Subscription();
+  textverif: string = '';
+  emailExist: boolean = false;
+  emailIsExist(event: Event) {
+    let evnt = event.target as HTMLInputElement;
+    if (this.formValue.get('email')?.valid) {
+      this.souscription.add(
+        this.ecoleService
+          .isExiste<ChekExistGtin>(
+            {
+              email: evnt.value,
+              id: this.formValue.get('id_system')?.value,
+            },
+            'ecoles/checkEmailUpdate'
+          )
+          .subscribe((val: ChekExistGtin) => {
+            console.log(val);
+
+            if (val.code == 200) {
+              this.emailExist = true;
+              this.textverif = val.message;
+            } else {
+              this.emailExist = false;
+            }
+          })
+      );
+    } else {
+      this.emailExist = false;
     }
   }
 }

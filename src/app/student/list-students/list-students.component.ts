@@ -225,10 +225,20 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         .byId<Root<Student>>(this.id_ecole, 'etudiants/ecole')
         .subscribe((student) => {
           this.etudiants = student.data;
+          this.etudiants.sort((a, b) => {
+            if (a.etat === 'enAttente' && b.etat !== 'enAttente') {
+              return -1;
+            } else if (a.etat !== 'enAttente' && b.etat === 'enAttente') {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
           console.log(this.etudiants);
         })
     );
   }
+
   niveaux$!: Observable<Niveau[]>;
   getNiveau() {
     this.niveaux$ = this.niveauService.all<Root<Niveau>>('niveaux').pipe(
@@ -420,7 +430,9 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
                 this.userService.getItemNumer.subscribe((etu) => {
                   this.item = etu;
                 });
-                this.userService.setItemNumber(this.item - 1);
+                this.userService.setItemNumber(
+                  this.item > 0 ? this.item - 1 : 0
+                );
                 this.detail = false;
                 Swal.fire({
                   title: 'Supprimé!',

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { GtinByEcole } from '../models/Root';
 @Injectable({
   providedIn: 'root',
 })
@@ -51,5 +52,11 @@ export class RootService {
 
   resetPassword<T>(data: any) {
     return this.http.post<T>('http://127.0.0.1:8000/api/change_password', data);
+  }
+  isExiste<T>(data: any,next:string): Observable<T> {
+    return this.http.post<T>(
+      this.url + `/${next}`,
+      data
+    );
   }
 }

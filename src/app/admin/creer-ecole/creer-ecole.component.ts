@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,7 +17,13 @@ import {
   switchMap,
 } from 'rxjs';
 import { AngularMaterialModule } from 'src/app/angular-material/angular-material.module';
-import { Ecole, Login, Root, RootLogin } from 'src/app/models/Root';
+import {
+  ChekExistGtin,
+  Ecole,
+  Login,
+  Root,
+  RootLogin,
+} from 'src/app/models/Root';
 import { EcoleService } from 'src/app/services/ecole.service';
 import { UserService } from 'src/app/services/user.service';
 import { validatePhoneNumberSn } from 'src/app/shared/numberSn';
@@ -37,7 +43,8 @@ import Swal from 'sweetalert2';
   templateUrl: './creer-ecole.component.html',
   styleUrl: './creer-ecole.component.css',
 })
-export class CreerEcoleComponent implements OnInit {
+export class CreerEcoleComponent implements OnInit, OnDestroy {
+  emailExist: boolean = false;
   open(item: Ecole) {
     console.log(item);
     this.addOrUpdate = true;
@@ -68,6 +75,9 @@ export class CreerEcoleComponent implements OnInit {
       debounceTime(200),
       switchMap((query) => this.suggestionService.getTypeEcoles(query))
     );
+  }
+  ngOnDestroy(): void {
+    this.souscription.unsubscribe();
   }
   ngOnInit(): void {
     this.all();
@@ -292,5 +302,33 @@ export class CreerEcoleComponent implements OnInit {
         );
       }
     });
+  }
+
+  private souscription: Subscription = new Subscription();
+  textverif: string = '';
+  emailIsExist(event: Event) {
+    let evnt = event.target as HTMLInputElement;
+    if (this.formValue.get('email')?.valid) {
+      this.souscription.add(
+        this.ecoleService
+          .isExiste<ChekExistGtin>(
+            {
+              email: evnt.value
+            },
+            'ecoles/checkEmail'
+          )
+          .subscribe((val: ChekExistGtin) => {
+            console.log(val);
+            if (val.code == 200) {
+              this.emailExist = true;
+              this.textverif = val.message;
+            } else {
+              this.emailExist = false;
+            }
+          })
+      );
+    } else {
+      this.emailExist = false;
+    }
   }
 }

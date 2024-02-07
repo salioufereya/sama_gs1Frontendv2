@@ -4,7 +4,7 @@
         <button (click)="openModal()"
             class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             type="button">
-            Créer un  nouveau utilisateur
+            Créer un nouveau utilisateur
         </button>
 
 
@@ -26,13 +26,13 @@
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     Prénom
                                 </th>
-
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Téléphone </th>
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     Role </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Téléphone </th>
+
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     Adresse
@@ -236,7 +236,8 @@
                         <div class="flex relative w-[45%]">
                             <mat-form-field class="example-full-width" style="width: 100%;">
                                 <mat-label>Email :</mat-label>
-                                <input formControlName="email" matInput placeholder="Ex. pat@example.com">
+                                <input formControlName="email" matInput placeholder="Ex. pat@example.com"
+                                    (input)="emailIsExist($event)">
                             </mat-form-field>
                             <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
                                 class="flex absolute top-14 left-0 text-red-600 error-message">
@@ -244,6 +245,9 @@
                                 </div>
                                 <div *ngIf="email!.errors?.['email']">L'émail est invalide
                                 </div>
+                            </div>
+                            <div *ngIf="emailExist" class="flex absolute top-14 left-0 text-red-600 error-message">
+                                {{textverif}}
                             </div>
                         </div>
                     </div>
@@ -278,7 +282,7 @@
                     <div
                         class="flex items-center justify-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button class="text-white  primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                            [disabled]="formValue.invalid">
+                            [disabled]="formValue.invalid || emailExist">
                             Mettre à jour</button>
                         <button data-modal-hide="medium-modal" type="button" (click)="close()"
                             class="ms-3  rounded-lg border text-sm font-medium text-white  bgOrange1 px-5 py-2.5 ">Annuler</button>
