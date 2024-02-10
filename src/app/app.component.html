@@ -2,16 +2,16 @@
   roter.url !== '/' &&
   roter.url !== '/login' &&
   roter.url !== '/home' &&
-  roter.url !== '/choice_profil' &&
+  roter.url !== '/choix_du_profil' &&
   roter.url !== '/enter_email' &&
   roter.url !== '/verify_product' &&
   roter.url !== '/verify_product' &&
-  roter.url !== '/choice_profil_diplome' &&
+  roter.url !== '/choix_du_profil_diplome' &&
   !roter.url.startsWith('/enter_password')">
   <app-sidebar></app-sidebar>
 </ng-container>
 
 <ng-container 
-  *ngIf="roter.url === '/login' || roter.url === '/home' || roter.url === '/choice_profil' || roter.url === '/verify_product'  || roter.url === '/choice_profil_diplome' || roter.url === '/enter_email' || roter.url.startsWith('/enter_password') || roter.url === '/'">
+  *ngIf="roter.url === '/login' || roter.url === '/home' || roter.url === '/choix_du_profil' || roter.url === '/verify_product'  || roter.url === '/choix_du_profil_diplome' || roter.url === '/enter_email' || roter.url.startsWith('/enter_password') || roter.url === '/'">
   <router-outlet></router-outlet>
 </ng-container>

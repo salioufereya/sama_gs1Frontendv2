@@ -38,6 +38,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <mat-progress-spinner 
+                        [mode]="'indeterminate'" 
+                        [color]="'#002C6C'"
+                        [diameter]="100"
+                        [strokeWidth]="4"
+                        *ngIf="loading">
+                    </mat-progress-spinner>
                         <tr *ngFor="let item of ecoles">
                             <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
                                 <div class="flex items-center">

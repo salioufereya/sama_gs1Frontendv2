@@ -1,4 +1,4 @@
-<div class="flex relative flex-items mt-2 w-full  h-[90vh] flex-col bg-slate-100">
+<div class="flex relative flex-items mt-2 w-full flex-col bg-slate-100 flex-container">
     <div class="h-20 w-full mt-3 flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText   bg-slate-100 items-center justify-center">
             <button> {{user.ecole.libelle}} </button>
@@ -12,12 +12,9 @@
                 style="width: 600px; height: 500px"></pdf-viewer>
         </div>
     </div>
-
-    <form action="" [formGroup]="formValue" (ngSubmit)="modify()">
-        <div class="w-full flex  flex-col  md:flex-row bg-slate-100">
-            <div class="w-full h-[520px] flex-col md:w-1/3 flex items-center justify-center bgOrange1">
-               
-                <div class="primarycolor w-[60%]  md rounded-md h-[65%]">
+    <form action="" [formGroup]="formValue" (ngSubmit)="modify()" class="w-full flex  flex-col  xl:flex-row bg-slate-100">
+            <div class="w-full h-[490px]  flex-col xl:w-1/3 flex items-center justify-center bgOrange1"> 
+                <div class="primarycolor w-[275px]  md rounded-md h-[65%]">
                     <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                             <div class="text-center">
@@ -25,7 +22,7 @@
                                     <img [src]="photo" alt=""
                                         class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
                                 </div>
-                                <div class="flex flex-col md:flex-col    xl:flex-col 2xl:flex-row ">
+                                <div class="flex flex-col md:flex-col   items-center justify-center  xl:flex-col 2xl:flex-row ">
                                     <label for="fileInput"
                                         class="flex cursor-pointer justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
                                         Charger
@@ -42,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full  h-[500px] md:w-2/3 flex flex-col">
+            <div class="w-full  xl:w-2/3 flex flex-col">
                 <div class="p-3">
                     <div
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
@@ -170,19 +167,25 @@
                     <div class="flex items-center mb-5 justify-around">
                         <span
                             class="primarycolor  flex items-center justify-center cursor-pointer  text-white  rounded-md h-12 w-32">Annuler</span>
-                        <button class="bgOrange1  text-white rounded-md h-12 w-32"
-                            [disabled]="formValue.invalid || !existTof || !formTouched || emailExist">Mettre
-                            à jour</button>
+                        <button class="bgOrange1  flex items-center justify-center text-white rounded-md h-12 w-32"
+                            [disabled]="formValue.invalid || !existTof || !formTouched || emailExist || load">Mettre
+                            à jour
+                            <mat-progress-spinner 
+                            [mode]="'indeterminate'" 
+                            [color]="'#002C6C'"
+                            [diameter]="20"
+                            [strokeWidth]="4"
+                            *ngIf="load">
+                        </mat-progress-spinner>
+                        </button>
                     </div>
                 </div>
             </div>
-
-        </div>
     </form>
-    <div class="hidden md:flex  items-center justify-center flex-col  md:flex-row  xl:hidden 2xl:flex">
-        <div class="w-full fixed bottom-0 h-[250px]  mt-5 flex justify-end items-end">
+    <div class="hidden xl:flex items-center justify-center flex-col md:flex-row xl:hidden 2xl:flex">
+        <div class="w-full h-[200px]  mt-5 flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>
     </div>
-
+    
 </div>

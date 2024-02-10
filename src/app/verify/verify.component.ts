@@ -12,13 +12,14 @@ import { IsExistComponent } from './is-exist/is-exist.component';
 import { Subscription } from 'rxjs';
 import { LocalService } from '../services/local.service';
 import { initFlowbite } from 'flowbite';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
 
 @Component({
   selector: 'app-verify',
   standalone: true,
   templateUrl: './verify.component.html',
   styleUrl: './verify.component.css',
-  imports: [CommonModule, ReactiveFormsModule, IsExistComponent],
+  imports: [CommonModule, ReactiveFormsModule, IsExistComponent,AngularMaterialModule],
 })
 export class VerifyComponent implements OnInit, OnDestroy {
   ngOnInit() {
@@ -55,7 +56,7 @@ export class VerifyComponent implements OnInit, OnDestroy {
       [Validators.required, Validators.minLength(8), Validators.maxLength(13)],
     ],
   });
-
+load:boolean = false;
   get numero_gtin() {
     return this.formStudent.get('numero_gtin');
   }
@@ -65,11 +66,14 @@ export class VerifyComponent implements OnInit, OnDestroy {
       this.isVerification = true;
       this.numero_gtin?.reset();
       return;
+    }else{
+      this.load=true;
     }
     this.suscription.add(
       this.studentService
         .verify<RootLogin<Student>>(this.formStudent.value)
         .subscribe((student) => {
+          this.load=false;
           this.clicked = true;
           this.isVerification = false;
           if (student.code == 200) {

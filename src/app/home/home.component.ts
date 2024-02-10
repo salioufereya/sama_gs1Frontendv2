@@ -8,4 +8,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  currentYear: number = new Date().getFullYear();
+}

@@ -22,6 +22,7 @@ import Swal from 'sweetalert2';
 })
 export class EnterNewPasswordComponent {
   newPasswordForm!: FormGroup;
+  currentYear: number = new Date().getFullYear();
   errors = null;
   constructor(
     private fb: FormBuilder,

@@ -131,12 +131,15 @@ export class GestionEcoleComponent implements OnInit, OnDestroy {
       this.existTof = true;
     });
   }
+  load:boolean = false;
   modify() {
+    this.load=true;
     console.log(this.formValue.value);
     this.subscription.add(
       this.ecoleService
         .update<RootLogin<User>, User>('ecoles/modifier', this.formValue.value)
         .subscribe((ecole: RootLogin<User>) => {
+          this.load=false;
           this.userService.setUser(ecole.data!);
           console.log(ecole);
           Swal.fire({

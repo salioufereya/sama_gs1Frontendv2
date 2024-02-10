@@ -69,7 +69,8 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
     private suggestionService: SuggestionService,
     private ecoleService: EcoleService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+
   ) {
     this.suggestions$ = this.type_ecole!.valueChanges.pipe(
       debounceTime(200),
@@ -148,7 +149,7 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
       return this.ajout();
     }
   }
-
+  loading:boolean = true;
   photo_diplome: any;
   photo: any;
   handleFileInput1($event: Event) {
@@ -253,6 +254,7 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
   all() {
     return this.ecoleService.all<Root<Ecole>>('ecoles').subscribe((data) => {
       this.ecoles = data.data;
+      this.loading = false;
       console.log(this.ecoles);
     });
   }

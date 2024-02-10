@@ -29,12 +29,13 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 export class LoginComponent implements OnDestroy {
   loginForm!: FormGroup;
   private suscription: Subscription = new Subscription();
+  currentYear: number = new Date().getFullYear();
   constructor(
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router,
     private userService: UserService,
-    private localStore: LocalService
+    private localStore: LocalService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -47,25 +48,24 @@ export class LoginComponent implements OnDestroy {
   load: boolean = false;
   login() {
     console.log(this.loginForm.value);
+    this.load = true;
     this.suscription.add(
       this.loginService
         .login<RootLogin<LoginData>>(this.loginForm.value)
         .subscribe((x: RootLogin<LoginData>) => {
+          this.load = false;
           console.log(x);
           if (x.code === 200) {
             this.localStore.saveData('token1', x.data!.token);
             this.localStore.saveDataJson('user1', x.data!.user);
             this.userService.setUser(x.data!.user);
             // this.localStore.saveItem('item', 0);
-            this.load = true;
-            setTimeout(() => {
+          
               if (x.data?.user.role == 'Super admin') {
                 this.router.navigate(['/admin']);
               } else {
                 this.router.navigate(['/verify']);
               }
-              this.load = false;
-            }, 1000);
           } else {
             console.log(x);
             Swal.fire({

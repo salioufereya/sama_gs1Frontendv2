@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/services/login.service';
 import { LocalService } from 'src/app/services/local.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-side-bar-admin',
@@ -39,6 +40,7 @@ export class SideBarAdminComponent implements OnInit {
       console.log('userA', this.localStore.getDataJson('user1'));
       this.user = this.localStore.getDataJson('user1')!;
     }
+    initFlowbite();
   }
   isZ50 = false;
   toggleZ50() {

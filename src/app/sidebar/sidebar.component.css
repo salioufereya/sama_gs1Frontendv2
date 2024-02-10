@@ -4,3 +4,10 @@ ul.fixed {
     padding-top: 10px; 
     width: 100%;
 }
+#logo-sidebar::-webkit-scrollbar {
+    display: none; 
+  }
+  
+  #logo-sidebar {
+    scrollbar-width: none; 
+  }

@@ -1,4 +1,4 @@
-<div class="h-[85vh]">
+<div class="h-[90vh]">
     <div class="hidden md:flex  div1 items-center  h-[35%] justify-start pl-[23px]"
         style="background-image: url('assets/images/rectangle.png'); background-size: 100% auto; background-repeat: no-repeat;">
         <div class="flex flex-col items-start ">
@@ -42,16 +42,15 @@
                         Le numéro de vérification est trop long
                     </div>
                 </div>
-
             </div>
         </div>
+        <mat-progress-bar mode="query"  *ngIf="load"></mat-progress-bar>
         <div class="flex items-center justify-start pl-[23px]">
             <p class="primarycolorText text-sm md:text-xl"> Le numéro de verification doit être composé <span
                     class="orange1">de 13
                     chiffres</span> selon les
                 normes internationales d’identification de GS1. </p>
         </div>
-
         <div class="flex items-center mb-2">
             <input id="" type="checkbox" (change)="check($event)"
                 class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -60,58 +59,48 @@
                 vous délivrer un meilleur suivi.
             </label>
         </div>
-
     </div>
-
-    <div class="h-[30%]">
-        <div class="div3" *ngIf="!clicked">
+    <div class="">
+        <div class="div3 " *ngIf="!clicked">
             <div class="bgOrange1 flex h-full items-center text-white">
                 <p for="" class="mx-4 text-sm  mt-2 xl:text-md 2xl:text-2xl">
                     Explorer l’univers des standards d’identification de GS1, qui facilitent le quotidien des acteurs du
                     commerce mondial
                 </p>
             </div>
-            <div class="flex items-center   md:justify-evenly mt-4 h-full md:flex-row flex-col">
+            <div class="grid items-center mt-5 mx-[20%] xl:mx-0 lg:flex lg:justify-around   justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 ">
                 <div class="relative">
                     <img src="assets/images/rect2.png" alt="">
                     <div class="absolute top-[7%] left-5 ">
                         <img src="assets/images/rect3.png" alt="">
                     </div>
-                    <a href="https://gs1senegal.org/structure" target="_blank" class="primarycolorText"
-                        style="text-decoration: underline;">Qu’est ce qu’un code
-                        à barres ?</a>
+                    <a href="https://gs1senegal.org/structure" target="_blank" class="primarycolorText" style="text-decoration: underline;">Qu’est ce qu’un code à barres ?</a>
                 </div>
                 <div class="relative">
                     <img src="assets/images/rect2.png" alt="">
                     <div class="absolute top-[7%] left-5 ">
                         <img src="assets/images/rect4.png" alt="">
                     </div>
-                    <a href="https://gs1senegal.org/adhesion" target="_blank" class="primarycolorText"
-                        style="text-decoration: underline;">Je veux des codes à
-                        barres</a>
+                    <a href="https://gs1senegal.org/adhesion" target="_blank" class="primarycolorText" style="text-decoration: underline;">Je veux des codes à barres</a>
                 </div>
                 <div class="relative">
                     <img src="assets/images/rect2.png" alt="">
                     <div class="absolute top-[7%] left-5 ">
                         <img src="assets/images/rect5.png" alt="">
                     </div>
-                    <a href="https://gs1senegal.org/standards" target="_blank" class="primarycolorText"
-                        style="text-decoration: underline;">
-                        Les standards d’identification de GS1
-                    </a>
+                    <a href="https://gs1senegal.org/standards" target="_blank" class="primarycolorText" style="text-decoration: underline;">Les standards d’identification de GS1</a>
                 </div>
                 <div class="relative">
                     <img src="assets/images/rect2.png" alt="">
                     <div class="absolute top-[7%] left-5 ">
                         <img src="assets/images/rect6.png" alt="">
                     </div>
-                    <a href="https://gs1senegal.org/services" target="_blank" class="primarycolorText"
-                        style="text-decoration: underline;">Les services en ligne
-                        de GS1</a>
+                    <a href="https://gs1senegal.org/services" target="_blank" class="primarycolorText" style="text-decoration: underline;">Les services en ligne de GS1</a>
                 </div>
             </div>
-
+            
         </div>
+
         <div *ngIf="clicked">
             <app-is-exist [student]="student" (closed)="enlever($event)"></app-is-exist>
         </div>

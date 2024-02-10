@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   cartItm!: number;
   open: boolean = false;
+  currentYear: number = new Date().getFullYear();
   constructor(
     private router: Router,
     private userService: UserService,

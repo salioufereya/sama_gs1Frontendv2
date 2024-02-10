@@ -99,6 +99,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     this.formStudent.valueChanges.subscribe((val) => {
       this.formTouched = true;
     });
+    this.checkScroll();
   }
   anneeMinimale = 2000;
   dateMaximale = new Date();
@@ -341,12 +342,16 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     );
   }
   item!: number;
+  loadValid: boolean=false;
+  isScrollable: boolean = false;
   valider(student: Student) {
+    this.loadValid = true;
     this.subscription.add(
       this.studentService
         .update<RootLogin<Student>, Student>('etudiants/valider', student)
         .subscribe((student: RootLogin<Student>) => {
           console.log(student);
+          this.loadValid=false;
           if (student.code == 200) {
             this.userService.getItemNumer.subscribe((etu) => {
               this.item = etu;
@@ -515,5 +520,8 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     } else {
       this.etudiantExist = false;
     }
+  }
+  checkScroll() {
+    this.isScrollable = document.body.clientHeight > window.innerHeight;
   }
 }

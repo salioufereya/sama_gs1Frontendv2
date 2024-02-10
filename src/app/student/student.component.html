@@ -1,5 +1,5 @@
-<div class="flex flex-items h-full flex-col bg-slate-100">
-    <div class="mt-2   w-full flex items-col primarycolor">
+<div class="flex flex-items  flex-col bg-slate-100">
+    <div class="mt-4  h-[60px]  w-full flex items-col primarycolor">
         <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText bg-slate-100 items-center justify-center">
             <button> AJOUT ÉTUDIANT</button>
         </div>
@@ -7,10 +7,9 @@
             <button>GESTION DES INFORMATIONS DE L'UTILISATEUR</button>
         </div>
     </div>
-    <form action="" [formGroup]="formStudent" (ngSubmit)="addStudent()">
-        <div class="w-full flex  flex-col  md:flex-row bg-slate-100">
-            <div class="w-full  md:w-1/3 flex items-center justify-center  h-[500px] bgOrange1">
-                <div class="primarycolor w-[50%]  md rounded-md h-[55%]">
+    <form action="" [formGroup]="formStudent" (ngSubmit)="addStudent()"  class="w-full flex  flex-col  xl:flex-row bg-slate-100">
+            <div class="w-full  xl:w-1/3 flex items-center justify-center  h-[500px] bgOrange1">
+                <div class="primarycolor w-[325px]  md rounded-md h-[55%]">
                     <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <div class=" flex items-center  flex-col col-span-6 ml-2 sm:col-span-4 md:mr-3">
                             <label for="" class="text-white font-bold">Photo</label>
@@ -36,13 +35,13 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full mb-5 :mb-0 md:w-2/3 flex flex-col">
+            <div class="w-full mb-5 :mb-0 xl:w-2/3 flex flex-col">
                 <div class="p-3">
                     <div
                         class="bgOrange1  mb-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
                         <span>Identification de l'étudiant</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-5 gap-2 relative">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 grid-rows-5 gap-2 relative">
                         <div class="div3 relative">
                             <div class="flex">
                                 <mat-form-field class="flex-shrink-0" style="width: 100%;">
@@ -273,16 +272,24 @@
                         <span
                             class="primarycolor  cursor-pointer flex items-center justify-center text-white  rounded-md h-12 w-32"
                             (click)="reset()">Annuler</span>
-                        <button class="bgOrange1  text-white rounded-md h-12 w-32"
-                            [disabled]="formStudent.invalid || !exisToff || etudiantExist ">Ajouter</button>
+                        <button class="bgOrange1  flex items-center justify-center text-white rounded-md h-12 w-32"
+                            [disabled]="formStudent.invalid || !exisToff || etudiantExist || load ">Ajouter
+                            <mat-progress-spinner 
+                            [mode]="'indeterminate'" 
+                            [color]="'#002C6C'"
+                            [diameter]="20"
+                            [strokeWidth]="4"
+                            *ngIf="load">
+                        </mat-progress-spinner>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
     </form>
-    <div class="hidden md:flex items-center justify-center flex-col md:flex-row  xl:hidden 2xl:flex">
-        <div class="w-full  fixed  bottom-0 h-[250px] flex justify-end items-end">
+    <div class="hidden xl:flex items-center justify-center flex-col md:flex-row  2xl:flex">
+        <div [class.scroll-bottom]="isScrollable" class="w-full h-[200px]  flex justify-end items-end">
             <img src="assets/images/logo111.png" alt="" class="object-cover h-full w-full">
         </div>
     </div>
+    
 </div>

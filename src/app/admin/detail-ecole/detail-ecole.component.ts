@@ -19,6 +19,7 @@ import {
   Utilisateur,
 } from 'src/app/models/Root';
 import { EcoleService } from 'src/app/services/ecole.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { LocalService } from 'src/app/services/local.service';
 import { UserService } from 'src/app/services/user.service';
 import { validatePhoneNumberSn } from 'src/app/shared/numberSn';
@@ -47,7 +48,6 @@ export class DetailEcoleComponent implements OnInit {
   }
 
   idEcole!: number;
-
   suggestions$!: Observable<string[]>;
   ngOnInit() {
     this.userService.getIdEcole.subscribe((item) => {
@@ -65,7 +65,8 @@ export class DetailEcoleComponent implements OnInit {
     private fb: FormBuilder,
     private ecoleService: EcoleService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    public loader: LoadingService
   ) {}
   modalTrue: boolean = false;
   defaultPdfSrc: string = '';
@@ -80,14 +81,17 @@ export class DetailEcoleComponent implements OnInit {
     this.photo = '';
     this.modalTrue = !this.modalTrue;
   }
-
+  loading$ = this.loader.loading$;
+  load:boolean = false;
   ajout() {
+    this.load=true;
     console.log(this.formValue.value);
     this.subscription.add(
       this.ecoleService
         .add<RootLogin<Utilisateur>>('users', this.formValue.value)
         .subscribe((ecole: RootLogin<Utilisateur>) => {
           console.log(ecole);
+          this.load=false
           if (ecole.code === 200) {
             this.users.unshift(ecole.data!);
             this.formValue.reset();
@@ -233,10 +237,13 @@ export class DetailEcoleComponent implements OnInit {
       this.formValue.get('photo')?.setValue(this.photo);
     });
   }
+  loadingData: boolean = false;
   all() {
+    this.loadingData = true;
     return this.ecoleService
       .byId<Root<Utilisateur>>(this.idEcole, 'users/usersByEcole')
       .subscribe((data) => {
+        this.loadingData=false;
         this.users = data.data;
         console.log(data);
       });

@@ -1,52 +1,32 @@
-<div class="h-[100vh] overflow-hidden md:flex">
-    <!-- <div class="w-full hidden mt-10 h-[90vh] relative  md:block  md:w-1/2 bg-cover rounded-l-lg">
-        <div class="flex h-1/4 absolute  left-1/3 top-[-12%] mt-2 items-center  justify-center">
-            <img src="assets/images/Sama.png" alt="">
-            <img src="assets/images/logogs1.png" alt="">
-        </div>
-        <div class="h-3/4 ">
-            <img src="assets/images/graduation-amico.jpg" alt="">
-        </div>
-    </div> -->
-    <!-- <div class="w-full hidden   flex-col      h-[85vh]   lg:block lg:w-1/2 bg-cover rounded-l-lg">
-        <div class="flex   h-[15%]   left-1/3  mt-2 items-center  justify-center">
-            <img src="assets/images/Sama.png" alt="">
-            <img src="assets/images/logogs1.png" alt="">
-        </div>
-        <div class="h-3/4">
-            <img src="assets/images/verifyDiplome.jpg"  alt="" class="mt-4">
-        </div>
-    </div> -->
-    <div class="w-full hidden   flex-col      h-[85vh]   lg:block lg:w-1/2 bg-cover rounded-l-lg">
+<div class="h-[100%]  overflow-x-hidden flex">
+    <div class="w-full hidden flex-col h-full xl:block xl:w-1/2 bg-cover rounded-l-lg overflow-hidden">
         <div class="flex items-start h-[10%]">
             <img src="assets/images/GS1_SenegalL.png" alt="" style="height: 75px" class="mx-3 my-3">
         </div>
         <div class="flex   h-[5%]   left-1/3  mt-2 items-center  justify-center">
-            <!-- <img src="assets/images/Sama.png" alt="">
-            <img src="assets/images/logogs1.png" alt=""> -->
             <span class="orange1 font-bold text-4xl" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">SAMA_GS1</span>
         </div>
-        <div class="h-3/4">
-            <img src="assets/images/verifyDiplome.jpg"  alt="" class="mt-4">
+        <div class="h-[80%] bottom-0 fixed">
+            <img src="assets/images/verifyDiplome.jpg"  alt="" style="width: 100%; height: 100%;">
         </div>
     </div>
-    <div class="flex md:w-1/2 items-center justify-center flex-col relative  h-full primarycolor">
+    <div class="flex  xl:w-1/2 items-center justify-center flex-col relative w-full  h-full primarycolor">
         <button class="absolute top-2 left-2" routerLink="/login"><svg xmlns="http://www.w3.org/2000/svg"
             height="25" width="25" aria-hidden="true" fill="currentColor"
             style="color: white;" viewBox="0 0 448 512">
               <path
                 d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z" />
             </svg></button>
-        <div class="h-[40%] w-full mt-8">
+        <div class="h-[40%] w-full mt-8 flex  flex-col">
             <div class="h-[20%]  flex items-center justify-center flex-col">
-                <div class="font-weight-bold text-white  sm:text-5xl text-xl">
+                <div class="font-weight-bold text-white  md:text-5xl text-xl">
                     Vérifiez & Validez
                 </div>
                 <div class="text-white">
                     vos diplômes en toute sécurité
                 </div>
             </div>
-            <div class="h-[60%] mb-5 flex items-center w-full   relative justify-center">
+            <div class="h-[60%]  hidden md:flex mb-5  items-center w-full   relative justify-center">
                 <div>
                     <img src="assets/images/ellipse11.png" alt="" width="70%">
                 </div>
@@ -54,10 +34,18 @@
                     <img src="assets/images/ellipse.png" alt="" width="70%">
                 </div>
             </div>
+            <div class="h-[30%] mt-8 mx-5  flex md:hidden   w-full  items-center justify-center">
+                <div>
+                    <img src="assets/images/ellipse11.png" alt="" width="50%">
+                </div>
+                <div class="absolute">
+                    <img src="assets/images/ellipse.png" alt="" width="50%">
+                </div>
+            </div>
         </div>
         <div class="h-[60%] ml-2 w-full sm:full flex items-center relative justify-between flex-col">
             <div
-                class="text-2xl-center flex items-center sm:text-md-center sm:w-1/2  rounded-xl absolute bottom-[97%] justify-center  h-12 text-white font-bold bgOrange1">
+                class="text-sm-center md:text-2xl-center flex items-center sm:text-md-center sm:w-1/2  rounded-xl absolute bottom-[97%] justify-center  h-12 text-white font-bold bgOrange1">
                 Réinitialiser votre mot de passe
             </div>
             <div class="h-2/3 w-4/5 md:w-3/4">
@@ -92,7 +80,7 @@
             </div>
             <div class="1/3 flex  mb-10 items-center justify-center">
                 <div class="text-white">
-                    © 2023_SAMA GS1 - Powered by <a href="https://gs1senegal.org" target="_blank" class="orange1">GS1
+                    © 2023-{{currentYear}} SAMA GS1 - Powered by <a href="https://gs1senegal.org" target="_blank" class="orange1">GS1
                         Sénégal</a>
                 </div>
             </div>

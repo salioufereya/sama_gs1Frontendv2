@@ -9,5 +9,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './choice-profil-diplome.component.css'
 })
 export class ChoiceProfilDiplomeComponent {
-
+  currentYear: number = new Date().getFullYear();
 }

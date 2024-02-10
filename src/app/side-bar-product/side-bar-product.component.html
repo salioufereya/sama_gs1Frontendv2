@@ -1,4 +1,4 @@
-<nav [ngClass]="{'z-50': isZ50}" class="fixed top-0  w-full primarycolor ">
+<nav [ngClass]="{'z-50': isZ50}" class="fixed top-0  hidden w-full primarycolor ">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start">
@@ -19,7 +19,7 @@
         </div>
     </div>
 </nav>
-<div class="flex items-center justify-start">
+<div class="hidden  md:flex items-center justify-start">
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
         type="button"
         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -45,7 +45,7 @@
         <ul class="font-medium ">
 
             <div class="orange1 py-2 flex justify-center items-center">
-                <button class="" routerLink="/choice_profil"><svg xmlns="http://www.w3.org/2000/svg" height="25"
+                <button class="" routerLink="/choix_du_profil"><svg xmlns="http://www.w3.org/2000/svg" height="25"
                         width="25" aria-hidden="true" fill="currentColor" style="color: white;" viewBox="0 0 448 512">
                         <path
                             d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z" />
@@ -112,6 +112,77 @@
         </ul>
     </div>
 </aside>
+
+
+<!--navbar-->
+
+
+<nav class="primarycolor border-gray-200 dark:bg-gray-900 dark:border-gray-700 flex md:hidden">
+    <div class="flex items-center justify-center">
+        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="assets/images/logogs1.png" class="w-20 h-20" />
+        </a>
+        <button data-collapse-toggle="navbar-dropdown" type="button"
+            class="inline-flex items-center p-2 w-10 h-7 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-dropdown" aria-expanded="false">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+            <ul
+                class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li [routerLinkActive]="['bg-orange-500']">
+                    <a href="https://activate.gs1.org/?new_language=fr" target="_blank"
+                        class="flex items-center p-2 primarycolorText  rounded-lg dark:text-white   dark:hover:bg-gray-700 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" aria-hidden="true"
+                            fill="currentColor" style="color: rgb(235, 133, 24);" viewBox="0 0 448 512">
+                            <path
+                                d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
+                        </svg>
+                        <span class="ml-3"> Accéder à activate</span>
+                    </a>
+                </li>
+                <li>
+                    <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
+                        class="flex items-center justify-between w-full py-2 ml-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Services
+                        GS1 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg></button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdownNavbar"
+                        class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                            <li>
+                                <a href="https://gs1senegal.org/services" target="_blank"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Obtenir des informations
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://gs1senegal.org/adhesion" target="_blank"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Obtenir
+                                    des codes à barres</a>
+                            </li>
+                            <li>
+                                <a href="https://gs1senegal.org/contacts" target="_blank"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Assistance
+                                    clientéle</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--navabr-->
+
+
+<!--navabr-->
 <div class="pt-2 sm:ml-64 my-3">
     <app-verify-product></app-verify-product>
 </div>

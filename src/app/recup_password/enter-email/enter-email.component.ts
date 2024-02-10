@@ -21,6 +21,7 @@ import Swal from 'sweetalert2';
 })
 export class EnterEmailComponent {
   resetForm: FormGroup;
+  currentYear: number = new Date().getFullYear();
   errors!: string;
   successMsg!: string;
   constructor(private fb: FormBuilder, private authService: RootService) {

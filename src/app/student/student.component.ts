@@ -113,7 +113,7 @@ export class StudentComponent implements OnInit, OnDestroy {
       this.role = this.formStudent.get('role_user')!.setValue(user?.role)!;
       this.ecole = user?.ecole.libelle!;
     }
-
+    this.checkScroll();
     this.getFiliere();
     this.getNiveau();
     this.formStudent.get('ecole_id')!.setValue(this.id);
@@ -314,8 +314,10 @@ export class StudentComponent implements OnInit, OnDestroy {
         })
     );
   }
+  load:boolean = false;
   addStudent() {
     console.log(this.formStudent.value);
+    this.load=true;
     this.souscription.add(
       this.studentService
         .add<RootLogin<Student>>('etudiants', this.formStudent.value)
@@ -323,9 +325,9 @@ export class StudentComponent implements OnInit, OnDestroy {
           (student: RootLogin<Student>) => {
             // this.list.etudiants.unshift(...student.data);
             this.studentListService.addStudent(student.data);
+           this.load=false
             console.log('stu', student.data);
-            this.router.navigate(['/listStudents']);
-            
+            this.router.navigate(['/liste_etudiant']);
             Swal.fire({
               icon: 'success',
               title: 'Success',
@@ -454,5 +456,10 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
   reset() {
     this.formStudent.reset();
+  }
+  isScrollable: boolean = false;
+  checkScroll() {
+    // Vérifie si le contenu est plus grand que la fenêtre
+    this.isScrollable = document.body.clientHeight > window.innerHeight;
   }
 }

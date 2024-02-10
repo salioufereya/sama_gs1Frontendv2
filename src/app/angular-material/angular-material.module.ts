@@ -13,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 const materialModules = [
   MatAutocompleteModule,
   MatFormFieldModule,
@@ -29,6 +30,8 @@ const materialModules = [
   MatToolbarModule,
   MatProgressSpinnerModule,
   MatBadgeModule,
+  MatProgressBarModule,
+  MatProgressBarModule
 ];
 @NgModule({
   declarations: [],
