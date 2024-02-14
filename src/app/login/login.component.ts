@@ -56,11 +56,11 @@ export class LoginComponent implements OnDestroy {
           this.load = false;
           console.log(x);
           if (x.code === 200) {
+           console.log(x.data);
+           sessionStorage.clear();
             this.localStore.saveData('token1', x.data!.token);
             this.localStore.saveDataJson('user1', x.data!.user);
             this.userService.setUser(x.data!.user);
-            // this.localStore.saveItem('item', 0);
-          
               if (x.data?.user.role == 'Super admin') {
                 this.router.navigate(['/admin']);
               } else {
@@ -75,7 +75,11 @@ export class LoginComponent implements OnDestroy {
               confirmButtonColor: '#002C6c',
             });
           }
-        })
+        },
+        (error) => {
+          this.handleError(error);
+        }
+        )
     );
   }
   isActive: boolean = true;
@@ -89,4 +93,15 @@ export class LoginComponent implements OnDestroy {
     const control = this.loginForm.get(field);
     return control?.invalid && control?.touched;
   }
+
+  handleError(error: any) {
+    console.error('An error occurred:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Une erreur s\'est produite. Veuillez réessayer plus tard.',
+      confirmButtonColor: '#002C6c',
+    });
+  }
+
 }

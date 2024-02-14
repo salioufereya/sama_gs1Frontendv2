@@ -26,11 +26,12 @@
         </div>
         <label for="" class="text-bold primarycolorText">Cet étudiant est reconnu au sein du GROUPE {{student.ecole}}</label>
         <div class="relative">
-            <div class="w-full  xl:w-[680px]  h-[250px] border border-red-500 rounded-md my-2">
+            <div class="w-full  xl:w-[680px]  h-[285px] border border-red-500 rounded-md my-2">
                 <ul class="flex flex-col gap-3 ml-3 mt-2 primarycolorText">
                     <li> <span class="font-bold">N° vérification : </span>{{student.numero_gtin}}</li>
                     <li> <span class="font-bold">Matricule : </span> {{student.matricule }} </li>
                     <li> <span class="font-bold">Nom complet : </span> {{student.prenom }} {{student.nom}} </li>
+                    <li> <span class="font-bold">Date et lieu de naissance : </span> {{student.date_de_naissance }} à {{student.lieu_de_naissance}} </li>
                     <li> <span class="font-bold">Ecole : </span> {{student.ecole}}</li>
                     <li> <span class="font-bold">Filière : </span>{{student.filiere}}</li>
                     <li> <span class="font-bold">Niveau : </span>{{student.niveau}} </li>

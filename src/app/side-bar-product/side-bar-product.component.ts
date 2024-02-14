@@ -19,6 +19,7 @@ export class SideBarProductComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+  currentYear: number = new Date().getFullYear();
   val: boolean = true;
   user!: User;
   role!: string | string[];

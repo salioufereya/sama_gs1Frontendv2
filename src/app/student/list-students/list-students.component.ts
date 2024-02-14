@@ -78,7 +78,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   suggestionFilieres$!: Observable<string[]>;
   suggestionNiveau$!: Observable<string[]>;
   previewdiplome: boolean = false;
-
+  load: boolean = false;
   ngOnInit() {
     initFlowbite();
     if (this.localStore.getDataJson('user1')) {
@@ -213,7 +213,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   page: number = 1;
   count: number = 0;
-  tableSize: number = 7;
+  tableSize: number = 10;
   detail: boolean = false;
   onTableDataChange(event: any) {
     this.page = event;
@@ -314,6 +314,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   }
   modify() {
     console.log(this.formStudent.value);
+    this.load = true;
     this.subscription.add(
       this.studentService
         .update<RootLogin<Student>, Student>(
@@ -322,6 +323,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         )
         .subscribe((student: RootLogin<Student>) => {
           console.log(student);
+          this.load = false;
           if (student.code == 200) {
             this.formStudent.reset();
             const index = this.etudiants.findIndex(

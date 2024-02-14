@@ -41,7 +41,11 @@ export class LocalService {
   }
 
   public saveDataJson(key: string, value: User) {
+    try {
     sessionStorage.setItem(key, this.encryptObject(value));
+    } catch (e: any) { 
+      console.error('Erreur lors du stockage des données dans le stockage local :', e.message);
+    }
   }
 
   public saveItem(key: string, value: number) {

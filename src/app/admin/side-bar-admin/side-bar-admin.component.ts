@@ -46,7 +46,7 @@ export class SideBarAdminComponent implements OnInit {
   toggleZ50() {
     this.isZ50 = !this.isZ50;
   }
-
+  currentYear: number = new Date().getFullYear();
   loggout() {
     Swal.fire({
       title: 'Voulez vous vraiment se déconnecter?',

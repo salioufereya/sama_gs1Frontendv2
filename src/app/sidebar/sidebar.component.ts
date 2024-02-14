@@ -97,6 +97,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         });
         sessionStorage.removeItem('user1');
         sessionStorage.removeItem('token1');
+        sessionStorage.clear();
         this.router.navigate(['/login']);
       }
     });

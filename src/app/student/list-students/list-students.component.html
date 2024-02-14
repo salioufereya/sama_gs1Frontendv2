@@ -1,5 +1,5 @@
 <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
-<div class="flex  h-[90vh] flex-col">
+<div class="flex  h-[90vh]  overflow-auto flex-col">
     <div class="h-[15%] bg-slate-100 w-full">
         <div class="flex flex-col md:flex-row   justify-evenly mt-5">
             <div class="flex">
@@ -70,6 +70,8 @@
                             <ul class="flex flex-col gap-3 ml-3 mt-2">
                                 <li> <span class="font-bold">Nom complet : {{detailEtudiant.nom}}
                                         {{detailEtudiant.prenom}} </span> </li>
+                                        <li> <span class="font-bold">Date de naissance :{{detailEtudiant.date_de_naissance}} </span>
+                                        <li> <span class="font-bold">Lieu de naissance :{{detailEtudiant.lieu_de_naissance}} </span>
                                 <li> <span class="font-bold">N° vérification :{{detailEtudiant.numero_gtin}} </span>
                                 </li>
                                 <li> <span class="font-bold">Matricule : {{detailEtudiant.matricule}} </span></li>
@@ -90,7 +92,7 @@
         </div>
     </div>
     <!--FinModalDetail-->
-    <div class="container  p-2 h-[65%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
+    <div class="container  p-2 h-[85%] mx-auto rounded-md sm:p-4   dark:text-gray-100 dark:bg-gray-900">
         <div class="overflow-x-auto h-[85%] ">
             <table class="min-w-full text-xs shadow-xl pt-2">
                 <thead class="rounded-t-lg dark:bg-gray-700">
@@ -160,8 +162,9 @@
         </div>
     </div>
     <div class="hidden xl:flex  absolute bottom-0 h-[30%]" [class.scroll-bottom]="isScrollable">
-        <img src="assets/images/eyes.png" alt="" style="width: 100%;"  class="object-cover h-full w-full">
+        <!-- <img src="assets/images/eyes.png" alt="" style="width: 100%;"  class="object-cover h-full w-full"> -->
     </div>
+   
     <!--Modal-->
     <div *ngIf="modalTrue"
         class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full backdrop-brightness-50 ">
@@ -407,6 +410,13 @@
                         class="flex items-center justify-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button class="text-white  primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             [disabled]="formStudent.invalid || !formTouched || etudiantExist">
+                            <mat-progress-spinner 
+                            [mode]="'indeterminate'" 
+                            [color]="'#002C6C'"
+                            [diameter]="20"
+                            [strokeWidth]="4"
+                            *ngIf="load">
+                        </mat-progress-spinner>
                             Mettre à jour</button>
                         <button data-modal-hide="medium-modal" type="button" (click)="close()"
                             class="ms-3  rounded-lg border text-sm font-medium text-white  bgOrange1 px-5 py-2.5 ">Annuler</button>

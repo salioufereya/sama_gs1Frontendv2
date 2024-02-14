@@ -6,8 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { throwError } from 'rxjs';
+import { AngularMaterialModule } from 'src/app/angular-material/angular-material.module';
 import { Reset } from 'src/app/models/Root';
 import { RootService } from 'src/app/services/root.service';
 import { confirmPasswordValidator } from 'src/app/shared/confirm-password.validator';
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-enter-new-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,AngularMaterialModule,RouterModule],
   templateUrl: './enter-new-password.component.html',
   styleUrl: './enter-new-password.component.css',
 })
@@ -43,11 +44,36 @@ export class EnterNewPasswordComponent {
     });
   }
 
+  // newPassword() {
+  //   this.resetService
+  //     .resetPassword<Reset>(this.newPasswordForm.value)
+  //     .subscribe(
+  //       (data: Reset) => {
+  //         console.log(data);
+  //         Swal.fire({
+  //           icon: 'success',
+  //           title: 'Success',
+  //           text: `${data.message}`,
+  //           confirmButtonColor: '#002C6c',
+  //         }).then((result) => {
+  //           if (result.isConfirmed) {
+  //             this.router.navigate(['/login']);
+  //           }
+  //         });
+  //         this.newPasswordForm.reset();
+  //       },
+  //       (err) => {
+  //         this.handleError(err);
+  //       }
+  //     );
+  // }
   newPassword() {
-    this.resetService
-      .resetPassword<Reset>(this.newPasswordForm.value)
+    this.load = true;
+    this.resetService.resetPassword<Reset>(this.newPasswordForm.value)
       .subscribe(
         (data: Reset) => {
+          this.load=false;
+          console.log(data);
           Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -55,7 +81,7 @@ export class EnterNewPasswordComponent {
             confirmButtonColor: '#002C6c',
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/login']);
+              this.router.navigate(['/#/login']);
             }
           });
           this.newPasswordForm.reset();
@@ -66,16 +92,27 @@ export class EnterNewPasswordComponent {
       );
   }
 
+
+  // handleError(error: any) {
+  //   let errorMessage = '';
+  //   if (error.error instanceof ErrorEvent) {
+  //     errorMessage = `Error: ${error.error.message}`;
+  //   } else {
+  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  //   }
+  //   console.log(errorMessage);
+  //   return throwError(() => {
+  //     errorMessage;
+  //   });
+  // }
+  load: boolean = false;
   handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.log(errorMessage);
-    return throwError(() => {
-      errorMessage;
+    console.error('An error occurred:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Une erreur s\'est produite ,Veillez réessayez ',
+      confirmButtonColor: '#002C6c',
     });
   }
   get password() {

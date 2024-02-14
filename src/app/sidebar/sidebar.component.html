@@ -33,7 +33,7 @@
         </button>
     </div>
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-[100%] md:overflow-y-auto pt-5 transition-transform -translate-x-full primarycolor border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        class="fixed top-0 left-0 z-40 w-64 h-[100vh] md:overflow-y-auto pt-5 transition-transform -translate-x-full primarycolor border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar">
         <div class="hidden items-start justify-center shadow-md md:flex">
             <img src="assets/images/logosidebar.png" alt="" width="70%" height="70%">
@@ -203,7 +203,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="bottom-2 flex xl:bottom-0 2xl:bottom-2 2xl:fixed 2xl:flex">
+        <ul class="flex mt-3">
             <li class="mx-4">
                 <a href="https://www.linkedin.com/company/gs1senegal/" target="_blank">
                     <img src="assets/images/linkdlin.png" alt="">
@@ -319,10 +319,9 @@
 <div class="pt-2 sm:ml-64 ">
     <router-outlet></router-outlet>
 </div>
-<nav class="fixed  bottom-0 h-12 w-full primarycolor">
-    <div class="py-3  md:mx-[20%]">
-        <label class="text-white font-bold text-md">© 2023-{{ currentYear }} SAMA GS1 - Powered by <a href="https://gs1senegal.org"
-            target="_blank"> GS1_Sénégal </a></label>          
+<nav class="fixed flex items-center justify-center md:ml-[100px]  bottom-0 h-12 w-full primarycolor">
+    <div class="text-center">
+        <label class="text-white  text-xs md:text-sm">© 2023-{{ currentYear }} SAMA GS1 - Powered by <a href="https://gs1senegal.org" target="_blank"> GS1_Sénégal </a></label>         
     </div>
 </nav>
 </div>

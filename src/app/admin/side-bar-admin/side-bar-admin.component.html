@@ -131,9 +131,15 @@
 <div class="pt-4 sm:ml-64 my-3">
     <router-outlet></router-outlet>
 </div>
-<nav class="fixed  bottom-0 h-12 w-full primarycolor">
+<!-- <nav class="fixed  bottom-0 h-12 w-full primarycolor">
     <div class="mx-10 py-3 md:mx-[15%]  lg:px-5 lg:pl-3">
         <label for="" class="text-white font-bold text-md">© 2023_SAMA GS1 - Powered by <a href="https://gs1senegal.org"
                 target="_blank"> GS1_Sénégal </a></label>
+    </div>
+</nav> -->
+
+<nav class="fixed flex items-center justify-center md:ml-[100px]  bottom-0 h-12 w-full primarycolor">
+    <div class="text-center">
+        <label class="text-white  text-xs md:text-sm">© 2023-{{ currentYear }} SAMA GS1 - Powered by <a href="https://gs1senegal.org" target="_blank"> GS1_Sénégal </a></label>         
     </div>
 </nav>

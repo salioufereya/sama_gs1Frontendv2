@@ -60,6 +60,7 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
       ?.setValue(item.numero_autorisation);
     this.pdfSelected = true;
     this.modalTrue = true;
+    this.text=true;
   }
   modalTrue: boolean = false;
   defaultPdfSrc: string = '';
@@ -90,17 +91,21 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
     | Subscribable<undefined>;
   openModal() {
     this.modalTrue = !this.modalTrue;
+    this.text=false;
   }
   close() {
     this.modalTrue = !this.modalTrue;
   }
+  load:boolean = false;
   ajout() {
     console.log(this.formValue.value);
+    this.load=true;
     this.subscription.add(
       this.ecoleService
         .add<RootLogin<Ecole>>('ecoles', this.formValue.value)
         .subscribe((ecole: RootLogin<Ecole>) => {
           console.log(ecole);
+          this.load=false;
           if (ecole.code === 200) {
             this.ecoles.unshift(ecole.data!);
             this.formValue.reset();
@@ -115,13 +120,15 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
         })
     );
   }
-
+  text:boolean = false
   modifie() {
+    this.load=true;
     this.subscription.add(
       this.ecoleService
         .add<RootLogin<Ecole>>('ecoles/modifierEcole', this.formValue.value)
         .subscribe((ecole: RootLogin<Ecole>) => {
           console.log(ecole);
+          this.load=false;
           if (ecole.code === 200) {
             const ecoleModifie = this.ecoles.find(
               (ecole) => ecole.id === this.formValue.value.id
@@ -255,14 +262,13 @@ export class CreerEcoleComponent implements OnInit, OnDestroy {
     return this.ecoleService.all<Root<Ecole>>('ecoles').subscribe((data) => {
       this.ecoles = data.data;
       this.loading = false;
-      console.log(this.ecoles);
     });
   }
-
-  add(arg0: number) {
+  add(arg0: number,nom: string) {
     this.userService.setIdEcole(arg0);
+    this.userService.setNomEcole(nom)
+    sessionStorage.setItem('ecole', '' + arg0);
     this.router.navigate(['detail_school']);
-    console.log(arg0);
   }
   delete(id: number) {
     Swal.fire({

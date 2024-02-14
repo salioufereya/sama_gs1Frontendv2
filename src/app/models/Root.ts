@@ -73,6 +73,8 @@ export interface Student {
   matricule?: string;
   numero_gtin: string;
   date_obtention: string;
+  date_de_naissance: string;
+  lieu_de_naissance: string;
   etat: string;
 }
 

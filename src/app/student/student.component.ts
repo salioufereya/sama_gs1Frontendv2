@@ -209,9 +209,9 @@ export class StudentComponent implements OnInit, OnDestroy {
       '',
       [
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(13),
         ValidateGtin,
-        Validators.maxLength(20),
+        Validators.maxLength(13),
       ],
     ],
     photo: ['', [Validators.required]],
@@ -227,10 +227,30 @@ export class StudentComponent implements OnInit, OnDestroy {
       ],
     ],
     photo_diplome: ['', [Validators.required]],
+    date_de_naissance: [
+      '',
+      [
+        Validators.required,
+      ],
+    ],
+    lieu_de_naissance: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        ValidateString,
+      ],
+    ],
   });
 
   get civilite() {
     return this.formStudent.get('civilite');
+  }
+  get date_de_naissance() {
+    return this.formStudent.get('date_de_naissance');
+  }
+  get lieu_de_naissance() {
+    return this.formStudent.get('lieu_de_naissance');
   }
 
   get nom() {

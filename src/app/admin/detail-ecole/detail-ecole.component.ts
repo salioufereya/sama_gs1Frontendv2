@@ -24,7 +24,6 @@ import { LocalService } from 'src/app/services/local.service';
 import { UserService } from 'src/app/services/user.service';
 import { validatePhoneNumberSn } from 'src/app/shared/numberSn';
 import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-detail-ecole',
   standalone: true,
@@ -45,28 +44,53 @@ export class DetailEcoleComponent implements OnInit {
     this.formValue.get('id')?.patchValue(item.id);
     this.addOrUpdate = true;
     this.modalTrue = true;
+    this.text=true;
+    
   }
 
   idEcole!: number;
+  nomEcole!: string;
+  text:boolean = false;
+
+
+  mode: string = "Ajouter";
+  basculerMode(): void {
+    this.mode = this.mode === "Ajouter" ? "Modifier" : "Ajouter";
+  }
   suggestions$!: Observable<string[]>;
   ngOnInit() {
     this.userService.getIdEcole.subscribe((item) => {
+     // sessionStorage.setItem('ecole', '' + item);
       this.idEcole = item;
     });
-    if (this.localService.getDataItem('idEcole')) {
-      console.log(this.localService.getDataItem('idEcole'));
-      this.idEcole = this.localService.getDataItem('idEcole')!;
-    }
+    this.userService.getnomEcole.subscribe((item) => {
+       this.nomEcole = item;
+     });
+     if( this.localService.getData('nomEcole')){
+      this.nomEcole= this.localService.getData('nomEcole');
+     }
+    if (sessionStorage.getItem('ecole')) {
+      this.idEcole = parseInt(sessionStorage.getItem('ecole')!);
+    }  
+    console.log("idEcole: " + this.idEcole);
+    console.log("nomEcole"+this.nomEcole);
+    
+    // if (this.localService.getDataItem('idEcole')) {
+    //   console.log(this.localService.getDataItem('idEcole'));
+    //   this.idEcole = this.localService.getDataItem('idEcole')!;
+    // }
     this.formValue.get('ecole_id')?.setValue(this.idEcole);
     this.all();
+   
+    
   }
   constructor(
     private localService: LocalService,
     private fb: FormBuilder,
     private ecoleService: EcoleService,
-    private router: Router,
     private userService: UserService,
-    public loader: LoadingService
+    public loader: LoadingService,
+    private router: Router,
   ) {}
   modalTrue: boolean = false;
   defaultPdfSrc: string = '';
@@ -75,22 +99,28 @@ export class DetailEcoleComponent implements OnInit {
   openModal() {
     this.modalTrue = !this.modalTrue;
     this.addOrUpdate = false;
+    this.text=false;
   }
   close() {
     this.formValue.reset();
     this.photo = '';
+   
+    
     this.modalTrue = !this.modalTrue;
   }
-  loading$ = this.loader.loading$;
   load:boolean = false;
+
+  clicke(){
+    this.userService.setIdEcole(0);
+    this.router.navigate(['admin']);
+  }
+
   ajout() {
     this.load=true;
-    console.log(this.formValue.value);
     this.subscription.add(
       this.ecoleService
         .add<RootLogin<Utilisateur>>('users', this.formValue.value)
         .subscribe((ecole: RootLogin<Utilisateur>) => {
-          console.log(ecole);
           this.load=false
           if (ecole.code === 200) {
             this.users.unshift(ecole.data!);
@@ -103,37 +133,18 @@ export class DetailEcoleComponent implements OnInit {
               confirmButtonColor: '#002C6c',
             });
           }
+         
         })
     );
   }
-
-  // modifie() {
-  //   console.log(this.formValue.value);
-  //   this.subscription.add(
-  //     this.ecoleService
-  //       .add<RootLogin<Utilisateur>>('users/modifierUser', this.formValue.value)
-  //       .subscribe((ecole: RootLogin<Utilisateur>) => {
-  //         console.log(ecole);
-  //         if (ecole.code === 200) {
-  //           this.formValue.reset();
-  //           this.modalTrue = !this.modalTrue;
-  //           Swal.fire({
-  //             icon: 'success',
-  //             title: 'Success',
-  //             text: `${ecole.message}`,
-  //             confirmButtonColor: '#002C6c',
-  //           });
-  //         }
-  //       })
-  //   );
-  // }
   modifie() {
     console.log(this.formValue.value);
+    this.load=true;
     this.subscription.add(
       this.ecoleService
         .add<RootLogin<Utilisateur>>('users/modifierUser', this.formValue.value)
         .subscribe((ecole: RootLogin<Utilisateur>) => {
-          console.log(ecole);
+          this.load=false;
           if (ecole.code === 200) {
             const utilisateurModifie = this.users.find(
               (user) => user.id === this.formValue.value.id
@@ -152,7 +163,6 @@ export class DetailEcoleComponent implements OnInit {
         })
     );
   }
-
   addOrUpdate: boolean = false;
   click() {
     if (this.addOrUpdate) {
@@ -161,7 +171,6 @@ export class DetailEcoleComponent implements OnInit {
       return this.ajout();
     }
   }
-
   users: Utilisateur[] = [];
   photo: any;
   anneeMinimale = 1900;
@@ -172,24 +181,25 @@ export class DetailEcoleComponent implements OnInit {
   ];
   role: Civility[] = [
     { id: 1, libelle: 'Admin' },
-    { id: 2, libelle: 'Responsable pédagogique' },
+    { id: 2, libelle: 'Super admin' },
+    { id: 3, libelle: 'Responsable pédagogique' },
   ];
+
 
   formValue: FormGroup = this.fb.group({
     id: [''],
     ecole_id: ['', [Validators.required]],
     password: [
       '',
-      [Validators.required, Validators.minLength(5), Validators.maxLength(35)],
+      [Validators.required, Validators.minLength(5), Validators.maxLength(50)],
     ],
     nom: ['', [Validators.required]],
     civilite: ['', [Validators.required, Validators.minLength(2)]],
     photo: ['', [Validators.required]],
     adresse: [
       '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(35)],
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
     ],
-
     email: ['', [Validators.required, Validators.email]],
     telephone: ['', [Validators.required, validatePhoneNumberSn()]],
     prenom: [
@@ -245,8 +255,8 @@ export class DetailEcoleComponent implements OnInit {
       .subscribe((data) => {
         this.loadingData=false;
         this.users = data.data;
-        console.log(data);
       });
+     
   }
 
   delete(id: number) {

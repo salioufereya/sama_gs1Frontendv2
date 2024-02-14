@@ -1,24 +1,30 @@
-<div class="h-[100%]  overflow-x-hidden flex">
+<div class="h-[100vh]  overflow-x-hidden flex">
     <div class="w-full hidden flex-col h-full xl:block xl:w-1/2 bg-cover rounded-l-lg overflow-hidden">
         <div class="flex items-start h-[10%]">
             <img src="assets/images/GS1_SenegalL.png" alt="" style="height: 75px" class="mx-3 my-3">
         </div>
         <div class="flex   h-[5%]   left-1/3  mt-2 items-center  justify-center">
-            <span class="orange1 font-bold text-4xl" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">SAMA_GS1</span>
+            <span class="primarycolorText font-bold text-4xl" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">SAMAGS1</span>
         </div>
         <div class="h-[80%] bottom-0 fixed">
             <img src="assets/images/verifyDiplome.jpg"  alt="" style="width: 100%; height: 100%;">
         </div>
     </div>
     <div class="flex  xl:w-1/2 items-center justify-center flex-col relative w-full  h-full primarycolor">
-        <button class="absolute top-2 left-2" routerLink="/login"><svg xmlns="http://www.w3.org/2000/svg"
+        <!-- <button class="absolute top-2 left-2" routerLink="/login"><svg xmlns="http://www.w3.org/2000/svg"
             height="25" width="25" aria-hidden="true" fill="currentColor"
             style="color: white;" viewBox="0 0 448 512">
               <path
                 d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z" />
-            </svg></button>
+            </svg></button> -->
+            <button  routerLink="/login" class="bg-orange-500  absolute top-0   left-0 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-b inline-flex items-center">         
+                <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M9.5 6.7c.4-.3.4-1 0-1.4a1 1 0 0 0-1.3 0l-5.5 4.9a2 2 0 0 0 0 3l5.5 5.1c.5.4 1 .4 1.5 0 .3-.5.3-1-.1-1.5l-5.6-5v-.1l5.5-5ZM16 16v-.4a4.1 4.1 0 0 1 2.7 2.4 1.7 1.7 0 0 0 2 1 1.7 1.7 0 0 0 1.3-1.7V16c0-3.8-2.5-7-6-7.6v-.7a2 2 0 0 0-2-2.1 2 2 0 0 0-1.1.4l-5.1 4.3a2.1 2.1 0 0 0 0 3.1l5 4.3h.1A2 2 0 0 0 16 16Z" clip-rule="evenodd"/>
+                  </svg>     
+                  Retour 
+              </button>
         <div class="h-[40%] w-full mt-8 flex  flex-col">
-            <div class="h-[20%]  flex items-center justify-center flex-col">
+            <div class="h-full  flex items-center justify-center flex-col">
                 <div class="font-weight-bold text-white  md:text-5xl text-xl">
                     Vérifiez & Validez
                 </div>
@@ -26,22 +32,7 @@
                     vos diplômes en toute sécurité
                 </div>
             </div>
-            <div class="h-[60%]  hidden md:flex mb-5  items-center w-full   relative justify-center">
-                <div>
-                    <img src="assets/images/ellipse11.png" alt="" width="70%">
-                </div>
-                <div class="absolute">
-                    <img src="assets/images/ellipse.png" alt="" width="70%">
-                </div>
-            </div>
-            <div class="h-[30%] mt-8 mx-5  flex md:hidden   w-full  items-center justify-center">
-                <div>
-                    <img src="assets/images/ellipse11.png" alt="" width="50%">
-                </div>
-                <div class="absolute">
-                    <img src="assets/images/ellipse.png" alt="" width="50%">
-                </div>
-            </div>
+           
         </div>
         <div class="h-[60%] ml-2 w-full sm:full flex items-center relative justify-between flex-col">
             <div
@@ -67,19 +58,23 @@
                             L'émail est invalide
                         </div>
                     </div>
-                    <div *ngIf="load" class="flex items-center justify-center absolute left-[50%] top-[25%]">
-                        <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
-                    </div>
                     <div class="flex items-center justify-center">
-                        <button [disabled]="resetForm.invalid"
-                            class="block w-full md:w-2/4 bg-green-600 rounded-lg  px-5 py-3 text-sm font-medium text-white">
+                        <button [disabled]="resetForm.invalid || load"
+                            class="flex items-center justify-center w-full md:w-2/4 bg-green-600 rounded-lg  px-5 py-3 text-sm font-medium text-white">
                             ENVOYER
+                            <mat-progress-spinner 
+          [mode]="'indeterminate'" 
+          [color]="'#002C6C'"
+          [diameter]="20"
+          [strokeWidth]="4"
+          *ngIf="load">
+      </mat-progress-spinner>
                         </button>
                     </div>
                 </form>
             </div>
             <div class="1/3 flex  mb-10 items-center justify-center">
-                <div class="text-white">
+                <div class="text-white text-md">
                     © 2023-{{currentYear}} SAMA GS1 - Powered by <a href="https://gs1senegal.org" target="_blank" class="orange1">GS1
                         Sénégal</a>
                 </div>
