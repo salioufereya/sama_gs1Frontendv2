@@ -10,7 +10,7 @@
     </div>
     <div class="w-full  xl:w-[45%]">
         <div
-            class="bg-[#7BC144] relative  xl:w-[680px]  text-2xl  w-full h-[54px] rounded-md flex items-center justify-center text-white font-bold">
+            class="bg-[#7BC144] relative  xl:w-[680px]  text-xl  w-full h-[35px] rounded-md flex items-center justify-center text-white font-bold">
             <label class="ml-[25%]">
                 Ce diplôme a été délivré par {{student.ecole}}
             </label>
@@ -23,19 +23,19 @@
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
             </button>
-        </div>
-        <label for="" class="text-bold primarycolorText">Cet étudiant est reconnu au sein du GROUPE {{student.ecole}}</label>
+        </div><br>
+        <label for="" class="text-bold orange1">Cet étudiant est reconnu au sein de {{student.ecole}}</label>
         <div class="relative">
             <div class="w-full  xl:w-[680px]  h-[285px] border border-red-500 rounded-md my-2">
                 <ul class="flex flex-col gap-3 ml-3 mt-2 primarycolorText">
-                    <li> <span class="font-bold">N° vérification : </span>{{student.numero_gtin}}</li>
-                    <li> <span class="font-bold">Matricule : </span> {{student.matricule }} </li>
-                    <li> <span class="font-bold">Nom complet : </span> {{student.prenom }} {{student.nom}} </li>
-                    <li> <span class="font-bold">Date et lieu de naissance : </span> {{student.date_de_naissance }} à {{student.lieu_de_naissance}} </li>
-                    <li> <span class="font-bold">Ecole : </span> {{student.ecole}}</li>
-                    <li> <span class="font-bold">Filière : </span>{{student.filiere}}</li>
-                    <li> <span class="font-bold">Niveau : </span>{{student.niveau}} </li>
-                    <li> <span class="font-bold">Année d’obtention : </span> {{student.date_obtention}}</li>
+                    <li> <span class="font-medium">N° d'identification : </span>{{student.numero_gtin}}</li>
+                    <li> <span class="font-medium">Matricule : </span> {{student.matricule }} </li>
+                    <li> <span class="font-medium">Nom complet : </span> {{student.prenom }} {{student.nom}} </li>
+                    <li> <span class="font-medium">Date & lieu de naissance : </span> {{student.date_de_naissance }} à {{student.lieu_de_naissance}} </li>
+                    <li> <span class="font-medium">Ecole : </span> {{student.ecole}}</li>
+                    <li> <span class="font-medium">Filière : </span>{{student.filiere}}</li>
+                    <li> <span class="font-medium">Niveau d'étude : </span>{{student.niveau}} </li>
+                    <li> <span class="font-medium">Année d’obtention : </span> {{student.date_obtention}}</li>
                 </ul>
 
                 <!-- <div class="mt-2 absolute  top-3 left-[25%]">

@@ -82,8 +82,23 @@
                                     </span> </li>
                             </ul>
                             <div class="flex items-center justify-content-between py-2 m-3" *ngIf="detailEtudiant.etat=='enAttente' && role=='Admin'">
-                                <button class="bg-red-700 p-2 rounded-md w-[80px] text-white mr-5" (click)="delete(detailEtudiant.id)"> Supprimer</button>
-                                <button class="bg-green-700 p-2 rounded-md w-[80px] flex items-center justify-center text-white" (click)="valider(detailEtudiant)">Valider</button>
+                                <button class="bg-red-700 p-2 relative rounded-md w-[120px] text-white mr-5" (click)="delete(detailEtudiant.id)"> Supprimer                                     <mat-progress-spinner 
+                                    [mode]="'indeterminate'" 
+                                    [color]="'#002C6C'"
+                                    [diameter]="20"
+                                    [strokeWidth]="4"
+                                    *ngIf="loads">
+                                </mat-progress-spinner></button>
+                                <button  [disabled]="loadv" class="bg-green-700 p-2 relative  rounded-md w-[120px] flex items-center justify-center text-white" (click)="valider(detailEtudiant)">
+                                    Valider
+                                    <mat-progress-spinner 
+                                    [mode]="'indeterminate'" 
+                                    [color]="'#002C6C'"
+                                    [diameter]="20"
+                                    [strokeWidth]="4"
+                                    *ngIf="loadv">
+                                </mat-progress-spinner>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -140,7 +155,6 @@
                             <button mat-icon-button class="" (click)="delete(etudiant.id)">
                                 <mat-icon style="color: red; font-size: medium;">delete</mat-icon>
                             </button>
-
                             <button mat-icon-button  (click)="edit(etudiant)" class="">
                                 <mat-icon style="color: #F26334; font-size: medium;">edit</mat-icon>
                             </button>

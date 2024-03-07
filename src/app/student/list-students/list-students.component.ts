@@ -239,6 +239,9 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
         })
     );
   }
+  loadv:boolean=false;
+  loads:boolean=false;
+
 
   niveaux$!: Observable<Niveau[]>;
   getNiveau() {
@@ -348,11 +351,13 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   isScrollable: boolean = false;
   valider(student: Student) {
     this.loadValid = true;
+    this.loadv=true;
     this.subscription.add(
       this.studentService
         .update<RootLogin<Student>, Student>('etudiants/valider', student)
         .subscribe((student: RootLogin<Student>) => {
           console.log(student);
+          this.loadv=false;
           this.loadValid=false;
           if (student.code == 200) {
             this.userService.getItemNumer.subscribe((etu) => {
@@ -414,6 +419,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   cartItm: number = 0;
 
   delete(id: number) {
+    this.loads=true;
     Swal.fire({
       title: 'êtes-vous sûrs?',
       text: 'Voulez vous vraiment supprimé cet étudiant!',
@@ -430,6 +436,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
             .delete<RootLogin<Login>>(id, 'etudiants/supprimer')
             .subscribe((resulat) => {
               console.log(resulat);
+              this.loads=false;
               if (resulat.code == 200) {
                 this.etudiants = this.etudiants.filter(
                   (etudiant) => etudiant.id !== id

@@ -81,7 +81,7 @@ export class EnterNewPasswordComponent {
             confirmButtonColor: '#002C6c',
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/#/login']);
+              this.router.navigate(['/']);
             }
           });
           this.newPasswordForm.reset();
@@ -92,29 +92,34 @@ export class EnterNewPasswordComponent {
       );
   }
 
-
-  // handleError(error: any) {
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     errorMessage = `Error: ${error.error.message}`;
-  //   } else {
-  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //   }
-  //   console.log(errorMessage);
-  //   return throwError(() => {
-  //     errorMessage;
-  //   });
-  // }
   load: boolean = false;
   handleError(error: any) {
-    console.error('An error occurred:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Une erreur s\'est produite ,Veillez réessayez ',
-      confirmButtonColor: '#002C6c',
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(() => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage,
+        confirmButtonColor: '#002C6c',
+      });
     });
   }
+  // handleError(error: any) {
+  //   console.error('An error occurred:', error);
+  //   console.log(error);
+  //   Swal.fire({
+  //     icon: 'error',
+  //     title: 'Error',
+  //     text: 'Une erreur s\'est produite ,Veillez réessayez ',
+  //     confirmButtonColor: '#002C6c',
+  //   });
+  // }
   get password() {
     return this.newPasswordForm.get('password');
   }

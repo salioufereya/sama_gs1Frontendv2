@@ -51,7 +51,7 @@ export class RootService {
   }
 
   resetPassword<T>(data: any) {
-    return this.http.post<T>('https://samags1.org/#/api/change_password', data);
+    return this.http.post<T>(this.url+'/change_password', data);
   }
   isExiste<T>(data: any,next:string): Observable<T> {
     return this.http.post<T>(

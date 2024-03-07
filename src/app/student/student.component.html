@@ -1,15 +1,12 @@
 <div class="flex flex-items  overflow-auto  h-auto flex-col ">
-    <div class="mt-4  h-[60px]  w-full flex items-col primarycolor">
-        <div class="w-1/3 flex  sm:text-2xl  text-sm primarycolorText bg-slate-100 items-center justify-center">
-            <button> AJOUT ÉTUDIANT</button>
-        </div>
+    <div class="mt-4  h-[40px]  w-full flex items-col primarycolor">
         <div class="w-2/3 flex sm:text-2xl  text-sm text-white justify-center items-center">
             <button>GESTION DES INFORMATIONS DE L'ETUDIANT</button>
         </div>
     </div>
     <form action="" [formGroup]="formStudent" (ngSubmit)="addStudent()"  class="w-full flex  flex-col  xl:flex-row bg-slate-100">
-            <div class="w-full  xl:w-1/3 flex items-center justify-center  h-[600px] bgOrange1">
-                <div class="primarycolor w-[325px]  md rounded-md h-[55%]">
+            <div class="w-full  xl:w-1/3 flex items-center justify-center  h-[600px] ">
+                <div class="primarycolor mt-[60px] w-[325px]  md rounded-md h-[55%]">
                     <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <div class=" flex items-center  flex-col col-span-6 ml-2 sm:col-span-4 md:mr-3">
                             <label for="" class="text-white font-bold">Photo</label>

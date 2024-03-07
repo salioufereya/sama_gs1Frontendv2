@@ -30,6 +30,7 @@ export class EnterEmailComponent {
     });
   }
   ngOnInit(): void {}
+  load: boolean = false;
   onSubmit() {
     this.load = true;
     this.authService
@@ -58,7 +59,6 @@ export class EnterEmailComponent {
         }
       );
   }
-  load: boolean = false;
   get email() {
     return this.resetForm.get('email');
   }

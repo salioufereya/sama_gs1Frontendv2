@@ -108,7 +108,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   view() {
-    this.router.navigate(['/listStudents']);
+    this.router.navigate(['/liste_etudiant']);
     this.open = !this.open;
   }
 }

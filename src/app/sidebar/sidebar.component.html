@@ -47,10 +47,10 @@
         <div class="h-full  flex flex-col primarycolor dark:bg-gray-800">
 
             <div class="orange1 pt-2 flex justify-center">
-                MON ESPACE ADMIN
+                ESPACE ADMIN
             </div>
-            <img [src]="user.photo" *ngIf="user.role !== 'Admin'" class="mx-auto mb-4 w-32 rounded-lg" alt="Avatar" />
-            <img [src]="user.ecole.logo" *ngIf="user.role=='Admin'" class="mx-auto mb-4 w-44 rounded-lg" alt="Avatar" />
+            <img [src]="user.photo" *ngIf="user.role !== 'Admin'"   class="mx-auto mb-4 w-32 rounded-lg" alt="Avatar" />
+            <img [src]="user.ecole.logo" *ngIf="user.role=='Admin'" class="mx-auto mb-4 w-36 rounded-lg" alt="Avatar" />
             <div class="flex items-center justify-center" *ngIf="user.role=='Admin'">
                 <button mat-icon-button color="white" (click)="openModal()">
                     <mat-icon [matBadge]="cartItm" matBadgeSize="medium" style="color: white; font-size: 35px;"
@@ -182,7 +182,7 @@
 
         <ul class="font-medium flex  py-5 justify-evenly flex-col ">
             <div class="orange1 flex items-center justify-center">
-                SERVICE DE GS1
+                SERVICES DE GS1
             </div>
             <li>
                 <a href="https://gs1senegal.org/services" target="_blank" style="text-decoration: underline;"
@@ -199,7 +199,7 @@
             <li>
                 <a href="https://gs1senegal.org/contacts" target="_blank" style="text-decoration: underline;"
                     class="flex items-center p-2 text-white  rounded-lg dark:text-white   dark:hover:bg-gray-700 group">
-                    <span class="ml-3"> Assistance clientéle</span>
+                    <span class="ml-3"> Assistance clientèle</span>
                 </a>
             </li>
         </ul>
