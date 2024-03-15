@@ -1,325 +1,497 @@
 <div class="py-1">
-    <div class="overflow-hidden  relative flex flex-col  items-center justify-center">
-        <div class="mb-2  flex items-center justify-center text-xl p-2 rounded-md text-white font-bold primarycolor">
-            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="white" stroke-linecap="round" stroke-width="2" fill="white" d="M3 21h18M4 18h16M6 10v8m4-8v8m4-8v8m4-8v8M4 9.5v-1c0-.3.2-.6.5-.8l7-4.5a1 1 0 0 1 1 0l7 4.5c.3.2.5.5.5.8v1c0 .3-.2.5-.5.5h-15a.5.5 0 0 1-.5-.5Z"/>
-            </svg>
-            <span class="">{{nomEcole}}</span>
-        </div>
-<div class="flex items-center   justify-between">
-    <button  (click)="clicke()"  class="bg-orange-500 absolute left-0 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded inline-flex items-center">         
-        <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M9.5 6.7c.4-.3.4-1 0-1.4a1 1 0 0 0-1.3 0l-5.5 4.9a2 2 0 0 0 0 3l5.5 5.1c.5.4 1 .4 1.5 0 .3-.5.3-1-.1-1.5l-5.6-5v-.1l5.5-5ZM16 16v-.4a4.1 4.1 0 0 1 2.7 2.4 1.7 1.7 0 0 0 2 1 1.7 1.7 0 0 0 1.3-1.7V16c0-3.8-2.5-7-6-7.6v-.7a2 2 0 0 0-2-2.1 2 2 0 0 0-1.1.4l-5.1 4.3a2.1 2.1 0 0 0 0 3.1l5 4.3h.1A2 2 0 0 0 16 16Z" clip-rule="evenodd"/>
-          </svg>     
-          Retour 
+  <div
+    class="overflow-hidden relative flex flex-col items-center justify-center"
+  >
+    <div
+      class="mb-2 flex items-center justify-center text-xl p-2 rounded-md text-white font-bold primarycolor"
+    >
+      <svg
+        class="w-6 h-6 text-gray-800 dark:text-white"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="white"
+          stroke-linecap="round"
+          stroke-width="2"
+          fill="white"
+          d="M3 21h18M4 18h16M6 10v8m4-8v8m4-8v8m4-8v8M4 9.5v-1c0-.3.2-.6.5-.8l7-4.5a1 1 0 0 1 1 0l7 4.5c.3.2.5.5.5.8v1c0 .3-.2.5-.5.5h-15a.5.5 0 0 1-.5-.5Z"
+        />
+      </svg>
+      <span class="">{{ nomEcole }}</span>
+    </div>
+    <div class="flex items-center justify-between">
+      <button
+        (click)="clicke()"
+        class="bg-orange-500 absolute left-0 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+      >
+        <svg
+          class="w-6 h-6 text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.5 6.7c.4-.3.4-1 0-1.4a1 1 0 0 0-1.3 0l-5.5 4.9a2 2 0 0 0 0 3l5.5 5.1c.5.4 1 .4 1.5 0 .3-.5.3-1-.1-1.5l-5.6-5v-.1l5.5-5ZM16 16v-.4a4.1 4.1 0 0 1 2.7 2.4 1.7 1.7 0 0 0 2 1 1.7 1.7 0 0 0 1.3-1.7V16c0-3.8-2.5-7-6-7.6v-.7a2 2 0 0 0-2-2.1 2 2 0 0 0-1.1.4l-5.1 4.3a2.1 2.1 0 0 0 0 3.1l5 4.3h.1A2 2 0 0 0 16 16Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Retour
       </button>
-    <button (click)="openModal()" 
-        class="flex  items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button">
-        <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-        </svg>        
-         Créer un nouveau utilisateur
-    </button>
-</div>
-        
-        <div class="container">
-            <div>
-                <h2 class="text-2xl font-semibold leading-tight">Listes des utilisateurs</h2>
-            </div>
-            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Nom
-                                </th>
-
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Prénom
-                                </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Role </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Téléphone </th>
-
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Adresse
-                                </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                                <mat-progress-spinner 
-                                [mode]="'indeterminate'" 
-                                [color]="'#002C6C'"
-                                [diameter]="100"
-                                [strokeWidth]="4"
-                                *ngIf="loadingData">
-                            </mat-progress-spinner>
-                            <tr *ngFor="let item of users">
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 w-10 h-10">
-                                            <img class="w-full h-full rounded-full" src="{{item.photo}}" alt="" />
-                                        </div>
-                                        <div class="ml-3">
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                {{item.nom}}
-                                            </p>
-                                        </div>
-
-                                    </div>
-                                </td>
-
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{item.prenom}}</p>
-                                </td>
-
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{item.role}}</p>
-                                </td>
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {{item.telephone}}
-                                    </p>
-                                </td>
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <span
-                                        class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden
-                                            class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                        <span class="relative">{{item.adresse}}</span>
-                                    </span>
-                                </td>
-                                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-                                    <button class=""><svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
-                                            (click)="delete(item.id)" viewBox="0 0 448 512">
-                                            <path fill="#f70808"
-                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                                        </svg></button>
-                                    <button class="px-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            (click)="open(item)" viewBox="0 0 512 512">
-                                            <path fill="#ed8e07"
-                                                d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
+      <button
+        (click)="openModal()"
+        class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        type="button"
+      >
+        <svg
+          class="w-5 h-5 text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="white"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14m-7 7V5"
+          />
+        </svg>
+        Créer un nouveau utilisateur
+      </button>
     </div>
-    <div *ngIf="modalTrue"
-        class="fixed top-0 left-0 right-0 z-40 flex items-center justify-center w-full h-full backdrop-brightness-50 ">
-        <div class="bg-white rounded-sm">
-            <div class="flex items-center justify-between p-4 md:p-5">
-                <div class="flex items-center justify-center">
-                    <h3 class="text-xl  ml-5 font-medium primarycolorText ">
-                        {{ text ? 'Modifier les informations de l\'utilisateur' : 'Créer un utilisateur' }}
-                    </h3>
-                </div>
-                <button type="button" (click)="close()"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="medium-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+
+    <div class="container">
+      <div>
+        <h2 class="text-2xl font-semibold leading-tight">
+          Liste des utilisateurs
+        </h2>
+      </div>
+      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+          <table class="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Nom
+                </th>
+
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Prénom
+                </th>
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Role
+                </th>
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Téléphone
+                </th>
+
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Adresse
+                </th>
+                <th
+                  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  ACTIONS
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <mat-progress-spinner
+                [mode]="'indeterminate'"
+                [color]="'#002C6C'"
+                [diameter]="100"
+                [strokeWidth]="4"
+                *ngIf="loadingData"
+              >
+              </mat-progress-spinner>
+              <tr *ngFor="let item of users">
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 w-10 h-10">
+                      <img
+                        class="w-full h-full rounded-full"
+                        src="{{ item.photo }}"
+                        alt=""
+                      />
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-gray-900 whitespace-no-wrap">
+                        {{ item.nom }}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <p class="text-gray-900 whitespace-no-wrap">
+                    {{ item.prenom }}
+                  </p>
+                </td>
+
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <p class="text-gray-900 whitespace-no-wrap">
+                    {{ item.role }}
+                  </p>
+                </td>
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <p class="text-gray-900 whitespace-no-wrap">
+                    {{ item.telephone }}
+                  </p>
+                </td>
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <span
+                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+                  >
+                    <span
+                      aria-hidden
+                      class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                    ></span>
+                    <span class="relative">{{ item.adresse }}</span>
+                  </span>
+                </td>
+                <td class="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                  <button class="">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20"
+                      width="17.5"
+                      (click)="delete(item.id)"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        fill="#f70808"
+                        d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"
+                      />
                     </svg>
-                </button>
-            </div>
-            <div class="md:w-[650px] w-[350px]">
-                <form [formGroup]="formValue" (ngSubmit)="click()">
-                    <div class="text-center flex my-2 flex-row justify-center items-center">
-                        <div>
-                            <label for="" class="primarycolorText font-bold">PHOTO</label>
-                            <div class="mt-2">
-                                <img [src]="photo" alt=""
-                                    class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
-                            </div>
-                            <div class="flex flex-col md:flex-row ">
-                                <label for="fileInput"
-                                    class="flex cursor-pointer justify-center items-center px-3 py-2 primarycolor text-white rounded-md font-semibold text-xs   tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
-                                    Charger une photo
-                                    <input id="fileInput" type="file" class="hidden" (change)="handleFileInput($event)">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex  flex-col md:flex-row justify-between px-2">
-                        <div class="div11 relative  w-[45%]">
-                            <div class="div2 relative">
-                                <div>
-                                    <mat-form-field style="width: 100%;">
-                                        <mat-label>Civilité</mat-label>
-                                        <mat-select formControlName="civilite" required>
-                                            <mat-option>--</mat-option>
-                                            <mat-option *ngFor="let civil of civility"
-                                                [value]="civil.libelle">{{civil.libelle}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div *ngIf="civilite!.invalid && (civilite!.dirty || civilite!.touched)"
-                                    class="flex absolute top-14 left-0 text-red-600 error-message">
-                                    <div *ngIf="civilite!.errors?.['required']">La civilité est obligatoire</div>
-                                    <div *ngIf="civilite!.errors?.['minlength']">
-                                        veillez saisir minimum 2 caracteres
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="div9 relative  w-[45%]">
-                            <div class="div2 relative">
-                                <div>
-                                    <mat-form-field style="width: 100%;">
-                                        <mat-label>Role</mat-label>
-                                        <mat-select formControlName="role_id" required>
-                                            <mat-option>--</mat-option>
-                                            <mat-option *ngFor="let role of role"
-                                                [value]="role.libelle">{{role.libelle}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div *ngIf="role_id!.invalid && (role_id!.dirty || role_id!.touched)"
-                                    class="flex absolute top-14 left-0 text-red-600 error-message">
-                                    <div *ngIf="role_id!.errors?.['required']">Le role est obligatoire</div>
-                                    <div *ngIf="role_id!.errors?.['minlength']">
-                                        veillez saisir minimum 2 caracteres
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex  flex-col md:flex-row justify-between px-2">
-                        <div class="flex relative w-[45%]">
-                            <mat-form-field class="example-full-width" style="width: 100%;">
-                                <mat-label>Prénom :</mat-label>
-                                <input formControlName="prenom" matInput placeholder="Ex. pat@example.com">
-                            </mat-form-field>
-                            <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="prenom!.errors?.['required']">Le prénom de l'école est obligatoire
-                                </div>
-                                <div *ngIf="prenom!.errors?.['minlength']">Minimum 3 caractéres
-                                </div>
-                                <div *ngIf="prenom!.errors?.['maxlength']">Maximum 50 caractéres
-                                </div>
-                            </div>
-                        </div>
-                        <div class="relative w-[45%]">
-                            <div>
-                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                    <mat-label>Nom :</mat-label>
-                                    <input matInput formControlName="nom" placeholder="nom">
-                                </mat-form-field>
-                            </div>
-                            <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire
-                                </div>
-                                <div *ngIf="nom!.errors?.['ValidateDateRange']">La date saisie est invalide
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex  flex-col md:flex-row justify-between px-2">
-
-                        <div class="relative w-[45%]">
-                            <div>
-                                <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                    <mat-label>Numero téléphone :</mat-label>
-                                    <input matInput formControlName="telephone" placeholder="">
-                                </mat-form-field>
-                            </div>
-                            <div *ngIf="telephone!.invalid && (telephone!.dirty || telephone!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="telephone!.errors?.['required']">Le numéro de téléphone personnel
-                                    est
-                                    obligatoire
-                                </div>
-                                <div *ngIf="telephone!.errors?.['ValidateDateRange']">Le numéro est invalide
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex relative w-[45%]">
-                            <mat-form-field class="example-full-width" style="width: 100%;">
-                                <mat-label>Email :</mat-label>
-                                <input formControlName="email" matInput placeholder="Ex. pat@example.com"
-                                    (input)="emailIsExist($event)">
-                            </mat-form-field>
-                            <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="email!.errors?.['required']">L'émail de l'école est obligatoire
-                                </div>
-                                <div *ngIf="email!.errors?.['email']">L'émail est invalide
-                                </div>
-                            </div>
-                            <div *ngIf="emailExist" class="flex absolute top-14 left-0 text-red-600 error-message">
-                                {{textverif}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col md:flex-row justify-between px-2">
-                        <div class="relative  w-[45%]">
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Address :</mat-label>
-                                <input matInput formControlName="adresse" placeholder="">
-                            </mat-form-field>
-                            <div *ngIf="adresse!.invalid && (adresse!.dirty || adresse!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="adresse!.errors?.['required']">L'adresse de l'école est obligatoire
-                                </div>
-                                <div *ngIf="adresse!.errors?.['minlength']">Minimum 5 caractéres
-                                </div>
-                                <div *ngIf="adresse!.errors?.['maxlength']">Maximum 100 caractéres
-                                </div>
-                            </div>
-                        </div>
-                        <div class="div10 relative  w-[45%]">
-                            <mat-form-field class="example-full-width" style="width: 100%;">
-                                <mat-label>Password:</mat-label>
-                                <input matInput formControlName="password" placeholder="">
-                            </mat-form-field>
-                            <div *ngIf="password!.invalid && (password!.dirty || password!.touched)"
-                                class="flex absolute top-14 left-0 text-red-600 error-message">
-                                <div *ngIf="password!.errors?.['required']">Le password est
-                                    obligatoire</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="flex items-center justify-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button class="text-white  flex items-center justify-center primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                            [disabled]="formValue.invalid || emailExist || load">
-                            <span class="mx-2">{{ text ? 'Modifier' : 'Ajouter' }}</span>
-                            <mat-progress-spinner 
-                                [mode]="'indeterminate'" 
-                                [color]="'#002C6C'"
-                                [diameter]="20"
-                                [strokeWidth]="4"
-                                *ngIf="load">
-                            </mat-progress-spinner>
-                        </button>
-                        <button data-modal-hide="medium-modal" type="button" (click)="close()"
-                            class="ms-3  rounded-lg border text-sm font-medium text-white  bgOrange1 px-5 py-2.5 ">Annuler</button>
-                    </div>
-                </form>
-            </div>
-
+                  </button>
+                  <button class="px-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20"
+                      width="20"
+                      (click)="open(item)"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        fill="#ed8e07"
+                        d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"
+                      />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
+  <div
+    *ngIf="modalTrue"
+    class="fixed top-0 left-0 right-0 z-40 flex items-center justify-center w-full h-full backdrop-brightness-50"
+  >
+    <div class="bg-white rounded-sm">
+      <div class="flex items-center justify-between p-4 md:p-5">
+        <div class="flex items-center justify-center">
+          <h3 class="text-xl ml-5 font-medium primarycolorText">
+            {{
+              text
+                ? "Modifier les informations de l'utilisateur"
+                : "Créer un utilisateur"
+            }}
+          </h3>
+        </div>
+        <button
+          type="button"
+          (click)="close()"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="medium-modal"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="md:w-[650px] w-[350px]">
+        <form [formGroup]="formValue" (ngSubmit)="click()">
+          <div
+            class="text-center flex my-2 flex-row justify-center items-center"
+          >
+            <div>
+              <label for="" class="primarycolorText font-bold">PHOTO</label>
+              <div class="mt-2">
+                <img
+                  [src]="photo"
+                  alt=""
+                  class="w-40 h-40 m-auto border border-red-200 rounded-full shadow"
+                />
+              </div>
+              <div class="flex flex-col md:flex-row">
+                <label
+                  for="fileInput"
+                  class="flex cursor-pointer justify-center items-center px-3 py-2 primarycolor text-white rounded-md font-semibold text-xs tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
+                >
+                  Charger une photo
+                  <input
+                    id="fileInput"
+                    type="file"
+                    class="hidden"
+                    (change)="handleFileInput($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row justify-between px-2">
+            <div class="div11 relative w-[45%]">
+              <div class="div2 relative">
+                <div>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Civilité</mat-label>
+                    <mat-select formControlName="civilite" required>
+                      <mat-option>--</mat-option>
+                      <mat-option
+                        *ngFor="let civil of civility"
+                        [value]="civil.libelle"
+                        >{{ civil.libelle }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div
+                  *ngIf="
+                    civilite!.invalid && (civilite!.dirty || civilite!.touched)
+                  "
+                  class="flex absolute top-14 left-0 text-red-600 error-message"
+                >
+                  <div *ngIf="civilite!.errors?.['required']">
+                    La civilité est obligatoire
+                  </div>
+                  <div *ngIf="civilite!.errors?.['minlength']">
+                    veuillez saisir minimum 2 caractères
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="div9 relative w-[45%]">
+              <div class="div2 relative">
+                <div>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Rôle</mat-label>
+                    <mat-select formControlName="role_id" required>
+                      <mat-option>--</mat-option>
+                      <mat-option
+                        *ngFor="let role of role"
+                        [value]="role.libelle"
+                        >{{ role.libelle }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div
+                  *ngIf="
+                    role_id!.invalid && (role_id!.dirty || role_id!.touched)
+                  "
+                  class="flex absolute top-14 left-0 text-red-600 error-message"
+                >
+                  <div *ngIf="role_id!.errors?.['required']">
+                    Le rôle est obligatoire
+                  </div>
+                  <div *ngIf="role_id!.errors?.['minlength']">
+                    veuillez saisir minimum 2 caractères
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row justify-between px-2">
+            <div class="flex relative w-[45%]">
+              <mat-form-field class="example-full-width" style="width: 100%">
+                <mat-label>Prénom :</mat-label>
+                <input
+                  formControlName="prenom"
+                  matInput
+                  placeholder="Ex. pat@example.com"
+                />
+              </mat-form-field>
+              <div
+                *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="prenom!.errors?.['required']">
+                  Le prénom de l'école est obligatoire
+                </div>
+                <div *ngIf="prenom!.errors?.['minlength']">
+                  Minimum 3 caractéres
+                </div>
+                <div *ngIf="prenom!.errors?.['maxlength']">
+                  Maximum 50 caractéres
+                </div>
+              </div>
+            </div>
+            <div class="relative w-[45%]">
+              <div>
+                <mat-form-field class="flex-shrink-0" style="width: 100%">
+                  <mat-label>Nom :</mat-label>
+                  <input matInput formControlName="nom" placeholder="nom" />
+                </mat-form-field>
+              </div>
+              <div
+                *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="nom!.errors?.['required']">
+                  Le nom est obligatoire
+                </div>
+                <div *ngIf="nom!.errors?.['ValidateDateRange']">
+                  La date saisie est invalide
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row justify-between px-2">
+            <div class="relative w-[45%]">
+              <div>
+                <mat-form-field class="flex-shrink-0" style="width: 100%">
+                  <mat-label>Numéro téléphone :</mat-label>
+                  <input matInput formControlName="telephone" placeholder="" />
+                </mat-form-field>
+              </div>
+              <div
+                *ngIf="
+                  telephone!.invalid && (telephone!.dirty || telephone!.touched)
+                "
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="telephone!.errors?.['required']">
+                  Le numéro de téléphone personnel est obligatoire
+                </div>
+                <div *ngIf="telephone!.errors?.['ValidateDateRange']">
+                  Le numéro est invalide
+                </div>
+              </div>
+            </div>
+            <div class="flex relative w-[45%]">
+              <mat-form-field class="example-full-width" style="width: 100%">
+                <mat-label>Email :</mat-label>
+                <input
+                  formControlName="email"
+                  matInput
+                  placeholder="Ex. pat@example.com"
+                  (input)="emailIsExist($event)"
+                />
+              </mat-form-field>
+              <div
+                *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="email!.errors?.['required']">
+                  L'email de l'école est obligatoire
+                </div>
+                <div *ngIf="email!.errors?.['email']">L'email est invalide</div>
+              </div>
+              <div
+                *ngIf="emailExist"
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                {{ textverif }}
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row justify-between px-2">
+            <div class="relative w-[45%]">
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Addresse :</mat-label>
+                <input matInput formControlName="adresse" placeholder="" />
+              </mat-form-field>
+              <div
+                *ngIf="adresse!.invalid && (adresse!.dirty || adresse!.touched)"
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="adresse!.errors?.['required']">
+                  L'adresse de l'école est obligatoire
+                </div>
+                <div *ngIf="adresse!.errors?.['minlength']">
+                  Minimum 5 caractéres
+                </div>
+                <div *ngIf="adresse!.errors?.['maxlength']">
+                  Maximum 100 caractéres
+                </div>
+              </div>
+            </div>
+            <div class="div10 relative w-[45%]">
+              <mat-form-field class="example-full-width" style="width: 100%">
+                <mat-label>Password:</mat-label>
+                <input matInput formControlName="password" placeholder="" />
+              </mat-form-field>
+              <div
+                *ngIf="
+                  password!.invalid && (password!.dirty || password!.touched)
+                "
+                class="flex absolute top-14 left-0 text-red-600 error-message"
+              >
+                <div *ngIf="password!.errors?.['required']">
+                  Le password est obligatoire
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+          >
+            <button
+              class="text-white flex items-center justify-center primarycolor font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              [disabled]="formValue.invalid || emailExist || load"
+            >
+              <span class="mx-2">{{ text ? "Modifier" : "Ajouter" }}</span>
+              <mat-progress-spinner
+                [mode]="'indeterminate'"
+                [color]="'#002C6C'"
+                [diameter]="20"
+                [strokeWidth]="4"
+                *ngIf="load"
+              >
+              </mat-progress-spinner>
+            </button>
+            <button
+              data-modal-hide="medium-modal"
+              type="button"
+              (click)="close()"
+              class="ms-3 rounded-lg border text-sm font-medium text-white bgOrange1 px-5 py-2.5"
+            >
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

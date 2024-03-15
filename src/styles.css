@@ -3,43 +3,42 @@
 @tailwind components;
 @tailwind utilities;
 /* styles.css ou styles.scss */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* You can add global styles to this file, and also import other style files */
 
-
-
 .primarycolor {
-    background-color: #002C6c;
+  background-color: #002c6c;
 }
 
 .primarycolorText {
-    color: #002C6c;
+  color: #002c6c;
 }
 
 .bgOrange1 {
-    background-color: #F26334;
+  background-color: #f26334;
 }
 
 .orange1 {
-    color: #F26334;
+  color: #f26334;
 }
 
 .bleu3 {
-    color: #00799E;
+  color: #00799e;
 }
 
 .borderInput {
-    border: #F26334;
+  border: #f26334;
 }
 
 .bgAccueil {
-    background-color: #F0F5FA;
+  background-color: #f0f5fa;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-
-
-
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
