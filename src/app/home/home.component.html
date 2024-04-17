@@ -1,47 +1,77 @@
 <div class="h-[100vh] md:flex">
-    <div class="w-full hidden flex-col justify-center h-full xl:block xl:w-1/2 bg-cover rounded-l-lg overflow-hidden">
-        <div class="flex items-start h-[10%]">
-            <img src="assets/images/GS1_SenegalL.png" alt="" style="height: 75px" class="mx-3 my-3">
-        </div>
-        <div class="flex h-[10%]  mt-2 items-center justify-content-around">
-            <span class="primarycolorText font-bold text-7xl" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">SAMAGS1</span>
-        </div>
-       <div class="h-[80%] flex items-center justify-center bg-black" style="background-image: url('assets/images/image604.jpeg'); background-size: cover; background-position: center;">
-       </div>
-
+  <div
+    class="w-full hidden flex-col justify-center h-full xl:block xl:w-1/2 bg-cover rounded-l-lg overflow-hidden"
+  >
+    <div class="flex items-start h-[10%]">
+      <img
+        src="assets/images/GS1_SenegalL.png"
+        alt=""
+        style="height: 75px"
+        class="mx-3 my-3"
+      />
     </div>
-    <div class="flex h-[100%] w-full xl:w-1/2 justify-center primarycolor items-center">
-        <div class="flex flex-col justify-evenly items-center"
-            style="background-color:#002C6C ; height: 100%; width: 100%; background-repeat: no-repeat; background-size: cover; ">
-            <div class="flex text-bold items-center flex-col">
-                <p class="text-2xl md:text-4xl text-white">GS1 SENEGAL </p>
-                <p class="orange1">Le langage universel des affaires</p>
-            </div>
-            <div>
-                <div class="relative md:flex hidden">
-                    <img src="assets/images/imageAc.png" alt="" class="">
-                    <div class="absolute top-7 left-7">
-                        <img src="assets/images/imAc2.png" alt="">
-                    </div>
-                </div>
-                <div class="relative md:hidden flex items-center justify-center">
-                    <img src="assets/images/imageAc.png" alt="" class="w-[80%]">
-                    <div class="absolute  w-[70%]">
-                        <img src="assets/images/imAc2.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" routerLink="/choix_du_profil">
-                    <button class="primarycolor border h-10 w-44 rounded-xl border-white text-white hover:bg-[#F26334]">
-                        DEMARRER
-                    </button>
-                </a>
-            </div>
-            <div class="flex items-center justify-center text-white text-sm md:text-md">© 2023-{{ currentYear }} SAMA GS1 - Powered by &nbsp;
-                <a href="https://gs1senegal.org"
-                        target="_blank">  GS1_Sénégal </a>
-            </div>
-        </div>
+    <div class="flex h-[10%] mt-2 items-center justify-content-around">
+      <span
+        class="primarycolorText font-bold text-5xl"
+        style="font-family: Verdana, Geneva, Tahoma, sans-serif"
+        >SAMAGS1</span
+      >
     </div>
+    <div
+      class="h-[80%] flex items-center justify-center bg-black"
+      style="
+        background-image: url('assets/images/image604.jpeg');
+        background-size: cover;
+        background-position: center;
+      "
+    ></div>
+  </div>
+  <div
+    class="flex h-[100%] w-full xl:w-1/2 justify-center primarycolor items-center"
+  >
+    <div
+      class="flex flex-col justify-evenly items-center"
+      style="
+        background-color: #002c6c;
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
+    >
+      <div class="flex text-medium items-center flex-col">
+        <p class="text-2xl md:text-4xl text-white">GS1 SENEGAL</p>
+        <p class="orange1">Le langage universel des affaires</p>
+      </div>
+      <div>
+        <div class="relative md:flex hidden">
+          <img src="assets/images/imageAc.png" alt="" class="" />
+          <div class="absolute top-7 left-7">
+            <img src="assets/images/imAc2.png" alt="" />
+          </div>
+        </div>
+        <div class="relative md:hidden flex items-center justify-center">
+          <img src="assets/images/imageAc.png" alt="" class="w-[80%]" />
+          <div class="absolute w-[70%]">
+            <img src="assets/images/imAc2.png" alt="" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="#" routerLink="/choix_du_profil">
+          <button
+            class="primarycolor border h-10 w-44 rounded-xl border-white text-white hover:bg-[#F26334]"
+          >
+            DEMARRER
+          </button>
+        </a>
+      </div>
+      <div
+        class="flex items-center justify-center text-white text-sm md:text-md"
+      >
+        © 2023-{{ currentYear }} SAMA GS1 - Powered by &nbsp;
+        <a href="https://gs1senegal.org" target="_blank"> GS1 Sénégal </a>
+      </div>
+    </div>
+  </div>
 </div>

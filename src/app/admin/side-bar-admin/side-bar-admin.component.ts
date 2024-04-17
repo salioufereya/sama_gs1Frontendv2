@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { CreerEcoleComponent } from '../creer-ecole/creer-ecole.component';
-import { User } from 'src/app/models/Root';
-import { Router, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2';
-import { LoginService } from 'src/app/services/login.service';
-import { LocalService } from 'src/app/services/local.service';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { User } from 'src/app/models/Root';
+import { LocalService } from 'src/app/services/local.service';
+import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
+import { CreerEcoleComponent } from '../creer-ecole/creer-ecole.component';
 
 @Component({
   selector: 'app-side-bar-admin',
@@ -49,10 +49,10 @@ export class SideBarAdminComponent implements OnInit {
   currentYear: number = new Date().getFullYear();
   loggout() {
     Swal.fire({
-      title: 'Voulez vous vraiment se déconnecter?',
+      title: 'Voulez-vous vraiment vous déconnecter?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Oui!! !',
+      confirmButtonText: 'Oui !',
       cancelButtonText: 'Non, annuler!',
       confirmButtonColor: '#002C6c',
       cancelButtonColor: '#d33',

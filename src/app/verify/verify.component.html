@@ -1,102 +1,212 @@
 <div class="h-[92vh] overflow-auto">
-    <div class="hidden md:flex  div1 items-center  h-[35%] justify-start pl-[23px]"
-        style="background-image: url('assets/images/rectangle.png'); background-size: cover; background-repeat: no-repeat;">
-        <div class="flex flex-col items-start ">
-            <p class="primarycolorText text-md  md:text-4xl">
-                L'authenticité de vos diplômes
-            </p><br>
-            <p class="orange1 md:text-xl">
-                la fiabilité des informations compte beaucoup!
-            </p>
-        </div>
-    </div><br>
-    <div class="div2 flex justify-center h-[30] flex-col ">
-        <div class="flex items-center justify-start pl-[23px]">
-            <p class="primarycolorText text-sm md:text-2xl">Veuillez scanner ou saisir le numéro de vérification
-                associé au diplôme :
-            </p>
-        </div><br>
-        <div class="mx-[25px]">
-            <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-            <div class="relative">
-                <form action="" [formGroup]="formStudent">
-                    <input type="search" id="search" formControlName="numero_gtin"
-                        class="block  w-full  mb-5 p-4 ps-10 text-sm text-gray-900 border border-orange-400 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Ex : 604600007654" required>
-                    <button (click)="getSudent()" [disabled]="formStudent.invalid || !canVerif"
-                        class="text-white  flex justify-start items-start md:absolute relative h-10 end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg class="w-4 h-4  mr-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                        {{ isVerification ? 'Vérifier le numéro du diplôme' : 'Vérifier avec un autre numéro' }}
-                    </button>
-                </form>
-                <div *ngIf="numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)"
-                    class="flex   absolute top-20   text-sm md:text-xl font-medium left-0 text-red-600 error-message">
-                      <div *ngIf="numero_gtin!.errors?.['minlength'] ||numero_gtin!.errors?.['maxlength'] " class="flex items-center justify-start pl-[23px]">
-            <p class="primarycolorText text-sm md:text-md 2xl:text-md"> Le numéro de verification doit être composé <span
-                    class="orange1">de 13
-                    chiffres</span> selon les
-                normes internationales d’identification de GS1. </p>
-        </div> 
-                </div>
-            </div>
-        </div>
-        <mat-progress-bar mode="query"  *ngIf="load"></mat-progress-bar>
-        <div class="flex mx-4 items-center mb-2">
-            <input id="" type="checkbox" (change)="check($event)"
-                class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-            <label class="ms-2  text-sm sm:text-md font-normal dark:text-gray-300">
-                En cochant cette case, Sama GS1 collecte vos données , pour des usages de type professionnels, afin de
-                vous délivrer un meilleur suivi.
-            </label>
-        </div>
-    </div><br>
-    <div class="">
-        <div class="div3 " *ngIf="!clicked">
-            <div class="bgOrange1 flex h-full items-center text-white">
-                <p for="" class="mx-4 text-sm  mt-2 xl:text-xl">
-                    Explorer l’univers des standards d’identification de GS1, qui facilitent le quotidien des acteurs du
-                    commerce mondial
-                </p>
-            </div>
-            <div class="grid items-center mt-5 mx-[20%] xl:mx-0 lg:flex lg:justify-around   justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 ">
-                <div class="relative">
-                    <img src="assets/images/rect2.png" alt="">
-                    <div class="absolute top-[7%] left-5 ">
-                        <img src="assets/images/rect3.png" alt="">
-                    </div><br>
-                    <a href="https://gs1senegal.org/structure" target="_blank" class="primarycolorText" style="text-decoration: underline;">Qu’est ce qu’un code à barres ?</a>
-                </div>
-                <div class="relative">
-                    <img src="assets/images/rect2.png" alt="">
-                    <div class="absolute top-[7%] left-5 ">
-                        <img src="assets/images/rect4.png" alt="">
-                    </div><br>
-                    <a href="https://gs1senegal.org/adhesion" target="_blank" class="primarycolorText" style="text-decoration: underline;">Je veux des codes à barres</a>
-                </div>
-                <div class="relative">
-                    <img src="assets/images/rect2.png" alt="">
-                    <div class="absolute top-[7%] left-5 ">
-                        <img src="assets/images/rect5.png" alt="">
-                    </div><br>
-                    <a href="https://gs1senegal.org/standards" target="_blank" class="primarycolorText" style="text-decoration: underline;">Les standards d’identification de GS1</a>
-                </div>
-                <div class="relative">
-                    <img src="assets/images/rect2.png" alt="">
-                    <div class="absolute top-[7%] left-5 ">
-                        <img src="assets/images/rect6.png" alt="">
-                    </div><br>
-                    <a href="https://gs1senegal.org/services" target="_blank" class="primarycolorText" style="text-decoration: underline;">Les services en ligne de GS1</a>
-                </div>
-            </div>
-            
-        </div>
-
-        <div *ngIf="clicked">
-            <app-is-exist [student]="student" (closed)="enlever($event)"></app-is-exist>
-        </div>
+  <div
+    class="hidden md:flex div1 items-center h-[35%] justify-start pl-[23px]"
+    style="
+      background-image: url('assets/images/rectangle.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+    "
+  >
+    <div class="flex flex-col items-start">
+      <p class="primarycolorText text-md md:text-4xl">
+        L;'authenticité de vos diplômes
+      </p>
+      <br />
+      <p class;="orange1 md:text-xl">
+        la; fiabilité; des; informations; compte; beaucoup!
+      </p>
     </div>
+  </div>
+  <br />
+  <div class;="div2 flex justify-center h-[30] flex-col">
+    <div class;="flex items-center justify-start pl-[23px]">
+      <p class;="primarycolorText text-sm md:text-xl">
+        Veuillez; scanner; ou; saisir; le; numéro; de; vérification; associé;
+        au; diplôme :
+      </p>
+    </div>
+    <br />
+    <div class;="mx-[25px]">
+      <label
+        for="search"
+        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        >Search</label
+      >
+      <div class="relative">
+        <form action="" [formGroup]="formStudent">
+          <input
+            type;="search"
+            ;
+            id="search"
+            ;
+            formControlName="numero_gtin"
+            ;
+            class="block w-full mb-5 p-4 ps-10 text-sm text-gray-900 border border-orange-400 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            ;
+            placeholder="Ex : 604600007654"
+            ;
+            required
+          />
+          <button
+            (click);="getSudent()"
+            [disabled]="formStudent.invalid || !canVerif"
+            ;
+            class="text-white flex justify-start items-start md:absolute relative h-10 end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <svg
+              class;="w-4 h-4 mr-2 text-white"
+              ;
+              aria-hidden;="true"
+              ;
+              xmlns="http://www.w3.org/2000/svg"
+              ;
+              fill="none"
+              ;
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke;="currentColor"
+                ;
+                stroke-linecap;="round"
+                ;
+                stroke-linejoin;="round"
+                ;
+                stroke-width;="2"
+                ;
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+            {{
+              isVerification
+                ? "Vérifier le numéro du diplôme"
+                : "Vérifier avec un autre numéro"
+            }}
+          </button>
+        </form>
+        <div
+          *ngIf;="
+            numero_gtin!.invalid && (numero_gtin!.dirty || numero_gtin!.touched)
+          "
+          ;
+          class="flex absolute top-20 text-sm md:text-xl font-medium left-0 text-red-600 error-message"
+        >
+          <div
+            *ngIf;="numero_gtin!.errors?.['minlength'] ||numero_gtin!.errors?.['maxlength'] "
+            ;
+            class="flex items-center justify-start pl-[23px]"
+          >
+            <p class;="primarycolorText text-sm md:text-md 2xl:text-md">
+              Le; numéro; de; verification; doit; être; composé
+              <span class="orange1">de; 13; chiffres</span> selon les normes;
+              internationales; d;’identification; de; GS1.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-progress-bar mode="query" *ngIf;="load"></mat-progress-bar>
+    <div class="flex mx-4 items-center mb-2">
+      <input
+        id;=""
+        ;
+        type="checkbox"
+        (change)="check($event)"
+        ;
+        class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+      />
+      <label class;="ms-2 text-sm sm:text-md font-normal dark:text-gray-300">
+        En; cochant; cette; case, SAMA; GS1; collecte; vos; données, pour; des;
+        usages; de; type professionnels, afin; de; vous; délivrer; un; meilleur;
+        suivi.
+      </label>
+    </div>
+  </div>
+  <br />
+  <div class;="">
+    <div class;="div3" *ngIf;="!clicked">
+      <div class;="bgOrange1 flex h-full items-center text-white">
+        <p for="" class="mx-4 text-sm mt-2 xl:text-xl">
+          Explorer l;’univers; des; standards; d;’identification; de; GS1, qui;
+          facilitent; le; quotidien; des; acteurs; du; commerce; mondial
+        </p>
+      </div>
+      <div>
+        ; class="grid items-center mt-5 mx-[20%] xl:mx-0 lg:flex
+        lg:justify-around justify-center grid-cols-1 md:grid-cols-2
+        lg:grid-cols-4 gap-2" >
+        <div class;="relative">
+          <img src;="assets/images/rect2.png" ; alt="" />
+          <div class;="absolute top-[7%] left-5">
+            <img src;="assets/images/rect3.png" ; alt="" />
+          </div>
+          <a
+            href="https://gs1senegal.org/structure"
+            ;
+            target="_blank"
+            ;
+            class="primarycolorText"
+            ;
+            style="text-decoration: underline"
+            >Qu;’est; ce; qu;’un; code; à; barres ?</a
+          >
+        </div>
+        <div class="relative">
+          <img src;="assets/images/rect2.png" ; alt="" />
+          <div class;="absolute top-[7%] left-5">
+            <img src;="assets/images/rect4.png" ; alt="" />
+          </div>
+          <a
+            href="https://gs1senegal.org/adhesion"
+            ;
+            target="_blank"
+            ;
+            class="primarycolorText"
+            ;
+            style="text-decoration: underline"
+            >Je; veux; des; codes; à; barres</a
+          >
+        </div>
+        <div class="relative">
+          <img src;="assets/images/rect2.png" ; alt="" />
+          <div class;="absolute top-[7%] left-5">
+            <img src;="assets/images/rect5.png" ; alt="" />
+          </div>
+          <a
+            href="https://gs1senegal.org/standards"
+            ;
+            target="_blank"
+            ;
+            class="primarycolorText"
+            ;
+            style="text-decoration: underline"
+            >Les; standards; d;’identification; de; GS1</a
+          >
+        </div>
+        <div class="relative">
+          <img src;="assets/images/rect2.png" ; alt="" />
+          <div class;="absolute top-[7%] left-5">
+            <img src;="assets/images/rect6.png" ; alt="" />
+          </div>
+          <a
+            href="https://gs1senegal.org/services"
+            ;
+            target="_blank"
+            ;
+            class="primarycolorText"
+            ;
+            style="text-decoration: underline"
+            >Les; services; en; ligne; de; GS1</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf;="clicked">
+      <app-is-exist
+        [student];="student"
+        (closed)="enlever($event)"
+      ></app-is-exist>
+    </div>
+  </div>
 </div>
+;

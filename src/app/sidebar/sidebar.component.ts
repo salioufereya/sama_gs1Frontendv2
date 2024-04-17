@@ -1,22 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import Swal from 'sweetalert2';
-import { Root, Student, User } from '../models/Root';
-import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
-import { LoginService } from '../services/login.service';
-import { LocalService } from '../services/local.service';
+import Swal from 'sweetalert2';
+import { SideBarAdminComponent } from '../admin/side-bar-admin/side-bar-admin.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { Root, Student, User } from '../models/Root';
+import { LocalService } from '../services/local.service';
+import { LoginService } from '../services/login.service';
 import { StudentService } from '../services/student.service';
-import { SideBarAdminComponent } from "../admin/side-bar-admin/side-bar-admin.component";
+import { UserService } from '../services/user.service';
 
 @Component({
-    selector: 'app-sidebar',
-    standalone: true,
-    templateUrl: './sidebar.component.html',
-    styleUrl: './sidebar.component.css',
-    imports: [CommonModule, RouterModule, AngularMaterialModule, SideBarAdminComponent]
+  selector: 'app-sidebar',
+  standalone: true,
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css',
+  imports: [
+    CommonModule,
+    RouterModule,
+    AngularMaterialModule,
+    SideBarAdminComponent,
+  ],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   isSidebarOpen = false;
@@ -66,7 +71,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         .byId<Root<Student>>(this.id_ecole, 'etudiants/ecole')
         .subscribe((student) => {
           console.log(student);
-          this.cartItm=0
+          this.cartItm = 0;
           student.data.forEach((element) => {
             if (element.etat == 'enAttente') {
               this.cartItm = this.cartItm + 1;
@@ -82,11 +87,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   loggout() {
     Swal.fire({
-      title: 'Voulez vous vraiment se déconnecter?',
+      title: 'Voulez-vous vraiment vous deconnecter?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Oui!! !',
-      cancelButtonText: 'Non, annuler!',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non, annuler',
       confirmButtonColor: '#002C6c',
       cancelButtonColor: '#d33',
       reverseButtons: true,
