@@ -1,143 +1,206 @@
-<div class="flex flex-items h-[95vh]  flex-col">
-    <div class="h-19 w-full mt-4  flex items-center justify-center primarycolor">
-        <div class="w-3/3 flex sm:text-xl  text-sm text-white justify-left items-center">
-            <button>GESTION DU PROFIL DE L'UTILISATEUR</button>
-        </div>
+<div class="flex flex-items h-[95vh] flex-col">
+  <div class="h-19 w-full mt-4 flex items-center justify-center primarycolor">
+    <div
+      class="w-3/3 flex sm:text-xl text-sm text-white justify-left items-center"
+    >
+      <button>GESTION DU PROFIL DE L'UTILISATEUR</button>
     </div>
-    <form action="" class="h-[100%] bg-slate-100"  [formGroup]="formValue" (ngSubmit)="modify()">
-        <div class="w-full flex  flex-col   items-center justify-center">
-            <div class="w-full  h-[265px] xl:w-1/3 flex items-center justify-center ">
-                <div class="bg-[#F26334] w-[200px]  md rounded-md h-[65%]">
-                    <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
-                        <div class="col-span-6  ml-2 sm:col-span-4 md:mr-3">
-                            <div class="text-center">
-                                <div class="mt-2">
-                                    <img [src]="photo" alt=""
-                                        class="w-40 h-40 m-auto  border border-red-200  rounded-full shadow">
-                                </div>
-                                <div class="flex flex-col items-center justify-center md:flex-row  xl:flex-col 2xl:flex-row">
-                                    <label for="fileInput"
-                                        class="flex cursor-pointer justify-center items-center px-3 py-2 bg-white border border-gray-300 rounded-md font-medium text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
-                                        Charger
-                                        <input id="fileInput" type="file" class="hidden"
-                                            (change)="handleFileInput($event)">
-                                    </label>
-                                    <button type="button" (click)="deletePhoto()"
-                                        class="flex  justify-center items-center px-3 py-2 bg-white border border-gray-300 rounded-md font-medium text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3">
-                                        Supprimer
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  </div>
+  <form
+    action=""
+    class="h-[100%] bg-slate-100"
+    [formGroup]="formValue"
+    (ngSubmit)="modify()"
+  >
+    <div class="w-full flex flex-col items-center justify-center">
+      <div class="w-full h-[265px] xl:w-1/3 flex items-center justify-center">
+        <div class="bg-[#F26334] w-[200px] md rounded-md h-[65%]">
+          <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+            <div class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+              <div class="text-center">
+                <div class="mt-2">
+                  <img
+                    [src]="photo"
+                    alt=""
+                    class="w-40 h-40 m-auto border border-red-200 rounded-full shadow"
+                  />
                 </div>
+                <div
+                  class="flex flex-col items-center justify-center md:flex-row xl:flex-col 2xl:flex-row"
+                >
+                  <label
+                    for="fileInput"
+                    class="flex cursor-pointer justify-center items-center px-3 py-2 bg-white border border-gray-300 rounded-md font-medium text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
+                  >
+                    Charger
+                    <input
+                      id="fileInput"
+                      type="file"
+                      class="hidden"
+                      (change)="handleFileInput($event)"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    (click)="deletePhoto()"
+                    class="flex justify-center items-center px-3 py-2 bg-white border border-gray-300 rounded-md font-medium text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-[#002C6c] my-5 h-10 w-72 rounded-md flex items-center justify-center text-white font-bold"
+      >
+        <span>Identification du profil</span>
+      </div>
+      <div
+        class="w-full justify-center h-[100%] ml-4 mt-4 xl:w-2/3 flex flex-col"
+      >
+        <div class="grid grid-cols-1 xl:grid-cols-2 grid-rows-3 gap-2">
+          <div class="div2 relative">
+            <div>
+              <mat-form-field style="width: 100%">
+                <mat-label>Civilité</mat-label>
+                <mat-select formControlName="civilite" required>
+                  <mat-option>--</mat-option>
+
+                  <mat-option
+                    *ngFor="let civil of civility"
+                    [value]="civil.libelle"
+                    >{{ civil.libelle }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
             </div>
             <div
-            class="bg-[#002C6c]  my-5  h-10 w-72 rounded-md flex items-center justify-center text-white font-bold">
-            <span>Identification du profil</span>
-        </div>
-            <div class="w-full    justify-center h-[100%]   ml-4 mt-4 xl:w-2/3 flex flex-col">
-            
-                <div class="grid grid-cols-1 xl:grid-cols-2 grid-rows-3 gap-2 ">
-                    <div class="div2 relative">
-                        <div>
-                            <mat-form-field style="width: 100%;">
-                                <mat-label>Civilité</mat-label>
-                                <mat-select formControlName="civilite" required>
-                                    <mat-option>--</mat-option>
-                                    
-                                    <mat-option  *ngFor="let civil of civility" [value]="civil.libelle">{{civil.libelle}}</mat-option>
-                                    
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="civilite!.invalid && (civilite!.dirty || civilite!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="civilite!.errors?.['required']">La civilité est obligatoire</div>
-                            <div *ngIf="civilite!.errors?.['minlength']">
-                                Veuillez saisir au minimum 2 caractéres
-                            </div>
-                        </div>
-                    </div>
-                    <div class="div3 relative">
-                        <div>
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Prénom :</mat-label>
-                                <input matInput formControlName="prenom" placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="prenom!.errors?.['required']">Le prénom est obligatoire</div>
-                            <div *ngIf="prenom!.errors?.['minlength']">
-                                Veuillez saisir au minimum 2 caractéres
-                            </div>
-                        </div>
-                    </div>
-                    <div class="div4 relative">
-                        <div>
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Nom :</mat-label>
-                                <input matInput formControlName="nom" placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="nom!.errors?.['required']">Le nom est obligatoire</div>
-                            <div *ngIf="nom!.errors?.['minlength']">
-                                veuillez saisir au minimum 2 caractéres
-                            </div>
-                        </div>
-                    </div>
-                    <div class="div4 relative">
-                        <div>
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Email :</mat-label>
-                                <input matInput formControlName="email" placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="email!.invalid && (email!.dirty || email!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="email!.errors?.['required']">L'email est obligatoire</div>
-                            <div *ngIf="email!.errors?.['email']">Veuillez saisir un email valide</div>
-                        </div>
-                    </div>
-                    <div class="div4 relative">
-                        <div>
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Télephone :</mat-label>
-                                <input matInput formControlName="telephone" placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="telephone!.invalid && (telephone!.dirty || telephone!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="telephone!.errors?.['required']">Le téléphone est obligatoire</div>
-                            <div *ngIf="telephone!.errors?.['phoneNumberSn']">
-                                Numéro invalide
-                            </div>
-                        </div>
-                    </div>
-                    <div class="div4 relative">
-                        <div>
-                            <mat-form-field class="flex-shrink-0" style="width: 100%;">
-                                <mat-label>Adresse :</mat-label>
-                                <input matInput formControlName="adresse" placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="telephone!.invalid && (telephone!.dirty || telephone!.touched)"
-                            class="flex absolute top-14 left-0 text-red-600 error-message">
-                            <div *ngIf="adresse!.errors?.['required']">L'adresse est obligatoire</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center justify-around ">
-                    <span
-                        class="primarycolor  flex items-center justify-center cursor-pointer  text-white  rounded-md h-12 w-32">Annuler</span>
-                    <button class="bgOrange1  text-white rounded-md h-12 w-32"
-                        [disabled]="formValue.invalid || !formTouched || !exisToff">Mettre
-                        à jour</button>
-                </div>
+              *ngIf="
+                civilite!.invalid && (civilite!.dirty || civilite!.touched)
+              "
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="civilite!.errors?.['required']">
+                La civilité est obligatoire
+              </div>
+              <div *ngIf="civilite!.errors?.['minlength']">
+                Veuillez saisir au minimum 2 caractres
+              </div>
             </div>
+          </div>
+          <div class="div3 relative">
+            <div>
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Prénom :</mat-label>
+                <input matInput formControlName="prenom" placeholder="" />
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="prenom!.invalid && (prenom!.dirty || prenom!.touched)"
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="prenom!.errors?.['required']">
+                Le prénom est obligatoire
+              </div>
+              <div *ngIf="prenom!.errors?.['minlength']">
+                Veuillez saisir au minimum 2 caractéres
+              </div>
+            </div>
+          </div>
+          <div class="div4 relative">
+            <div>
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Nom :</mat-label>
+                <input matInput formControlName="nom" placeholder="" />
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="nom!.invalid && (nom!.dirty || nom!.touched)"
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="nom!.errors?.['required']">
+                Le nom est obligatoire
+              </div>
+              <div *ngIf="nom!.errors?.['minlength']">
+                veuillez saisir au minimum 2 caractéres
+              </div>
+            </div>
+          </div>
+          <div class="div4 relative">
+            <div>
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Email :</mat-label>
+                <input matInput formControlName="email" placeholder="" />
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="email!.errors?.['required']">
+                L'email est obligatoire
+              </div>
+              <div *ngIf="email!.errors?.['email']">
+                Veuillez saisir un email valide
+              </div>
+            </div>
+          </div>
+          <div class="div4 relative">
+            <div>
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Télephone :</mat-label>
+                <input matInput formControlName="telephone" placeholder="" />
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="
+                telephone!.invalid && (telephone!.dirty || telephone!.touched)
+              "
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="telephone!.errors?.['required']">
+                Le téléphone est obligatoire
+              </div>
+              <div *ngIf="telephone!.errors?.['phoneNumberSn']">
+                Numéro invalide
+              </div>
+            </div>
+          </div>
+          <div class="div4 relative">
+            <div>
+              <mat-form-field class="flex-shrink-0" style="width: 100%">
+                <mat-label>Adresse :</mat-label>
+                <input matInput formControlName="adresse" placeholder="" />
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="
+                telephone!.invalid && (telephone!.dirty || telephone!.touched)
+              "
+              class="flex absolute top-14 left-0 text-red-600 error-message"
+            >
+              <div *ngIf="adresse!.errors?.['required']">
+                L'adresse est obligatoire
+              </div>
+            </div>
+          </div>
         </div>
-    </form>
+        <div class="flex items-center justify-around">
+          <span
+            class="primarycolor flex items-center justify-center cursor-pointer text-white rounded-md h-12 w-32"
+            >Annuler</span
+          >
+          <button
+            class="bgOrange1 text-white rounded-md h-12 w-32"
+            [disabled]="formValue.invalid || !formTouched || !exisToff"
+          >
+            Mettre à jour
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
